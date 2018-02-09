@@ -1,0 +1,60 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# lazyraster
+
+The goal of lazyraster is to get raster data on demand at the right resolution. 
+
+## Example
+
+Make a TMS source and read at the desired resolution. 
+
+More here: http://rpubs.com/cyclemumner/358029
+
+
+
+```{r example}
+library(lazyraster)
+gibs_xml <- function(date, level = 3) {
+  date <- format(date, "%Y-%m-%d")
+sprintf('<GDAL_WMS>
+         <Service name="TMS">
+         <ServerUrl>
+         https://gibs.earthdata.nasa.gov/wmts/epsg3413/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/%s/250m/${z}/${y}/${x}.jpg</ServerUrl>
+         </Service>
+         <DataWindow>
+         <UpperLeftX>-4194304</UpperLeftX>
+         <UpperLeftY>4194304</UpperLeftY>
+         <LowerRightX>4194304</LowerRightX>
+         <LowerRightY>-4194304</LowerRightY>
+         <TileLevel>%i</TileLevel>
+         <TileCountX>2</TileCountX>
+         <TileCountY>2</TileCountY>
+         <YOrigin>top</YOrigin>
+         </DataWindow>
+         <Projection>EPSG:3413</Projection>
+         <BlockSizeX>512</BlockSizeX>
+         <BlockSizeY>512</BlockSizeY>
+         <BandsCount>3</BandsCount>
+         </GDAL_WMS>
+         ', date, level)
+}
+
+s <- gibs_xml(Sys.Date()-10)
+r <- raster(s)
+r2 <- collect(r, nrows= 150, ncols = 150)
+plot(r2, col = head(palr::sstPal(64), 45))
+```
