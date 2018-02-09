@@ -1,32 +1,18 @@
----
-output: github_document
-editor_options: 
-  chunk_output_type: console
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+lazyraster
+==========
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
-# lazyraster
+The goal of lazyraster is to get raster data on demand at the right resolution.
 
-The goal of lazyraster is to get raster data on demand at the right resolution. 
+Example
+-------
 
-## Example
+Make a TMS source and read at the desired resolution.
 
-Make a TMS source and read at the desired resolution. 
+More here: <http://rpubs.com/cyclemumner/358029>
 
-More here: http://rpubs.com/cyclemumner/358029
-
-
-
-```{r example}
+``` r
 library(lazyraster)
 gibs_xml <- function(date, level = 3) {
   date <- format(date, "%Y-%m-%d")
@@ -56,6 +42,11 @@ sprintf('<GDAL_WMS>
 s <- gibs_xml(Sys.Date()-10)
 r <- raster::raster(s)
 r2 <- collect(r, nrows= 150, ncols = 150)
+#> r is 8192x8192, collecting output of 150x150 
+#>  use 'nrows = , ncols = ' to customize output size
 library(raster)
+#> Loading required package: sp
 plot(r2, col = head(palr::sstPal(64), 45))
 ```
+
+<img src="man/figures/README-example-1.png" width="100%" />
