@@ -18,16 +18,13 @@
 #' @param ncols number of columns in the output
 #' @param uselazy use lazy read via vapour package
 #'
-#' @export
-#'
 #' @name collect
-#' @examples
+#' @export
 collect <- function(x, ...) {
   UseMethod("collect")
 }
-
-#' @name collect
 #' @export
+#' @name collect
 collect.BasicRaster <- function(x, ..., nrows = 512, ncols = nrows, uselazy = TRUE) {
 
   dm <- c(raster::nrow(x), raster::ncol(x))

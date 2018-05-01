@@ -11,6 +11,17 @@ collect(x, ...)
 \method{collect}{BasicRaster}(x, ..., nrows = 512, ncols = nrows,
   uselazy = TRUE)
 }
+\arguments{
+\item{x}{raster object}
+
+\item{...}{ignored}
+
+\item{nrows}{number of rows in the output}
+
+\item{ncols}{number of columns in the output}
+
+\item{uselazy}{use lazy read via vapour package}
+}
 \description{
 Raster methods for collect
 }
