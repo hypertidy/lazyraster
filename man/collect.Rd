@@ -8,7 +8,8 @@
 \usage{
 collect(x, ...)
 
-\method{collect}{BasicRaster}(x, ..., nrows = 512, ncols = nrows)
+\method{collect}{BasicRaster}(x, ..., nrows = 512, ncols = nrows,
+  uselazy = TRUE)
 }
 \description{
 Raster methods for collect

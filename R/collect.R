@@ -11,6 +11,12 @@
 
 
 #' Raster methods for collect
+#' @param x raster object
+#'
+#' @param ... ignored
+#' @param nrows number of rows in the output
+#' @param ncols number of columns in the output
+#' @param uselazy use lazy read via vapour package
 #'
 #' @export
 #'
@@ -22,7 +28,7 @@ collect <- function(x, ...) {
 
 #' @name collect
 #' @export
-collect.BasicRaster <- function(x, ..., nrows = 512, ncols = nrows) {
+collect.BasicRaster <- function(x, ..., nrows = 512, ncols = nrows, uselazy = TRUE) {
 
   dm <- c(raster::nrow(x), raster::ncol(x))
 
@@ -38,8 +44,13 @@ collect.BasicRaster <- function(x, ..., nrows = 512, ncols = nrows) {
     warning(sprintf("%s is already in-memory ... any resampling will be approximate", deparse(substitute(x))))
     rs <- raster::aggregate(x, fact = dm/outdim)
   } else {
-    rs <- rgdal::readGDAL(x@file@name, offset = offs, region.dim = dm, output.dim = outdim, silent = TRUE)
+    if (uselazy) {
+        rs <- as_raster(lazyraster(x@file@name), dim = c(ncols, nrows))
+    } else {
+      ## use rgdal
+   rs <- rgdal::readGDAL(x@file@name, offset = offs, region.dim = dm, output.dim = outdim, silent = TRUE)
     rs <- raster::raster(rs)
+    }
   }
   rs
 }
