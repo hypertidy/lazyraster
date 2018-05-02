@@ -91,9 +91,10 @@ lazycrop.lazyraster <- function(x, y, ...) {
 #' @param x a `lazyraster`
 #' @param ... reserved
 #' @name lazyraster-methods
+#' @rawNamespace S3method(print,lazyraster)
 #' @export
 print.lazyraster <- function(x, ...) {
-  summary(x)
+  print(summary(x))
 }
 #' @importFrom raster extent
 #' @export extent
@@ -126,39 +127,37 @@ setMethod("extent", "lazyraster", extent.lazyraster)
 
 #' @name lazyraster-methods
 #' @export
-summary.lazyraster <- function(object, ...) {
-
+format.lazyraster <- function(object, ...) {
   ex <- to_xy_minmax(object)
+  windowdescription <- if (is.null(object$window$windowextent)) "<whole extent>" else paste(format(object$window$windowextent, nsmall = 4), collapse = ", ")
+  windowindex <- if (is.null(object$window$window)) "<->" else paste(as.integer(object$window$window), collapse = ", ")
 
-  structure(list(classname = "LazyRaster",
+  x <- list(   classname = "LazyRaster",
                  dimensions = object$info$dimXY,
                  resolution = abs(object$info$geotransform[c(2, 6)]),
                  extent = ex,
-                 crs = object$info$projection,
+                 crs = "<placeholder>", ##object$info$projection,
                  source = object$source,
                  values = object$info$minmax,
-                 window = object$window), class = "summary_lazyraster")
+               windowdescription = windowdescription,
+                 window = windowindex)
+
+
+  fmt <- list(sprintf("class         : %s\n", x$classname),
+              sprintf("dimensions    : %s (nrow, ncol)\n", paste(x$dimension[2:1], collapse = ", ")),
+              sprintf("resolution    : %s (x, y)\n", paste(format(x$resolution, nsmall = 4), collapse = ", ")),
+              sprintf("extent        : %s (xmin, xmax, ymin, ymax)\n", paste(format(x$extent, nsmall = 4), collapse = ", ")),
+              sprintf("crs           : %s\n", x$crs),
+              sprintf("values        : %s (min, max - range from entire extent)\n", paste(format(x$values, nsmall = 4), collapse = ", ")),
+              sprintf("window extent : %s\n", windowdescription), sprintf("window index  : %s\n", windowindex))
+  fmt
 }
 
 #' @name lazyraster-methods
 #' @export
-print.summary_lazyraster <- function(x, ...) {
-
-  cat(sprintf("class         : %s\n", x$classname))
-  cat(sprintf("dimensions    : %s (nrow, ncol)\n", paste(x$dimension[2:1], collapse = ", ")))
-  cat(sprintf("resolution    : %s (x, y)\n", paste(format(x$resolution, nsmall = 4), collapse = ", ")))
-  cat(sprintf("extent        : %s (xmin, xmax, ymin, ymax)\n", paste(format(x$extent, nsmall = 4), collapse = ", ")))
-  cat(sprintf("crs           : %s\n", x$crs))
-  cat(sprintf("values        : %s (min, max - range from entire extent)\n", paste(format(x$values, nsmall = 4), collapse = ", ")))
-
-windowdescription <- if (is.null(x$window$windowextent)) "<whole extent>" else paste(format(x$window$windowextent, nsmall = 4), collapse = ", ")
- windowindex <- if (is.null(x$window$window)) "<->" else paste(as.integer(x$window$window), collapse = ", ")
-
-cat(sprintf("window extent : %s\n", windowdescription))
-
-cat(sprintf("window index  : %s\n", windowindex))
-
-  invisible(NULL)
+print.lazyraster <- function(x, ...) {
+  junk <- lapply(format(x), cat)
+  invisible(x)
 }
 #' @importFrom raster plot
 #' @name lazyraster-methods

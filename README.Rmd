@@ -43,7 +43,7 @@ The plot-size logic should work on the current "usr" world coordinates, not the 
 
 ## GDAL
 
-This uses a standard internal functionality of GDAL, the [RasterIO function of the GDALRasterBand](http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1). This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven't found any problems with it at all using it in R, but the suport for it is very minimal. You can access it indirectly using `rgdal::readGDAL` and its underlying functions, as the `raster` package does.  
+This uses a standard internal functionality of GDAL, the [RasterIO function of the GDALRasterBand](http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1). This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven't found any problems with it at all using it in R, but the support for it is very minimal. You can access it indirectly using `rgdal::readGDAL` for the underlying function, as the `raster` package does.  
 
 ## vapour
 
@@ -57,6 +57,8 @@ Connect lazily to a GeoTIFF, see details of what's there, crop to a section and 
 This is not a huge file, but is easily accessible and demonstrates the idea. 
 
 
+First we connect to a source and show two versions, the first is information about the data in its native form (286 rows and 143 columns), and then an actual RasterLayer but at a very small requested size (24 rows by 12 columns). 
+
 ```{r GeoTIFF}
 sstfile <- system.file("extdata/sst.tif", package = "vapour")
 library(lazyraster)
@@ -65,10 +67,20 @@ lazy ## stay lazy
 
 ## be only so lazy
 as_raster(lazy, dim = c(12, 24))
+```
 
+The call to `as_raster` read actual data from the file, hence the difference between the range of data values reported first from the whole extent, and then reported by raster itself for the resample data read in. 
+
+Now let `lazyraster` make its own choice about the size of the output. This will be based on the return value of `dev.size("px")`. 
+
+```{r latent-device}
 ## note how we actually resample up because this data is not very large
 as_raster(lazy)
+```
 
+More concretely, if we open a graphics device at a given size the raster data read in will match it. (This is not the best choice but works fine for demonstration and experimenting.)
+
+```{r png-device}
 ## what do we get if we set up a bitmap device
 tf <- tempfile(fileext = "png")
 png(tf, height = 50, width = 40)
@@ -78,7 +90,7 @@ dev.off()
 unlink(tf)
 ```
 
-It does work on really big files. 
+This will work on really big files. 
 
 (This example can't work on your computer probably given use of local raadtools, but try it on your favourite big file). 
 
@@ -91,13 +103,41 @@ lazyraster(f)
 library(raster)
 op <- par(mar = rep(0, 4))
 system.time({
-  r <- lazyraster(f)
-plot(r, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab = "", asp = "", legend = FALSE)
+  rworld <- lazyraster(f)
+plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab = "", asp = "", legend = FALSE)
 })
 par(op)
 ```
 
-We've successfully used it to plot a DEM of Australia from a 67 Gb ESRI binary grid (ADF) supplied by GeoScience Australia in less than a minute (the grid is more than 1e5 pixels each dimension). 
+
+Now, plot the same kind of image but zoom in on a region purposefully. The resolution provided has adapted to the context asked for. 
+
+```{r}
+rtas <- lazycrop(rworld, extent(143.4, 149, -44, -39.1))
+plot(rtas, col = grey(seq(0, 1, length.out = 64)), zlim = c(0, 1550))
+rbath <- as_raster(rtas)
+rbath[rbath > 0] <- NA
+contour(rbath, add = TRUE, levels = quantile(rbath, prob = seq(0, 1, length.out = 8)))
+title("Tasmania topography + bathymetric contours, from Gebco 2014", cex.main = 0.85)
+```
+
+## How useful is this, really?
+
+This is not just to plot big rasters, it's potentially useful for streaming gridded data to a device that is resizing the view port interactively. We also use it to explore a data set for useability and general coverage, and designing sensible resampling workflows for very large data models. 
+
+
+We've successfully used it to plot a DEM of Australia from a 67 Gb ESRI binary grid (ADF) supplied by GeoScience Australia in *a few minutes* (the grid is more than 1e5 pixels each dimension, so I'm not having this document build do the job but here's a figure I prepared earlier). 
+
+
+```{r ga-srtm, eval=TRUE}
+gafile <- raadtools::topofile("ga_srtm")
+ga <- lazyraster(gafile)
+ga
+## plot(ga)
+```
+
+![GeoScience SRTM][im]
+
 
 
 
@@ -148,4 +188,7 @@ plot(r2, col = head(palr::sstPal(64), 45))
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
+
+
+[im]: inst/images/ga_srtm.png "GeoScience SRTM"
 

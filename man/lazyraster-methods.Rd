@@ -6,9 +6,9 @@
 \alias{lazyraster-methods}
 \alias{extent.lazyraster}
 \alias{lazyraster-methods}
-\alias{summary.lazyraster}
+\alias{format.lazyraster}
 \alias{lazyraster-methods}
-\alias{print.summary_lazyraster}
+\alias{print.lazyraster}
 \alias{lazyraster-methods}
 \alias{plot.lazyraster}
 \alias{lazyraster-methods}
@@ -19,9 +19,9 @@
 
 extent.lazyraster(x, ...)
 
-\method{summary}{lazyraster}(object, ...)
+\method{format}{lazyraster}(object, ...)
 
-\method{print}{summary_lazyraster}(x, ...)
+\method{print}{lazyraster}(x, ...)
 
 plot.lazyraster(x, ...)
 
