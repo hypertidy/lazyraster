@@ -82,6 +82,8 @@ It does work on really big files.
 
 (This example can't work on your computer probably given use of local raadtools, but try it on your favourite big file). 
 
+This takes a fairly large grid and plots just enough detail by reading just enough detail for the plot space. That's all that happens. 
+
 ```{r raadtools}
 library(raadtools)
 f <- raadtools::topofile("gebco_14")

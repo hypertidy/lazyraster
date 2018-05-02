@@ -4,15 +4,47 @@
 # lazyraster
 
 The goal of lazyraster is to get raster data on demand at the right
-resolution.
+resolution. This means that you can define a graphics device and then
+stream just the right amount of pixels to fill it from a GDAL data
+source.
 
-We can specify the exact dimensions of the output raster, and by default
-a reasonable guess at the number of pixels required to fill the current
-device will be used.
+If you are interesed or have problems installing this package please
+just let me know\! It’s still early days and very WIP.
 
-We can specify a variety of resampling algorithms (nearest neighbour is
-the default) and the resampling can be applied to reduce or increase the
-resolution.
+There are functions `lazyraster` to act like the `raster::raster`
+function and provide information but no data, and `lazycrop` to act like
+`raster::crop` and then `as_raster` to actually break the lazy chain and
+build an actual raster object. The size of the currently open (or
+latent-default) device is used as a reasonable size for the output grid,
+but can be controlled by argument `dim`.
+
+When the data is read `lazyraster` can specify the exact dimensions of
+the output raster, and by default a reasonable guess at the number of
+pixels required to fill the current device is used.
+
+A variety of resampling algorithms are available (nearest neighbour is
+the default, [see this list for
+more](https://github.com/hypertidy/vapour/blob/master/R/raster-input.R#L9))
+and will be applied to reduce or increase the resolution.
+
+## Limitations
+
+We can’t utilize the RasterIO level-of-detail functionality for non-GDAL
+sources.
+
+We can only read the first band.
+
+The only really useable output is a raster layer. You cannot yet specify
+that return is at native resolution WIP.
+
+We can’t control the details of the data type.
+
+The projection string is not coming through properly.
+
+The plot-size logic should work on the current “usr” world coordinates,
+not the size of the device (if it’s different).
+
+## GDAL
 
 This uses a standard internal functionality of GDAL, the [RasterIO
 function of the
@@ -26,29 +58,18 @@ for it is very minimal. You can access it indirectly using
 `rgdal::readGDAL` and its underlying functions, as the `raster` package
 does.
 
-## Limitations
+## vapour
 
-We can’t utilize the RasterIO level-of-detail functionality for non-GDAL
-sources.
-
-We can’t yet easily specify a crop, and level-of-detail - but that’s not
-hard - mostly I need to figure out what set of functions should exist
-for this.
-
-We can only read the first band.
-
-The only really useable output is a raster layer. You cannot specify
-easily that the return is at native resolution (just use raster for
-that).
-
-We can’t control the details of the data type.
-
-The projection string is not coming through properly.
-
-The plot-size logic should work on the current “usr” world coordinates,
-not the size of the device (if it’s different).
+To make this work we use the GDAL package
+[vapour](https://github.com/hypertidy/vapour). All of the ease-of-use
+code is in this package, `vapour` is pointedly bare-bones and provides
+very little interpretation of a data source because it is designed for
+use in development.
 
 ## Example
+
+Connect lazily to a GeoTIFF, see details of what’s there, crop to a
+section and then read it in and plot.
 
 This is not a huge file, but is easily accessible and demonstrates the
 idea.
@@ -58,12 +79,6 @@ sstfile <- system.file("extdata/sst.tif", package = "vapour")
 library(lazyraster)
 lazy <- lazyraster(sstfile)
 lazy ## stay lazy
-#> class      : LazyRaster
-#> dimensions : 143,286 (nrow, ncol)
-#> resolution : 0.07000000,0.07000389 (x, y)
-#> extent     : 140.00000,150.01000,-60.01833,-39.99722 (xmin, xmax, ymin, ymax)
-#> crs        : 
-#> values     : 271.3500,289.8590 (min, max)
 
 ## be only so lazy
 as_raster(lazy, dim = c(12, 24))
@@ -106,10 +121,13 @@ dev.off()
 unlink(tf)
 ```
 
-Does it work on really big files?
+It does work on really big files.
 
-(This can’t work on your computer probably, but try it on your favourite
-big file).
+(This example can’t work on your computer probably given use of local
+raadtools, but try it on your favourite big file).
+
+This takes a fairly large grid and plots just enough detail by reading
+just enough detail for the plot space. That’s all that happens.
 
 ``` r
 library(raadtools)
@@ -117,12 +135,6 @@ library(raadtools)
 #> Loading required package: sp
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
-#> class      : LazyRaster
-#> dimensions : 43200,21600 (nrow, ncol)
-#> resolution : 0.008333333,0.008333333 (x, y)
-#> extent     : -180.0000, 180.0000, -90.0000,  90.0000 (xmin, xmax, ymin, ymax)
-#> crs        : 
-#> values     : -10486.0000,  7729.0000 (min, max)
 library(raster)
 op <- par(mar = rep(0, 4))
 system.time({
@@ -134,49 +146,13 @@ plot(r, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab = "",
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.827   0.064   0.895
+    #>   0.801   0.036   0.840
     par(op)
 
-An earlier example, should be made a WMS-specific function …
+We’ve successfully used it to plot a DEM of Australia from a 67 Gb ESRI
+binary grid (ADF) supplied by GeoScience Australia in less than a minute
+(the grid is more than 1e5 pixels each dimension).
 
-Make a TMS source and read at the desired resolution.
-
-More here: <http://rpubs.com/cyclemumner/358029>
-
-``` r
-library(lazyraster)
-gibs_xml <- function(date, level = 3) {
-  date <- format(date, "%Y-%m-%d")
-sprintf('<GDAL_WMS>
-         <Service name="TMS">
-         <ServerUrl>
-         https://gibs.earthdata.nasa.gov/wmts/epsg3413/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/%s/250m/${z}/${y}/${x}.jpg</ServerUrl>
-         </Service>
-         <DataWindow>
-         <UpperLeftX>-4194304</UpperLeftX>
-         <UpperLeftY>4194304</UpperLeftY>
-         <LowerRightX>4194304</LowerRightX>
-         <LowerRightY>-4194304</LowerRightY>
-         <TileLevel>%i</TileLevel>
-         <TileCountX>2</TileCountX>
-         <TileCountY>2</TileCountY>
-         <YOrigin>top</YOrigin>
-         </DataWindow>
-         <Projection>EPSG:3413</Projection>
-         <BlockSizeX>512</BlockSizeX>
-         <BlockSizeY>512</BlockSizeY>
-         <BandsCount>3</BandsCount>
-         </GDAL_WMS>
-         ', date, level)
-}
-
-s <- gibs_xml(Sys.Date()-10)
-r <- raster::raster(s)
-r2 <- collect(r, nrows= 150, ncols = 150)
-#> r is 8192x8192, collecting output of 150x150 
-#>  use 'nrows = , ncols = ' to customize output size
-library(raster)
-plot(r2, col = head(palr::sstPal(64), 45))
-```
-
-<img src="man/figures/README-example-1.png" width="100%" />
+Please note that this project is released with a [Contributor Code of
+Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
+to abide by its terms.
