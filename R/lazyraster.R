@@ -71,13 +71,18 @@ lazycrop.lazyraster <- function(x, y, ...) {
   ## make sure our window extent reflects the parent
   rx <- lazy_to_raster(x)
   ex <- extent(crop(rx, ex, snap = "out"))
+
   xr <- raster::xres(rx)
   yr <- raster::yres(rx)
-  col1 <- colFromX(rx, ex@xmin)# + 0.5*xr)
-  col2 <- colFromX(rx, ex@xmax)# - 0.5*xr)
-  row1 <- rowFromY(rx, ex@ymax)# + 0.5*yr)
-  row2 <- rowFromY(rx, ex@ymin)# - 0.5*yr)
-  x$window <- list(window = c(col1 - 1, col2 - 1, row1 - 1, row2 - 1), windowextent = c(ex@xmin, ex@xmax, ex@ymin, ex@ymax))
+  col1 <- colFromX(rx, ex@xmin)
+  col2 <- colFromX(rx, ex@xmax)
+  row1 <- rowFromY(rx, ex@ymax)
+  row2 <- rowFromY(rx, ex@ymin)
+  if (is.na(row1)) row1 <- 1
+  if (is.na(row2)) row2 <- rx@nrows
+
+  x$window <- list(window = c(col1 - 1, col2 - 1, row1 - 1, row2 - 1),
+                   windowextent = c(ex@xmin, ex@xmax, ex@ymin, ex@ymax))
   x
 }
 
@@ -180,13 +185,15 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour") {
   ## TODO raster from ssraster, override with dim
   r <- lazy_to_raster(x, dim = pulldim)
   ## TODO pull window spec from info/plotdim, allow choice of resampling
-  window <- c(0, 0, x$info$dimXY[1], x$info$dimXY[2]) ## the global window
-  if (!is.null(x$window$window))  window <- x$window$window
+  window_odim <- c(0, 0, x$info$dimXY[1], x$info$dimXY[2]) ## the global window
+  if (!is.null(x$window$window)) {
+    window <- x$window$window
 
-  ## convert window to offset/dim
-  window_odim <- c(window[c(1, 3)], (window[2] - window[1])+ 1, (window[4] - window[3]) + 1)
-  print(window)
-  print(window_odim)
+
+    ## convert window to offset/dim
+    window_odim <- c(window[c(1, 3)], (window[2] - window[1])+ 1, (window[4] - window[3]) + 1)
+  }
+
   vals <- vapour::raster_io(x$source, window = c(window_odim, pulldim[1], pulldim[2]),
                             resample = resample)
   ## TODO clamp values to info$minmax - set NA
