@@ -13,10 +13,10 @@ just let me know\! It’s still early days and very WIP.
 
 There are functions `lazyraster` to act like the `raster::raster`
 function and provide information but no data, and `lazycrop` to act like
-`raster::crop` and then `as_raster` to actually break the lazy chain and
-build an actual raster object. The size of the currently open (or
-latent-default) device is used as a reasonable size for the output grid,
-but can be controlled by argument `dim`.
+`raster::crop` and then `as_raster` to break the lazy chain and build an
+actual raster object. The size of the currently open (or latent-default)
+device is used as a reasonable size for the output grid, but can be
+controlled by argument `dim`.
 
 When the data is read `lazyraster` can specify the exact dimensions of
 the output raster, and by default a reasonable guess at the number of
@@ -39,10 +39,14 @@ that return is at native resolution WIP.
 
 We can’t control the details of the data type.
 
-The projection string is not coming through properly.
+The projection string is not coming through properly, this is a problem
+in vapour.
 
 The plot-size logic should work on the current “usr” world coordinates,
 not the size of the device (if it’s different).
+
+The vapour package isn’t yet on CRAN, and there’s no capacity for
+*subdatasets* yet.
 
 ## GDAL
 
@@ -183,7 +187,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.837   0.092   0.931
+    #>   0.776   0.027   0.806
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
