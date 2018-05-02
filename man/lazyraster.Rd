@@ -31,4 +31,5 @@ conversion to raster.
 sstfile <- system.file("extdata/sst.tif", package = "vapour")
 lazyraster(sstfile)
 as_raster(lazyraster(sstfile))
+as_raster(lazycrop(lazyraster(sstfile), extent(142, 143, -50, -45)))
 }
