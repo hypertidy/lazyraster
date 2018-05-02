@@ -74,10 +74,10 @@ lazycrop.lazyraster <- function(x, y, ...) {
 
   xr <- raster::xres(rx)
   yr <- raster::yres(rx)
-  col1 <- colFromX(rx, ex@xmin)
-  col2 <- colFromX(rx, ex@xmax)
-  row1 <- rowFromY(rx, ex@ymax)
-  row2 <- rowFromY(rx, ex@ymin)
+  col1 <- raster::colFromX(rx, ex@xmin)
+  col2 <- raster::colFromX(rx, ex@xmax)
+  row1 <- raster::rowFromY(rx, ex@ymax)
+  row2 <- raster::rowFromY(rx, ex@ymin)
   if (is.na(row1)) row1 <- 1
   if (is.na(row2)) row2 <- rx@nrows
 
@@ -102,24 +102,26 @@ extent.lazyraster <- function(x, ...) {
   ## TODO logic if x is a raster and ... is the r1, r2, c1, c2
   extent(to_xy_minmax(x), ...)
 }
-#' @importFrom raster crop
-#' @export crop
-#' @name lazyraster-methods
-crop.lazyraster <- function(x, y, ...) {
-  stop("cannot crop a lazyraster, use lazycrop")
-}
-setOldClass("lazyraster")
+#' # importFrom raster crop
+#' # export crop
+#' # name lazyraster-methods
+#' crop.lazyraster <- function(x, y, ...) {
+#'   stop("cannot crop a lazyraster, use lazycrop")
+#' }
 
-if (!isGeneric("crop")) {
-  setGeneric("crop", function(x, y, ...)
-    standardGeneric("crop"))
-}
+#
+# if (!isGeneric("crop")) {
+#   setGeneric("crop", function(x, y, ...)
+#     standardGeneric("crop"))
+# }
+#' @name lazyraster
+setOldClass("lazyraster")
 if (!isGeneric("extent")) {
   setGeneric("extent", function(x, y, ...)
     standardGeneric("extent"))
 }
 
-setMethod("crop", "lazyraster", crop.lazyraster)
+#setMethod("crop", "lazyraster", crop.lazyraster)
 setMethod("extent", "lazyraster", extent.lazyraster)
 
 #' @name lazyraster-methods
@@ -155,7 +157,9 @@ print.summary_lazyraster <- function(x, ...) {
 }
 #' @importFrom raster plot
 #' @name lazyraster-methods
+#' @importFrom graphics plot
 #' @export
+#' @rawNamespace S3method(plot,lazyraster)
 plot.lazyraster <- function(x, ...) {
   raster::plot(as_raster(x), ...)
 }

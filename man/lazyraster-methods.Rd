@@ -6,8 +6,6 @@
 \alias{lazyraster-methods}
 \alias{extent.lazyraster}
 \alias{lazyraster-methods}
-\alias{crop.lazyraster}
-\alias{lazyraster-methods}
 \alias{summary.lazyraster}
 \alias{lazyraster-methods}
 \alias{print.summary_lazyraster}
@@ -20,8 +18,6 @@
 \method{print}{lazyraster}(x, ...)
 
 extent.lazyraster(x, ...)
-
-crop.lazyraster(x, y, ...)
 
 \method{summary}{lazyraster}(object, ...)
 

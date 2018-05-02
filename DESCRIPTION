@@ -11,7 +11,8 @@ RoxygenNote: 6.0.1
 Imports: 
     raster,
     rgdal,
-    vapour
+    vapour,
+    methods
 Suggests: 
     palr
 Remotes: hypertidy/vapour
