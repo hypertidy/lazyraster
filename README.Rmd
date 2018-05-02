@@ -16,24 +16,24 @@ knitr::opts_chunk$set(
 ```
 # lazyraster
 
-The goal of lazyraster is to get raster data on demand at the right resolution. 
+The goal of lazyraster is to get raster data on demand at the right resolution. This means that you can
+define a graphics device and then stream just the right amount of pixels to fill it from a GDAL data source.  
 
-We can specify the exact dimensions of the output raster, and by default a reasonable
-guess at the number of pixels required to fill the current device will be used. 
+If you are interesed or have problems installing this package please just let me know!  It's still early days and very WIP. 
 
-We can specify a variety of resampling algorithms (nearest neighbour is the default) and the resampling can be applied to reduce or increase the resolution. 
+There are functions `lazyraster` to act like the `raster::raster` function and provide information but no data, and `lazycrop` to act like `raster::crop` and then `as_raster` to actually break the lazy chain and build an actual raster object. The size of the currently open (or latent-default) device is used as a reasonable size for the output grid, but can be controlled by argument `dim`. 
 
-This uses a standard internal functionality of GDAL, the [RasterIO function of the GDALRasterBand](http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1). This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven't found any problems with it at all using it in R, but the suport for it is very minimal. You can access it indirectly using `rgdal::readGDAL` and its underlying functions, as the `raster` package does.  
+When the data is read `lazyraster` can specify the exact dimensions of the output raster, and by default a reasonable guess at the number of pixels required to fill the current device is used. 
+
+A variety of resampling algorithms are available (nearest neighbour is the default, [see this list for more](https://github.com/hypertidy/vapour/blob/master/R/raster-input.R#L9)) and will be applied to reduce or increase the resolution. 
 
 ## Limitations
 
 We can't utilize the RasterIO level-of-detail functionality for non-GDAL sources. 
 
-We can't yet easily specify a crop, and level-of-detail - but that's not hard - mostly I need to figure out what set of functions should exist for this. 
-
 We can only read the first band. 
 
-The only really useable output is a raster layer. You cannot specify easily that the return is at native resolution (just use raster for that). 
+The only really useable output is a raster layer. You cannot yet specify that return is at native resolution WIP. 
 
 We can't control the details of the data type. 
 
@@ -41,9 +41,18 @@ The projection string is not coming through properly.
 
 The plot-size logic should work on the current "usr" world coordinates, not the size of the device (if it's different). 
 
+## GDAL
+
+This uses a standard internal functionality of GDAL, the [RasterIO function of the GDALRasterBand](http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1). This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven't found any problems with it at all using it in R, but the suport for it is very minimal. You can access it indirectly using `rgdal::readGDAL` and its underlying functions, as the `raster` package does.  
+
+## vapour
+
+
+To make this work we use the GDAL package [vapour](https://github.com/hypertidy/vapour). All of the ease-of-use code is in this package, `vapour` is pointedly bare-bones and provides very little interpretation of a data source because it is designed for use in development. 
 
 ## Example
 
+Connect lazily to a GeoTIFF, see details of what's there, crop to a section and then read it in and plot. 
 
 This is not a huge file, but is easily accessible and demonstrates the idea. 
 
@@ -69,9 +78,9 @@ dev.off()
 unlink(tf)
 ```
 
-Does it work on really big files? 
+It does work on really big files. 
 
-(This can't work on your computer probably, but try it on your favourite big file). 
+(This example can't work on your computer probably given use of local raadtools, but try it on your favourite big file). 
 
 ```{r raadtools}
 library(raadtools)
@@ -86,15 +95,21 @@ plot(r, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab = "",
 par(op)
 ```
 
-An earlier example, should be made a WMS-specific function ...
-
-Make a TMS source and read at the desired resolution. 
-
-More here: http://rpubs.com/cyclemumner/358029
+We've successfully used it to plot a DEM of Australia from a 67 Gb ESRI binary grid (ADF) supplied by GeoScience Australia in less than a minute (the grid is more than 1e5 pixels each dimension). 
 
 
 
-```{r example}
+```{r example, eval = FALSE, include = FALSE}
+# Older stuff
+
+
+# An earlier example, should be made a WMS-specific function ...
+# 
+# Make a TMS source and read at the desired resolution. 
+# 
+# More here: http://rpubs.com/cyclemumner/358029
+# 
+
 library(lazyraster)
 gibs_xml <- function(date, level = 3) {
   date <- format(date, "%Y-%m-%d")
@@ -127,3 +142,8 @@ r2 <- collect(r, nrows= 150, ncols = 150)
 library(raster)
 plot(r2, col = head(palr::sstPal(64), 45))
 ```
+
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
+
