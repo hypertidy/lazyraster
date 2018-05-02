@@ -13,7 +13,8 @@
 #' as_raster(lazyraster(sstfile))
 lazyraster <- function(gdalsource) {
   structure(list(source = gdalsource,
-                 info = vapour::raster_info(gdalsource)), class = "lazyraster")
+                 info = vapour::raster_info(gdalsource),
+                 window = list(window = NULL)), class = "lazyraster")
 }
 #' @name lazyraster
 #' @export
@@ -32,12 +33,37 @@ lazy_to_raster <- function(x, dim = NULL) {
   if (is.null(dim)) dim <- x$info$dimXY
   proj <- x$info$projection
   #if (!substr(proj, 1, 1) == "+") {
-    proj <- NA_character_
-   #warning("projstring doesn't look like a PROJ string")
+  proj <- NA_character_
+  #warning("projstring doesn't look like a PROJ string")
   #}
   #if (! (grepl("\\+proj", proj) && grepl("^\\+init", proj))) proj <- NA_character_
   raster::raster(raster::extent(to_xy_minmax(x)), nrows = dim[2], ncols = dim[1], crs = proj)
 }
+
+#' Lazy crop
+#'
+#' Set an active window of data that will be pulled by conversion
+#' to an actual raster.
+#' @inheritParams raster::crop
+#' @export
+#' @name lazycrop
+lazycrop <- function(x, y, ...) {
+  UseMethod("lazycrop")
+}
+lazycrop.BasicRaster <- function(x, y, ...) {
+  ## hmm, what if there's no file, we end up with
+  ## carrying around the original data?
+}
+#' @export
+#' @name lazycrop
+lazycrop.lazyraster <- function(x, y, ...) {
+  ex <- extent(y)
+  ## make sure our window extent reflects the parent
+  ex <- extent(crop(lazy_to_raster(x)))
+  x$window <- list(window = c(ex@xmin, ex@xmax, ex@ymin, ex@ymax))
+  x
+}
+
 #' Lazy raster S3 methods
 #'
 #' @param x a `lazyraster`
@@ -47,6 +73,33 @@ lazy_to_raster <- function(x, dim = NULL) {
 print.lazyraster <- function(x, ...) {
   print(summary(x))
 }
+#' @importFrom raster extent
+#' @export extent
+#' @name lazyraster-methods
+extent.lazyraster <- function(x, ...) {
+  ## TODO logic if x is a raster and ... is the r1, r2, c1, c2
+  extent(to_xy_minmax(x), ...)
+}
+#' @importFrom raster crop
+#' @export crop
+#' @name lazyraster-methods
+crop.lazyraster <- function(x, y, ...) {
+  stop("cannot crop a lazyraster, use lazycrop")
+}
+setOldClass("lazyraster")
+
+if (!isGeneric("crop")) {
+  setGeneric("crop", function(x, y, ...)
+    standardGeneric("crop"))
+}
+if (!isGeneric("extent")) {
+  setGeneric("extent", function(x, y, ...)
+    standardGeneric("extent"))
+}
+
+setMethod("crop", "lazyraster", crop.lazyraster)
+setMethod("extent", "lazyraster", extent.lazyraster)
+
 #' @name lazyraster-methods
 #' @export
 summary.lazyraster <- function(object, ...) {
@@ -58,18 +111,21 @@ summary.lazyraster <- function(object, ...) {
                  extent = ex,
                  crs = object$info$projection,
                  source = object$source,
-                 values = object$info$minmax), class = "summary_lazyraster")
+                 values = object$info$minmax,
+                 window = object$window), class = "summary_lazyraster")
 }
 
 #' @name lazyraster-methods
 #' @export
 print.summary_lazyraster <- function(x, ...) {
   cat(sprintf("class      : %s\n", x$classname))
-  cat(sprintf("dimensions : %s (nrow, ncol)\n", paste(x$dimension, collapse = ",")))
-  cat(sprintf("resolution : %s (x, y)\n", paste(format(x$resolution, nsmall = 4), collapse = ",")))
-  cat(sprintf("extent     : %s (xmin, xmax, ymin, ymax)\n", paste(format(x$extent, nsmall = 4), collapse = ",")))
+  cat(sprintf("dimensions : %s (nrow, ncol)\n", paste(x$dimension, collapse = ", ")))
+  cat(sprintf("resolution : %s (x, y)\n", paste(format(x$resolution, nsmall = 4), collapse = ", ")))
+  cat(sprintf("extent     : %s (xmin, xmax, ymin, ymax)\n", paste(format(x$extent, nsmall = 4), collapse = ", ")))
   cat(sprintf("crs        : %s\n", x$crs))
-  cat(sprintf("values     : %s (min, max)\n", paste(format(x$values, nsmall = 4), collapse = ",")))
+  cat(sprintf("values     : %s (min, max - range from entire extent)\n", paste(format(x$values, nsmall = 4), collapse = ", ")))
+  windowdescription <- if (is.null(x$window$window)) "<whole extent>" else paste(format(x$window$window, nsmall = 4), collapse = ", ")
+  cat(sprintf("window     : %s", windowdescription))
   invisible(NULL)
 }
 #' @importFrom raster plot
@@ -105,8 +161,8 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour") {
   r <- lazy_to_raster(x, dim = pulldim)
   ## TODO pull window spec from info/plotdim, allow choice of resampling
   vals <- vapour::raster_io(x$source, window = c(0, 0, x$info$dimXY[1], x$info$dimXY[2],
-                                         pulldim[1], pulldim[2]),
-                    resample = resample)
+                                                 pulldim[1], pulldim[2]),
+                            resample = resample)
   ## TODO clamp values to info$minmax - set NA
   vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
   raster::setValues(r, vals)
