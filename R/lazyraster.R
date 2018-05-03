@@ -6,13 +6,19 @@
 #' @param x a lazyraster
 #' @param dim dimensions of data to return
 #' @param resample resample method to use, see `vapour::raster_io`
+#' @param sds which subdataset to use, set to 1 if in doubt (see `vapour::sds_info`)
 #' @export
 #' @examples
 #' sstfile <- system.file("extdata/sst.tif", package = "vapour")
 #' lazyraster(sstfile)
 #' as_raster(lazyraster(sstfile))
 #' as_raster(lazycrop(lazyraster(sstfile), extent(142, 143, -50, -45)))
-lazyraster <- function(gdalsource) {
+lazyraster <- function(gdalsource, sds = NULL) {
+  vars <- as.data.frame(vapour::sds_info(gdalsource), stringsAsFactors = FALSE)
+  if (is.null(sds)) sds <- 1
+  stopifnot(sds > 0)
+  stopifnot(sds <= nrow(vars))
+  gdalsource <- vars$subdataset[sds]
   structure(list(source = gdalsource,
                  info = vapour::raster_info(gdalsource),
                  window = list(window = NULL, windowextent = NULL)), class = "lazyraster")
@@ -70,7 +76,7 @@ lazycrop.lazyraster <- function(x, y, ...) {
   ex <- extent(y)
   ## make sure our window extent reflects the parent
   rx <- lazy_to_raster(x)
-  ex <- extent(crop(rx, ex, snap = "out"))
+  ex <- raster::extent(raster::crop(rx, ex, snap = "out"))
 
   xr <- raster::xres(rx)
   yr <- raster::yres(rx)

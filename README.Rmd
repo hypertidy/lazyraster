@@ -41,7 +41,13 @@ The projection string is not coming through properly, this is a problem in vapou
 
 The plot-size logic should work on the current "usr" world coordinates, not the size of the device (if it's different). 
 
-The vapour package isn't yet on CRAN, and there's no capacity for *subdatasets* yet. 
+The vapour package isn't yet on CRAN. 
+
+Subdataset support is very new and needs checking.
+
+Using online sources is not easy, it needs a particular GDAL connection string to work properly. 
+
+
 
 ## GDAL
 

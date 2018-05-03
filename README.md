@@ -45,8 +45,12 @@ in vapour.
 The plot-size logic should work on the current “usr” world coordinates,
 not the size of the device (if it’s different).
 
-The vapour package isn’t yet on CRAN, and there’s no capacity for
-*subdatasets* yet.
+The vapour package isn’t yet on CRAN.
+
+Subdataset support is very new and needs checking.
+
+Using online sources is not easy, it needs a particular GDAL connection
+string to work properly.
 
 ## GDAL
 
@@ -187,7 +191,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.776   0.027   0.806
+    #>   0.808   0.065   0.878
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
