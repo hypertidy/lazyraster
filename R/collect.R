@@ -21,6 +21,7 @@
 #' @name collect
 #' @export
 collect <- function(x, ...) {
+  .Deprecated(new = "as_raster", package = "lazyraster")
   UseMethod("collect")
 }
 #' @export
