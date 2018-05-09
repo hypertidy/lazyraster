@@ -149,14 +149,8 @@ ga
 
 
 
-```{r example, eval = FALSE, include = FALSE}
-# Older stuff
-
-
-# An earlier example, should be made a WMS-specific function ...
-# 
+```{r tms}
 # Make a TMS source and read at the desired resolution. 
-# 
 # More here: http://rpubs.com/cyclemumner/358029
 # 
 
@@ -187,10 +181,17 @@ sprintf('<GDAL_WMS>
 }
 
 s <- gibs_xml(Sys.Date()-10)
-r <- raster::raster(s)
-r2 <- collect(r, nrows= 150, ncols = 150)
+gibs <- lazyraster(s)
+r2 <- as_raster(gibs, dim = c(150, 150))
 library(raster)
-plot(r2, col = head(palr::sstPal(64), 45))
+## run the same simplification but with a different resampling 
+## method
+plot(as_raster(gibs, dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))
+
+## run with a different extent
+e <- extent(-806000, 1080000, -3200000, -500000)
+plot(as_raster(lazycrop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))
+
 ```
 
 
