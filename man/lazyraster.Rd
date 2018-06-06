@@ -18,7 +18,7 @@ as_raster(x, dim = NULL, resample = "NearestNeighbour")
 \arguments{
 \item{gdalsource}{a file name or other source string}
 
-\item{sds}{which subdataset to use, set to 1 if in doubt (see `vapour::sds_info`)}
+\item{sds}{which subdataset to use, set to 1 if in doubt (see `vapour::vapour_sds_names`)}
 
 \item{x}{a lazyraster}
 

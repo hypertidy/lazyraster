@@ -6,7 +6,7 @@
 #' @param x a lazyraster
 #' @param dim dimensions of data to return
 #' @param resample resample method to use, see `vapour::raster_io`
-#' @param sds which subdataset to use, set to 1 if in doubt (see `vapour::sds_info`)
+#' @param sds which subdataset to use, set to 1 if in doubt (see `vapour::vapour_sds_names`)
 #' @export
 #' @examples
 #' sstfile <- system.file("extdata/sst.tif", package = "vapour")
@@ -14,13 +14,13 @@
 #' as_raster(lazyraster(sstfile))
 #' as_raster(lazycrop(lazyraster(sstfile), extent(142, 143, -50, -45)))
 lazyraster <- function(gdalsource, sds = NULL) {
-  vars <- as.data.frame(vapour::sds_info(gdalsource), stringsAsFactors = FALSE)
+  vars <- as.data.frame(vapour::vapour_sds_names(gdalsource), stringsAsFactors = FALSE)
   if (is.null(sds)) sds <- 1
   stopifnot(sds > 0)
   stopifnot(sds <= nrow(vars))
   gdalsource <- vars$subdataset[sds]
   structure(list(source = gdalsource,
-                 info = vapour::raster_info(gdalsource),
+                 info = vapour::vapour_raster_info(gdalsource),
                  window = list(window = NULL, windowextent = NULL)), class = "lazyraster")
 }
 #' @name lazyraster
@@ -208,7 +208,7 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour") {
     window_odim <- c(window[c(1, 3)], (window[2] - window[1])+ 1, (window[4] - window[3]) + 1)
   }
 
-  vals <- vapour::raster_io(x$source, window = c(window_odim, pulldim[1], pulldim[2]),
+  vals <- vapour::vapour_read_raster(x$source, window = c(window_odim, pulldim[1], pulldim[2]),
                             resample = resample)
   ## TODO clamp values to info$minmax - set NA
   vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
