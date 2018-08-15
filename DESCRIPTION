@@ -9,10 +9,10 @@ LazyData: true
 ByteCompile: true
 RoxygenNote: 6.0.1
 Imports: 
+    graphics,
     raster,
     rgdal,
-    vapour,
+    vapour (>= 0.1.0),
     methods
 Suggests: 
     palr
-Remotes: hypertidy/vapour

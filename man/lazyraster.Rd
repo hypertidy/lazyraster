@@ -6,7 +6,6 @@
 \alias{as_raster}
 \alias{lazyraster}
 \alias{as_raster}
-\alias{lazyraster}
 \title{Lazy raster}
 \usage{
 lazyraster(gdalsource, sds = NULL)
@@ -29,17 +28,10 @@ as_raster(x, dim = NULL, resample = "NearestNeighbour")
 \description{
 Read metadata only from a raster source, for later use with plotting and
 conversion to raster.
-
-# importFrom raster crop
-# export crop
-# name lazyraster-methods
-crop.lazyraster <- function(x, y, ...) {
-  stop("cannot crop a lazyraster, use lazycrop")
-}
 }
 \examples{
 sstfile <- system.file("extdata/sst.tif", package = "vapour")
 lazyraster(sstfile)
 as_raster(lazyraster(sstfile))
-as_raster(lazycrop(lazyraster(sstfile), extent(142, 143, -50, -45)))
+as_raster(lazycrop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
 }

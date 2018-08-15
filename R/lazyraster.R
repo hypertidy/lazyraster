@@ -12,7 +12,7 @@
 #' sstfile <- system.file("extdata/sst.tif", package = "vapour")
 #' lazyraster(sstfile)
 #' as_raster(lazyraster(sstfile))
-#' as_raster(lazycrop(lazyraster(sstfile), extent(142, 143, -50, -45)))
+#' as_raster(lazycrop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
 lazyraster <- function(gdalsource, sds = NULL) {
   vars <- as.data.frame(vapour::vapour_sds_names(gdalsource), stringsAsFactors = FALSE)
   if (is.null(sds)) sds <- 1
@@ -92,92 +92,6 @@ lazycrop.lazyraster <- function(x, y, ...) {
   x
 }
 
-#' Lazy raster S3 methods
-#'
-#' @param x a `lazyraster`
-#' @param ... reserved
-#' @name lazyraster-methods
-#' @rawNamespace S3method(print,lazyraster)
-#' @export
-print.lazyraster <- function(x, ...) {
-  print(summary(x))
-}
-#' @importFrom raster extent
-#' @export extent
-#' @name lazyraster-methods
-extent.lazyraster <- function(x, ...) {
-  ## TODO logic if x is a raster and ... is the r1, r2, c1, c2
-  extent(to_xy_minmax(x), ...)
-}
-#' # importFrom raster crop
-#' # export crop
-#' # name lazyraster-methods
-#' crop.lazyraster <- function(x, y, ...) {
-#'   stop("cannot crop a lazyraster, use lazycrop")
-#' }
-
-#
-# if (!isGeneric("crop")) {
-#   setGeneric("crop", function(x, y, ...)
-#     standardGeneric("crop"))
-# }
-#' @name lazyraster
-setOldClass("lazyraster")
-if (!isGeneric("extent")) {
-  setGeneric("extent", function(x, y, ...)
-    standardGeneric("extent"))
-}
-
-#setMethod("crop", "lazyraster", crop.lazyraster)
-setMethod("extent", "lazyraster", extent.lazyraster)
-
-#' @name lazyraster-methods
-#' @export
-format.lazyraster <- function(object, ...) {
-  ex <- to_xy_minmax(object)
-  windowdescription <- if (is.null(object$window$windowextent)) "<whole extent>" else paste(format(object$window$windowextent, nsmall = 4), collapse = ", ")
-  windowindex <- if (is.null(object$window$window)) "<->" else paste(as.integer(object$window$window), collapse = ", ")
-
-  x <- list(   classname = "LazyRaster",
-                 dimensions = object$info$dimXY,
-                 resolution = abs(object$info$geotransform[c(2, 6)]),
-                 extent = ex,
-                 crs = "<placeholder>", ##object$info$projection,
-                 source = object$source,
-                 values = object$info$minmax,
-               windowdescription = windowdescription,
-                 window = windowindex)
-
-
-  fmt <- list(sprintf("class         : %s\n", x$classname),
-              sprintf("dimensions    : %s (nrow, ncol)\n", paste(x$dimension[2:1], collapse = ", ")),
-              sprintf("resolution    : %s (x, y)\n", paste(format(x$resolution, nsmall = 4), collapse = ", ")),
-              sprintf("extent        : %s (xmin, xmax, ymin, ymax)\n", paste(format(x$extent, nsmall = 4), collapse = ", ")),
-              sprintf("crs           : %s\n", x$crs),
-              sprintf("values        : %s (min, max - range from entire extent)\n", paste(format(x$values, nsmall = 4), collapse = ", ")),
-              sprintf("window extent : %s\n", windowdescription), sprintf("window index  : %s\n", windowindex))
-  fmt
-}
-
-#' @name lazyraster-methods
-#' @export
-print.lazyraster <- function(x, ...) {
-  junk <- lapply(format(x), cat)
-  invisible(x)
-}
-#' @importFrom raster plot
-#' @name lazyraster-methods
-#' @importFrom graphics plot
-#' @export
-#' @rawNamespace S3method(plot,lazyraster)
-plot.lazyraster <- function(x, ...) {
-  raster::plot(as_raster(x), ...)
-}
-#' @name lazyraster-methods
-#' @export
-raster.lazyraster <- function(x, ...) {
-  as_raster(x, ...)
-}
 
 to_xy_minmax <- function(x) {
   xmin <- x$info$geotransform[1]

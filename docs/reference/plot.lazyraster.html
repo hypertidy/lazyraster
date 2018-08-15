@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lazy raster S3 methods — lazyraster-methods • lazyraster</title>
+<title>Lazy raster S3 plot method — plot.lazyraster • lazyraster</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Lazy raster S3 methods — lazyraster-methods" />
+<meta property="og:title" content="Lazy raster S3 plot method — plot.lazyraster" />
 
-<meta property="og:description" content="Print and format for lazyraster." />
+<meta property="og:description" content="Plot for lazyraster." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -92,22 +92,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Lazy raster S3 methods</h1>
+    <h1>Lazy raster S3 plot method</h1>
     
-    <div class="hidden name"><code>lazyraster-methods.Rd</code></div>
+    <div class="hidden name"><code>plot.lazyraster.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Print and format for lazyraster.</p>
+    <p>Plot for lazyraster.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for lazyraster</span>
-<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for lazyraster</span>
-<span class='fu'>format</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plot.lazyraster</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -117,8 +113,12 @@
       <td><p>a `lazyraster`</p></td>
     </tr>
     <tr>
+      <th>y</th>
+      <td><p>ignored</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>reserved</p></td>
+      <td><p>passed to raster plot</p></td>
     </tr>
     </table>
     

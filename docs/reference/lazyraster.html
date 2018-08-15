@@ -33,12 +33,7 @@
 <meta property="og:title" content="Lazy raster — lazyraster" />
 
 <meta property="og:description" content="Read metadata only from a raster source, for later use with plotting and
-conversion to raster.
-# importFrom raster crop
-# export crop
-# name lazyraster-methods
-crop.lazyraster &amp;lt;- function(x, y, ...) 
-  stop(&quot;cannot crop a lazyraster, use lazycrop&quot;)" />
+conversion to raster." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,11 +102,6 @@ crop.lazyraster &amp;lt;- function(x, y, ...)
     
     <p>Read metadata only from a raster source, for later use with plotting and
 conversion to raster.</p>
-<p># importFrom raster crop
-# export crop
-# name lazyraster-methods
-crop.lazyraster &lt;- function(x, y, ...) 
-  stop("cannot crop a lazyraster, use lazycrop")</p>
     
     </div>
 
@@ -164,7 +154,7 @@ crop.lazyraster &lt;- function(x, y, ...)
 #&gt; data source : in memory
 #&gt; names       : layer 
 #&gt; values      : 271.35, 289.843  (min, max)
-#&gt; </div><div class='input'><span class='fu'>as_raster</span>(<span class='fu'>lazycrop</span>(<span class='fu'>lazyraster</span>(<span class='no'>sstfile</span>), <span class='fu'>extent</span>(<span class='fl'>142</span>, <span class='fl'>143</span>, -<span class='fl'>50</span>, -<span class='fl'>45</span>)))</div><div class='output co'>#&gt; class       : RasterLayer 
+#&gt; </div><div class='input'><span class='fu'>as_raster</span>(<span class='fu'>lazycrop</span>(<span class='fu'>lazyraster</span>(<span class='no'>sstfile</span>), <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/raster/topics/extent'>extent</a></span>(<span class='fl'>142</span>, <span class='fl'>143</span>, -<span class='fl'>50</span>, -<span class='fl'>45</span>)))</div><div class='output co'>#&gt; class       : RasterLayer 
 #&gt; dimensions  : 504, 504, 254016  (nrow, ncol, ncell)
 #&gt; resolution  : 0.002083333, 0.01000056  (x, y)
 #&gt; extent      : 141.96, 143.01, -50.00778, -44.9675  (xmin, xmax, ymin, ymax)

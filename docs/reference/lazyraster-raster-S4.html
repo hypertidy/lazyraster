@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lazy raster S3 methods — lazyraster-methods • lazyraster</title>
+<title>Raster methods (S4) for lazyraster. — lazyraster-raster-S4 • lazyraster</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Lazy raster S3 methods — lazyraster-methods" />
+<meta property="og:title" content="Raster methods (S4) for lazyraster. — lazyraster-raster-S4" />
 
-<meta property="og:description" content="Print and format for lazyraster." />
+<meta property="og:description" content="These methods are generics from the raster package, extended to work for lazyrasters." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -92,35 +92,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Lazy raster S3 methods</h1>
+    <h1>Raster methods (S4) for lazyraster.</h1>
     
-    <div class="hidden name"><code>lazyraster-methods.Rd</code></div>
+    <div class="hidden name"><code>lazyraster-raster-S4.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Print and format for lazyraster.</p>
+    <p>These methods are generics from the raster package, extended to work for lazyrasters.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for lazyraster</span>
-<span class='fu'>print</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>raster_lazyraster</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for lazyraster</span>
-<span class='fu'>format</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>extent_lazyraster</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a `lazyraster`</p></td>
+      <td><p>various (raster, extent)</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>reserved</p></td>
+      <td><p>arguments passed to underlying raster function</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>[raster::raster()], [raster::extent()]</p></div>
     
 
   </div>
@@ -128,7 +130,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

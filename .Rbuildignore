@@ -1,4 +1,8 @@
+^appveyor\.yml$
+^\.travis\.yml$
 ^lazyraster\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
+^_pkgdown\.yml$
+^docs$
