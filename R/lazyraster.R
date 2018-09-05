@@ -25,17 +25,21 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL) {
   if (is.null(sds)) sds <- 1
   stopifnot(sds > 0)
   stopifnot(sds <= nrow(vars))
-  gdalsource <- vars$subdataset[sds]
+  ## vapour #34
+  if (nrow(vars) > 1) gdalsource <- vars$subdataset[sds]
+
   info <- vapour::vapour_raster_info(gdalsource)
   if (band < 1) stop("band must be 1 or greater")
   if (band > info$bands) stop(sprintf("band greater than total number of bands (%i)", info$bands))
   raster <- list(band = band)
+
   if (info$geotransform[6L] > 0) {
      mess <- "ymin is greater than ymax, switching"
      if (!isTRUE(all.equal(info$geotransform[4L], 0))) paste0(mess, ", even though ymax not equal to 0")
      warning(mess)
 
-     info$geotransform[6] <- -info$geotransform[6]
+     info$geotransform[6L] <- -info$geotransform[6L]
+     info$geotransform[4L] <- info$dimXY[2L]
   }
   structure(list(source = gdalsource,
                  info = info,
