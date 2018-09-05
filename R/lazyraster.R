@@ -2,6 +2,13 @@
 #'
 #' Read metadata only from a raster source, for later use with plotting and
 #' conversion to raster.
+#'
+#' If the inferred Y extents appear to be reversed (ymax > ymin) then they are
+#' reversed, with a warning. This occurs for any GDAL data source that does not have
+#' a geotransform and so is required for use with raster. This might not be the right interpretation,
+#' geotransforms are very general and it might mean the data is meant to be oriented that way.
+#' (I don't know why GDAL sets a positive Y pixel height as the default, it's a bit of a pain -
+#' should the data be flipped, or should Y be interpreted negative - no way to know!).
 #' @param gdalsource a file name or other source string
 #' @param x a lazyraster
 #' @param dim dimensions of data to return
@@ -94,10 +101,20 @@ lazycrop.lazyraster <- function(x, y, ...) {
 
 
 to_xy_minmax <- function(x) {
-  xmin <- x$info$geotransform[1]
-  xmax <- xmin + x$info$dimXY[1] * x$info$geotransform[2]
-  ymax <- x$info$geotransform[4]
-  ymin <- ymax + x$info$dimXY[2] * x$info$geotransform[6]
+  xmin <- x$info$geotransform[1L]
+  xmax <- xmin + x$info$dimXY[1L] * x$info$geotransform[2L]
+  ymax <- x$info$geotransform[4L]
+  ymin <- ymax + x$info$dimXY[2L] * x$info$geotransform[6L]
+
+  if (ymin > ymax) {
+    mess <- "ymin is greater than ymax, switching"
+    if (!isTRUE(all.equal(ymin, 0))) paste0(mess, ", even though ymax not equal to 0")
+    warning(mess)
+
+    y <- c(ymax, ymin)
+    ymin <- y[1L]
+    ymax <- y[2L]
+  }
   c(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)
 }
 #' @importFrom grDevices dev.size
