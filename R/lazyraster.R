@@ -20,15 +20,27 @@
 #' lazyraster(sstfile)
 #' as_raster(lazyraster(sstfile))
 #' as_raster(lazycrop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
-lazyraster <- function(gdalsource, sds = NULL) {
+lazyraster <- function(gdalsource, band = 1, sds = NULL) {
   vars <- as.data.frame(vapour::vapour_sds_names(gdalsource), stringsAsFactors = FALSE)
   if (is.null(sds)) sds <- 1
   stopifnot(sds > 0)
   stopifnot(sds <= nrow(vars))
   gdalsource <- vars$subdataset[sds]
+  info <- vapour::vapour_raster_info(gdalsource)
+  if (band < 1) stop("band must be 1 or greater")
+  if (band > info$bands) stop(sprintf("band greater than total number of bands (%i)", info$bands))
+  raster <- list(band = band)
+  if (info$geotransform[6L] > 0) {
+     mess <- "ymin is greater than ymax, switching"
+     if (!isTRUE(all.equal(info$geotransform[4L], 0))) paste0(mess, ", even though ymax not equal to 0")
+     warning(mess)
+
+     info$geotransform[6] <- -info$geotransform[6]
+  }
   structure(list(source = gdalsource,
-                 info = vapour::vapour_raster_info(gdalsource),
-                 window = list(window = NULL, windowextent = NULL)), class = "lazyraster")
+                 info = info,
+                 window = list(window = NULL, windowextent = NULL),
+                 raster = raster), class = "lazyraster")
 }
 #' @name lazyraster
 #' @export
@@ -41,9 +53,7 @@ as_raster <- function(x, dim = NULL, resample = "NearestNeighbour") {
   pull_lazyraster(x, pulldim = dim, resample = resample)
 }
 
-lazy_window <- function(x) {
 
-}
 lazy_to_raster <- function(x, dim = NULL) {
   ## assume lazyraster
   if (is.null(dim)) dim <- x$info$dimXY
@@ -106,15 +116,7 @@ to_xy_minmax <- function(x) {
   ymax <- x$info$geotransform[4L]
   ymin <- ymax + x$info$dimXY[2L] * x$info$geotransform[6L]
 
-  if (ymin > ymax) {
-    mess <- "ymin is greater than ymax, switching"
-    if (!isTRUE(all.equal(ymin, 0))) paste0(mess, ", even though ymax not equal to 0")
-    warning(mess)
 
-    y <- c(ymax, ymin)
-    ymin <- y[1L]
-    ymax <- y[2L]
-  }
   c(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)
 }
 #' @importFrom grDevices dev.size
@@ -139,7 +141,7 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour") {
     window_odim <- c(window[c(1, 3)], (window[2] - window[1])+ 1, (window[4] - window[3]) + 1)
   }
 
-  vals <- vapour::vapour_read_raster(x$source, window = c(window_odim, pulldim[1], pulldim[2]),
+  vals <- vapour::vapour_read_raster(x$source, band = x$raster$band, window = c(window_odim, pulldim[1], pulldim[2]),
                             resample = resample)
   ## TODO clamp values to info$minmax - set NA
   vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
