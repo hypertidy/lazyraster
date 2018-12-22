@@ -2,13 +2,10 @@
 % Please edit documentation in R/lazyraster.R
 \name{lazyraster}
 \alias{lazyraster}
-\alias{lazyraster}
-\alias{as_raster}
-\alias{lazyraster}
 \alias{as_raster}
 \title{Lazy raster}
 \usage{
-lazyraster(gdalsource, sds = NULL)
+lazyraster(gdalsource, band = 1, sds = NULL)
 
 as_raster(x, dim = NULL, resample = "NearestNeighbour")
 
@@ -28,6 +25,14 @@ as_raster(x, dim = NULL, resample = "NearestNeighbour")
 \description{
 Read metadata only from a raster source, for later use with plotting and
 conversion to raster.
+}
+\details{
+If the inferred Y extents appear to be reversed (ymax > ymin) then they are
+reversed, with a warning. This occurs for any GDAL data source that does not have
+a geotransform and so is required for use with raster. This might not be the right interpretation,
+geotransforms are very general and it might mean the data is meant to be oriented that way.
+(I don't know why GDAL sets a positive Y pixel height as the default, it's a bit of a pain -
+should the data be flipped, or should Y be interpreted negative - no way to know!).
 }
 \examples{
 sstfile <- system.file("extdata/sst.tif", package = "vapour")

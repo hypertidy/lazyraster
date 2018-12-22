@@ -7,12 +7,14 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Imports: 
     graphics,
     raster,
     rgdal,
     vapour (>= 0.1.0),
-    methods
+    methods,
+    quadmesh (>= 0.2.0.9005)
 Suggests: 
     palr
+Remotes: hypertidy/quadmesh

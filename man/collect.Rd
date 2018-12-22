@@ -2,7 +2,6 @@
 % Please edit documentation in R/collect.R
 \name{collect}
 \alias{collect}
-\alias{collect}
 \alias{collect.BasicRaster}
 \title{Raster methods for collect}
 \usage{

@@ -2,9 +2,7 @@
 % Please edit documentation in R/lazy-S4-methods.R
 \name{lazyraster-raster-S4}
 \alias{lazyraster-raster-S4}
-\alias{lazyraster-raster-S4}
 \alias{raster_lazyraster}
-\alias{lazyraster-raster-S4}
 \alias{extent_lazyraster}
 \title{Raster methods (S4) for lazyraster.}
 \usage{

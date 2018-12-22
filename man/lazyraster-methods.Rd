@@ -3,7 +3,6 @@
 \name{lazyraster-methods}
 \alias{lazyraster-methods}
 \alias{print.lazyraster}
-\alias{lazyraster-methods}
 \alias{format.lazyraster}
 \title{Lazy raster S3 methods}
 \usage{

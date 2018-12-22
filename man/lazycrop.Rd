@@ -2,7 +2,6 @@
 % Please edit documentation in R/lazyraster.R
 \name{lazycrop}
 \alias{lazycrop}
-\alias{lazycrop}
 \alias{lazycrop.lazyraster}
 \title{Lazy crop}
 \usage{
