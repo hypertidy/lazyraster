@@ -6,9 +6,23 @@
 quadmesh.lazyraster <- function (x, z = x, na.rm = FALSE, ...,
                                  texture = NULL,
                                  texture_filename = NULL)  {
-  r <- as_raster(x, ...)
+  arglist <- list(...)
+  ## deal with a sensible size for web context
+  if (!"dim" %in% names(arglist)) {
+    dim <- grDevices::dev.size("px")
+    if (!is.null(getOption("rgl.useNULL"))) {
+      dim <- dim/4
+    }
+    arglist$dim <- dim
+  }
+  arglist$x <- x
+  if (!"resample" %in% names(arglist)) {
+    arglist$resample <- "NearestNeighbour"
+  }
+  r <- do.call(as_raster, arglist)
   if (inherits(z, "lazyraster")) {
-    z <- as_raster(z, ...)
+    arglist$x <- z
+    z <- do.call(as_raster, arglist)
   }
   quadmesh::quadmesh(r, z = z, na.rm = na.rm,
                      texture = texture,
