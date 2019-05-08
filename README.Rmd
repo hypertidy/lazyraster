@@ -39,6 +39,9 @@ The package can be installed from Github.
 remotes::install_github("hypertidy/lazyraster")
 ```
 
+See [vapour](https://github.com/hypertidy/vapour) for more on the prerequisites. 
+
+
 There are functions `lazyraster` to act like the `raster::raster` function and provide information but no data, and `lazycrop` to act like `raster::crop` and then `as_raster` to break the lazy chain and build an actual raster object. The size of the currently open (or latent-default) device is used as a reasonable size for the output grid, but can be controlled by argument `dim`. 
 
 When the data is read `lazyraster` can specify the exact dimensions of the output raster, and by default a reasonable guess at the number of pixels required to fill the current device is used. 

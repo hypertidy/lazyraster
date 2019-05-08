@@ -23,6 +23,18 @@ source.
 If you are interesed or have problems installing this package please
 just let me know\! It’s still early days and very WIP.
 
+## Installation
+
+The package can be installed from Github.
+
+``` r
+## install.packages("remotes")
+remotes::install_github("hypertidy/lazyraster")
+```
+
+See [vapour](https://github.com/hypertidy/vapour) for more on the
+prerequisites.
+
 There are functions `lazyraster` to act like the `raster::raster`
 function and provide information but no data, and `lazycrop` to act like
 `raster::crop` and then `as_raster` to break the lazy chain and build an
@@ -188,7 +200,7 @@ library(raadtools)
 #>  /rdsi/PRIVATE/raad/data_staging
 #>  /rdsi/PRIVATE/raad/data_deprecated
 #>  /rdsi/PUBLIC/raad/data'
-#> Uploading raad file cache as at 2019-05-08 12:41:15 (959770 files listed)
+#> Uploading raad file cache as at 2019-05-08 13:12:30 (959790 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
 #> class         : LazyRaster
@@ -210,7 +222,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.660   0.091   0.901
+    #>   0.670   0.080   0.879
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
