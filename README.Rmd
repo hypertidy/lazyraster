@@ -6,7 +6,12 @@ editor_options:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis build status](https://travis-ci.org/hypertidy/lazyraster.svg?branch=master)](https://travis-ci.org/hypertidy/lazyraster) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/hypertidy/lazyraster?branch=master&svg=true)](https://ci.appveyor.com/project/hypertidy/lazyraster)  [![CRAN status](https://www.r-pkg.org/badges/version/lazyraster)](https://cran.r-project.org/package=lazyraster) [![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/lazyraster)](https://cran.r-project.org/package=lazyraster)
+[![Travis-CI Build Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&env=BUILD_NAME=xenial_release&label=linux)](https://travis-ci.org/hypertidy/lazyraster)
+[![Build Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&env=BUILD_NAME=osx_release&label=osx)](https://travis-ci.org/hypertidy/lazyraster) 
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hypertidy/lazyraster?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/lazyraster) 
+[![Coverage status](https://codecov.io/gh/hypertidy/lazyraster/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/lazyraster?branch=master)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/lazyraster)](https://cran.r-project.org/package=lazyraster)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/lazyraster)](https://cran.r-project.org/package=lazyraster)
 
  
 ```{r setup, include = FALSE}
@@ -23,6 +28,16 @@ The goal of lazyraster is to get raster data on demand at the right resolution. 
 define a graphics device and then stream just the right amount of pixels to fill it from a GDAL data source.  
 
 If you are interesed or have problems installing this package please just let me know!  It's still early days and very WIP. 
+
+
+## Installation
+
+The package can be installed from Github.
+
+```R
+## install.packages("remotes")
+remotes::install_github("hypertidy/lazyraster")
+```
 
 There are functions `lazyraster` to act like the `raster::raster` function and provide information but no data, and `lazycrop` to act like `raster::crop` and then `as_raster` to break the lazy chain and build an actual raster object. The size of the currently open (or latent-default) device is used as a reasonable size for the output grid, but can be controlled by argument `dim`. 
 
@@ -137,14 +152,33 @@ title("Tasmania topography + bathymetric contours, from Gebco 2014", cex.main = 
 This is not just to plot big rasters, it's potentially useful for streaming gridded data to a device that is resizing the view port interactively. We also use it to explore a data set for useability and general coverage, and designing sensible resampling workflows for very large data models. 
 
 
+
+
+```{r mars}
+## PLEASE take care with this url, it is a 11Gb GeoTIFF
+## https://astrogeology.usgs.gov/search/map/Mars/Topography/HRSC_MOLA_Blend/Mars_HRSC_MOLA_BlendDEM_Global_200mp_v2
+dangerurl <- "https://planetarymaps.usgs.gov/mosaic/Mars/HRSC_MOLA_Blend/Mars_HRSC_MOLA_BlendDEM_Global_200mp_v2.tif"
+## note prefix with GDAL's URL indirection
+mars <- lazyraster(file.path("/vsicurl", dangerurl))
+mars
+plot(mars, col = grey(seq(0, 1, length = 256)))
+as_raster(mars)
+
+plot(lazycrop(mars, raster::extent(-100, -30, -18, 5)), 
+     col = grey(seq(0, 1, length = 256)))
+```
+
+
+
+
 We've successfully used it to plot a DEM of Australia from a 67 Gb ESRI binary grid (ADF) supplied by GeoScience Australia in *a few minutes* (the grid is more than 1e5 pixels each dimension, so I'm not having this document build do the job but here's a figure I prepared earlier). 
 
 
-```{r ga-srtm, eval=TRUE}
+```{r ga-srtm, eval=FALSE}
 gafile <- raadtools::topofile("ga_srtm")
 ga <- lazyraster(gafile)
 ga
-## plot(ga)
+plot(ga)
 ```
 
 ![GeoScience SRTM][im]

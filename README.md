@@ -1,57 +1,103 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-lazyraster
-==========
 
-The goal of lazyraster is to get raster data on demand at the right resolution. This means that you can define a graphics device and then stream just the right amount of pixels to fill it from a GDAL data source.
+[![Travis-CI Build
+Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&env=BUILD_NAME=xenial_release&label=linux)](https://travis-ci.org/hypertidy/lazyraster)
+[![Build
+Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&env=BUILD_NAME=osx_release&label=osx)](https://travis-ci.org/hypertidy/lazyraster)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/hypertidy/lazyraster?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/lazyraster)
+[![Coverage
+status](https://codecov.io/gh/hypertidy/lazyraster/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/lazyraster?branch=master)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/lazyraster)](https://cran.r-project.org/package=lazyraster)
+[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/lazyraster)](https://cran.r-project.org/package=lazyraster)
 
-If you are interesed or have problems installing this package please just let me know! It's still early days and very WIP.
+# lazyraster
 
-There are functions `lazyraster` to act like the `raster::raster` function and provide information but no data, and `lazycrop` to act like `raster::crop` and then `as_raster` to break the lazy chain and build an actual raster object. The size of the currently open (or latent-default) device is used as a reasonable size for the output grid, but can be controlled by argument `dim`.
+The goal of lazyraster is to get raster data on demand at the right
+resolution. This means that you can define a graphics device and then
+stream just the right amount of pixels to fill it from a GDAL data
+source.
 
-When the data is read `lazyraster` can specify the exact dimensions of the output raster, and by default a reasonable guess at the number of pixels required to fill the current device is used.
+If you are interesed or have problems installing this package please
+just let me know\! It’s still early days and very WIP.
 
-A variety of resampling algorithms are available (nearest neighbour is the default, [see this list for more](https://github.com/hypertidy/vapour/blob/master/R/raster-input.R#L9)) and will be applied to reduce or increase the resolution.
+There are functions `lazyraster` to act like the `raster::raster`
+function and provide information but no data, and `lazycrop` to act like
+`raster::crop` and then `as_raster` to break the lazy chain and build an
+actual raster object. The size of the currently open (or latent-default)
+device is used as a reasonable size for the output grid, but can be
+controlled by argument `dim`.
 
-Limitations
------------
+When the data is read `lazyraster` can specify the exact dimensions of
+the output raster, and by default a reasonable guess at the number of
+pixels required to fill the current device is used.
 
-We can't utilize the RasterIO level-of-detail functionality for non-GDAL sources.
+A variety of resampling algorithms are available (nearest neighbour is
+the default, [see this list for
+more](https://github.com/hypertidy/vapour/blob/master/R/raster-input.R#L9))
+and will be applied to reduce or increase the resolution.
+
+## Limitations
+
+We can’t utilize the RasterIO level-of-detail functionality for non-GDAL
+sources.
 
 We can only read the first band.
 
-The only really useable output is a raster layer. You cannot yet specify that return is at native resolution WIP.
+The only really useable output is a raster layer. You cannot yet specify
+that return is at native resolution WIP.
 
-We can't control the details of the data type.
+We can’t control the details of the data type.
 
-The projection string is not coming through properly, this is a problem in vapour.
+The projection string is not coming through properly, this is a problem
+in vapour.
 
-The plot-size logic should work on the current "usr" world coordinates, not the size of the device (if it's different).
+The plot-size logic should work on the current “usr” world coordinates,
+not the size of the device (if it’s different).
 
-The vapour package isn't yet on CRAN.
+The vapour package isn’t yet on CRAN.
 
 Subdataset support is very new and needs checking.
 
-Using online sources is not easy, it needs a particular GDAL connection string to work properly.
+Using online sources is not easy, it needs a particular GDAL connection
+string to work properly.
 
-GDAL
-----
+## GDAL
 
-This uses a standard internal functionality of GDAL, the [RasterIO function of the GDALRasterBand](http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1). This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven't found any problems with it at all using it in R, but the support for it is very minimal. You can access it indirectly using `rgdal::readGDAL` for the underlying function, as the `raster` package does.
+This uses a standard internal functionality of GDAL, the [RasterIO
+function of the
+GDALRasterBand](http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1).
+This is used in a lot of different software, and is obviously pretty
+robust and well tested by the GDAL community, but I only really have
+experience with one product (commercial, now defunct) that used it
+extensively for live interactive visualization and data streaming. I
+haven’t found any problems with it at all using it in R, but the support
+for it is very minimal. You can access it indirectly using
+`rgdal::readGDAL` for the underlying function, as the `raster` package
+does.
 
-vapour
-------
+## vapour
 
-To make this work we use the GDAL package [vapour](https://github.com/hypertidy/vapour). All of the ease-of-use code is in this package, `vapour` is pointedly bare-bones and provides very little interpretation of a data source because it is designed for use in development.
+To make this work we use the GDAL package
+[vapour](https://github.com/hypertidy/vapour). All of the ease-of-use
+code is in this package, `vapour` is pointedly bare-bones and provides
+very little interpretation of a data source because it is designed for
+use in development.
 
-Example
--------
+## Example
 
-Connect lazily to a GeoTIFF, see details of what's there, crop to a section and then read it in and plot.
+Connect lazily to a GeoTIFF, see details of what’s there, crop to a
+section and then read it in and plot.
 
-This is not a huge file, but is easily accessible and demonstrates the idea.
+This is not a huge file, but is easily accessible and demonstrates the
+idea.
 
-First we connect to a source and show two versions, the first is information about the data in its native form (286 rows and 143 columns), and then an actual RasterLayer but at a very small requested size (24 rows by 12 columns).
+First we connect to a source and show two versions, the first is
+information about the data in its native form (286 rows and 143
+columns), and then an actual RasterLayer but at a very small requested
+size (24 rows by 12 columns).
 
 ``` r
 sstfile <- system.file("extdata/sst.tif", package = "vapour")
@@ -63,7 +109,7 @@ lazy ## stay lazy
 #> resolution    : 0.07000000, 0.07000389 (x, y)
 #> extent        : 140.00000, 150.01000, -60.01833, -39.99722 (xmin, xmax, ymin, ymax)
 #> crs           : <placeholder>
-#> values        : 271.3500, 289.8590 (min, max - range from entire extent)
+#> values        : NA, NA (min, max - range from entire extent)
 #> window extent : <whole extent>
 #> window index  : <->
 
@@ -76,12 +122,16 @@ as_raster(lazy, dim = c(12, 24))
 #> coord. ref. : NA 
 #> data source : in memory
 #> names       : layer 
-#> values      : 271.602, 289.478  (min, max)
+#> values      : -3.4e+38, 289.478  (min, max)
 ```
 
-The call to `as_raster` read actual data from the file, hence the difference between the range of data values reported first from the whole extent, and then reported by raster itself for the resample data read in.
+The call to `as_raster` read actual data from the file, hence the
+difference between the range of data values reported first from the
+whole extent, and then reported by raster itself for the resample data
+read in.
 
-Now let `lazyraster` make its own choice about the size of the output. This will be based on the return value of `dev.size("px")`.
+Now let `lazyraster` make its own choice about the size of the output.
+This will be based on the return value of `dev.size("px")`.
 
 ``` r
 ## note how we actually resample up because this data is not very large
@@ -93,10 +143,12 @@ as_raster(lazy)
 #> coord. ref. : NA 
 #> data source : in memory
 #> names       : layer 
-#> values      : 271.35, 289.843  (min, max)
+#> values      : -3.4e+38, 289.859  (min, max)
 ```
 
-More concretely, if we open a graphics device at a given size the raster data read in will match it. (This is not the best choice but works fine for demonstration and experimenting.)
+More concretely, if we open a graphics device at a given size the raster
+data read in will match it. (This is not the best choice but works fine
+for demonstration and experimenting.)
 
 ``` r
 ## what do we get if we set up a bitmap device
@@ -110,7 +162,7 @@ as_raster(lazy)
 #> coord. ref. : NA 
 #> data source : in memory
 #> names       : layer 
-#> values      : 271.41, 289.815  (min, max)
+#> values      : -3.4e+38, 289.815  (min, max)
 #plot(as_raster(lazy))
 dev.off()
 #> png 
@@ -120,14 +172,23 @@ unlink(tf)
 
 This will work on really big files.
 
-(This example can't work on your computer probably given use of local raadtools, but try it on your favourite big file).
+(This example can’t work on your computer probably given use of local
+raadtools, but try it on your favourite big file).
 
-This takes a fairly large grid and plots just enough detail by reading just enough detail for the plot space. That's all that happens.
+This takes a fairly large grid and plots just enough detail by reading
+just enough detail for the plot space. That’s all that happens.
 
 ``` r
 library(raadtools)
 #> Loading required package: raster
 #> Loading required package: sp
+#> global option 'raadfiles.data.roots' set:
+#> '/rdsi/PRIVATE/raad/data
+#>  /rdsi/PRIVATE/raad/data_local
+#>  /rdsi/PRIVATE/raad/data_staging
+#>  /rdsi/PRIVATE/raad/data_deprecated
+#>  /rdsi/PUBLIC/raad/data'
+#> Uploading raad file cache as at 2019-05-08 12:41:15 (959770 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
 #> class         : LazyRaster
@@ -135,7 +196,7 @@ lazyraster(f)
 #> resolution    : 0.008333333, 0.008333333 (x, y)
 #> extent        : -180.0000,  180.0000,  -90.0000,   90.0000 (xmin, xmax, ymin, ymax)
 #> crs           : <placeholder>
-#> values        : -10486.0000,   7729.0000 (min, max - range from entire extent)
+#> values        : NA, NA (min, max - range from entire extent)
 #> window extent : <whole extent>
 #> window index  : <->
 library(raster)
@@ -149,10 +210,11 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.852   0.264  19.037
+    #>   0.660   0.091   0.901
     par(op)
 
-Now, plot the same kind of image but zoom in on a region purposefully. The resolution provided has adapted to the context asked for.
+Now, plot the same kind of image but zoom in on a region purposefully.
+The resolution provided has adapted to the context asked for.
 
 ``` r
 rtas <- lazycrop(rworld, extent(143.4, 149, -44, -39.1))
@@ -165,26 +227,61 @@ title("Tasmania topography + bathymetric contours, from Gebco 2014", cex.main = 
 
 <img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
 
-How useful is this, really?
----------------------------
+## How useful is this, really?
 
-This is not just to plot big rasters, it's potentially useful for streaming gridded data to a device that is resizing the view port interactively. We also use it to explore a data set for useability and general coverage, and designing sensible resampling workflows for very large data models.
+This is not just to plot big rasters, it’s potentially useful for
+streaming gridded data to a device that is resizing the view port
+interactively. We also use it to explore a data set for useability and
+general coverage, and designing sensible resampling workflows for very
+large data models.
 
-We've successfully used it to plot a DEM of Australia from a 67 Gb ESRI binary grid (ADF) supplied by GeoScience Australia in *a few minutes* (the grid is more than 1e5 pixels each dimension, so I'm not having this document build do the job but here's a figure I prepared earlier).
+``` r
+## PLEASE take care with this url, it is a 11Gb GeoTIFF
+## https://astrogeology.usgs.gov/search/map/Mars/Topography/HRSC_MOLA_Blend/Mars_HRSC_MOLA_BlendDEM_Global_200mp_v2
+dangerurl <- "https://planetarymaps.usgs.gov/mosaic/Mars/HRSC_MOLA_Blend/Mars_HRSC_MOLA_BlendDEM_Global_200mp_v2.tif"
+## note prefix with GDAL's URL indirection
+mars <- lazyraster(file.path("/vsicurl", dangerurl))
+mars
+#> class         : LazyRaster
+#> dimensions    : 53347, 106694 (nrow, ncol)
+#> resolution    : 0.003374121, 0.003374121 (x, y)
+#> extent        : -180.00000,  179.99845,  -89.99922,   90.00000 (xmin, xmax, ymin, ymax)
+#> crs           : <placeholder>
+#> values        : NA, NA (min, max - range from entire extent)
+#> window extent : <whole extent>
+#> window index  : <->
+plot(mars, col = grey(seq(0, 1, length = 256)))
+```
+
+<img src="man/figures/README-mars-1.png" width="100%" />
+
+``` r
+as_raster(mars)
+#> class       : RasterLayer 
+#> dimensions  : 480, 672, 322560  (nrow, ncol, ncell)
+#> resolution  : 0.535712, 0.3749984  (x, y)
+#> extent      : -180, 179.9984, -89.99922, 90  (xmin, xmax, ymin, ymax)
+#> coord. ref. : NA 
+#> data source : in memory
+#> names       : layer 
+#> values      : -7716, 20910  (min, max)
+
+plot(lazycrop(mars, raster::extent(-100, -30, -18, 5)), 
+     col = grey(seq(0, 1, length = 256)))
+```
+
+<img src="man/figures/README-mars-2.png" width="100%" />
+
+We’ve successfully used it to plot a DEM of Australia from a 67 Gb ESRI
+binary grid (ADF) supplied by GeoScience Australia in *a few minutes*
+(the grid is more than 1e5 pixels each dimension, so I’m not having this
+document build do the job but here’s a figure I prepared earlier).
 
 ``` r
 gafile <- raadtools::topofile("ga_srtm")
 ga <- lazyraster(gafile)
 ga
-#> class         : LazyRaster
-#> dimensions    : 122400, 147600 (nrow, ncol)
-#> resolution    : 0.0002777778, 0.0002777778 (x, y)
-#> extent        : 112.99986, 153.99986, -44.00014, -10.00014 (xmin, xmax, ymin, ymax)
-#> crs           : <placeholder>
-#> values        :  -68.05186, 2223.24780 (min, max - range from entire extent)
-#> window extent : <whole extent>
-#> window index  : <->
-## plot(ga)
+plot(ga)
 ```
 
 ![GeoScience SRTM](inst/images/ga_srtm.png "GeoScience SRTM")
@@ -240,4 +337,6 @@ plot(as_raster(lazycrop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), 
 
 <img src="man/figures/README-tms-2.png" width="100%" />
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of
+Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
+to abide by its terms.

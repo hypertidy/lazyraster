@@ -84,16 +84,16 @@ lazy_to_raster <- function(x, dim = NULL) {
 #' @inheritParams raster::crop
 #' @export
 #' @name lazycrop
-lazycrop <- function(x, y, ...) {
+lazycrop <- function(x, y, ..., verbose = FALSE) {
   UseMethod("lazycrop")
 }
-lazycrop.BasicRaster <- function(x, y, ...) {
+lazycrop.BasicRaster <- function(x, y, ..., verbose = FALSE) {
   ## hmm, what if there's no file, we end up with
   ## carrying around the original data?
 }
 #' @export
 #' @name lazycrop
-lazycrop.lazyraster <- function(x, y, ...) {
+lazycrop.lazyraster <- function(x, y, ..., verbose = FALSE) {
   ex <- extent(y)
   ## make sure our window extent reflects the parent
   rx <- lazy_to_raster(x)
@@ -110,6 +110,7 @@ lazycrop.lazyraster <- function(x, y, ...) {
 
   x$window <- list(window = c(col1 - 1, col2 - 1, row1 - 1, row2 - 1),
                    windowextent = c(ex@xmin, ex@xmax, ex@ymin, ex@ymax))
+  if (verbose) print(x$window)
   x
 }
 

@@ -5,9 +5,9 @@
 \alias{lazycrop.lazyraster}
 \title{Lazy crop}
 \usage{
-lazycrop(x, y, ...)
+lazycrop(x, y, ..., verbose = FALSE)
 
-\method{lazycrop}{lazyraster}(x, y, ...)
+\method{lazycrop}{lazyraster}(x, y, ..., verbose = FALSE)
 }
 \arguments{
 \item{x}{Raster* object or SpatialPolygons*, SpatialLines*, or SpatialPoints* object}

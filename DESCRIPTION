@@ -1,5 +1,5 @@
 Package: lazyraster
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Title: Generate Raster Data Lazily from 'GDAL' 
 Description: Read raster data at a required resolution on-demand. 
 Authors@R: person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"))
@@ -12,9 +12,10 @@ Imports:
     graphics,
     raster,
     rgdal,
-    vapour (>= 0.1.0),
+    vapour (>= 0.2.0),
     methods,
-    quadmesh (>= 0.2.0.9005)
+    quadmesh (>= 0.4.0)
 Suggests: 
     palr
-Remotes: hypertidy/quadmesh
+URL: https://github.com/hypertidy/lazyraster
+BugReports: https://github.com/hypertidy/lazyraster/issues
