@@ -3,7 +3,7 @@
 #' Print and format for lazyraster.
 #' @name lazyraster-methods
 #' @export
-#' @usage \\method{print}{lazyraster}(x, ...)
+#' @usage \method{print}{lazyraster}(x, ...)
 #' @examples
 #' fl <- system.file("images/ga_srtm.png", package = "lazyraster")
 #' print(lazyraster(fl))
@@ -14,7 +14,7 @@ print.lazyraster <- function(x, ...) {
 }
 
 #' @name lazyraster-methods
-#' @usage \\method{format}{lazyraster}(x, ...)
+#' @usage \method{format}{lazyraster}(x, ...)
 #' @export
 #' @export
 format.lazyraster <- function(x, ...) {
@@ -57,7 +57,7 @@ format.lazyraster <- function(x, ...) {
 #' @importFrom graphics plot
 #' @export plot
 #' @rawNamespace S3method(plot,lazyraster)
-#' @usage \\method{plot}{lazyraster}(x, y, ...)
+#' @usage \method{plot}{lazyraster}(x, y, ...)
 #' @name lazyraster-methods
 #' @export
 plot.lazyraster <- function(x, y, ...) {

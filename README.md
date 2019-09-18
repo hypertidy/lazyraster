@@ -9,7 +9,7 @@ Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&en
 Status](https://ci.appveyor.com/api/projects/status/github/hypertidy/lazyraster?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/lazyraster)
 [![Coverage
 status](https://codecov.io/gh/hypertidy/lazyraster/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/lazyraster?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/lazyraster)](https://cran.r-project.org/package=lazyraster)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/lazyraster)](https://cran.r-project.org/package=lazyraster)
 
@@ -127,14 +127,14 @@ lazy ## stay lazy
 
 ## be only so lazy
 as_raster(lazy, dim = c(12, 24))
-#> class       : RasterLayer 
-#> dimensions  : 24, 12, 288  (nrow, ncol, ncell)
-#> resolution  : 0.8341667, 0.834213  (x, y)
-#> extent      : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
-#> coord. ref. : NA 
-#> data source : in memory
-#> names       : layer 
-#> values      : -3.4e+38, 289.478  (min, max)
+#> class      : RasterLayer 
+#> dimensions : 24, 12, 288  (nrow, ncol, ncell)
+#> resolution : 0.8341667, 0.834213  (x, y)
+#> extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
+#> crs        : NA 
+#> source     : memory
+#> names      : layer 
+#> values     : -3.4e+38, 289.478  (min, max)
 ```
 
 The call to `as_raster` read actual data from the file, hence the
@@ -148,14 +148,14 @@ This will be based on the return value of `dev.size("px")`.
 ``` r
 ## note how we actually resample up because this data is not very large
 as_raster(lazy)
-#> class       : RasterLayer 
-#> dimensions  : 480, 672, 322560  (nrow, ncol, ncell)
-#> resolution  : 0.01489583, 0.04171065  (x, y)
-#> extent      : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
-#> coord. ref. : NA 
-#> data source : in memory
-#> names       : layer 
-#> values      : -3.4e+38, 289.859  (min, max)
+#> class      : RasterLayer 
+#> dimensions : 480, 672, 322560  (nrow, ncol, ncell)
+#> resolution : 0.01489583, 0.04171065  (x, y)
+#> extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
+#> crs        : NA 
+#> source     : memory
+#> names      : layer 
+#> values     : -3.4e+38, 289.859  (min, max)
 ```
 
 More concretely, if we open a graphics device at a given size the raster
@@ -167,14 +167,14 @@ for demonstration and experimenting.)
 tf <- tempfile(fileext = "png")
 png(tf, height = 50, width = 40)
 as_raster(lazy)
-#> class       : RasterLayer 
-#> dimensions  : 50, 40, 2000  (nrow, ncol, ncell)
-#> resolution  : 0.25025, 0.4004222  (x, y)
-#> extent      : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
-#> coord. ref. : NA 
-#> data source : in memory
-#> names       : layer 
-#> values      : -3.4e+38, 289.815  (min, max)
+#> class      : RasterLayer 
+#> dimensions : 50, 40, 2000  (nrow, ncol, ncell)
+#> resolution : 0.25025, 0.4004222  (x, y)
+#> extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
+#> crs        : NA 
+#> source     : memory
+#> names      : layer 
+#> values     : -3.4e+38, 289.815  (min, max)
 #plot(as_raster(lazy))
 dev.off()
 #> png 
@@ -195,12 +195,12 @@ library(raadtools)
 #> Loading required package: raster
 #> Loading required package: sp
 #> global option 'raadfiles.data.roots' set:
-#> '/rdsi/PRIVATE/raad/data
-#>  /rdsi/PRIVATE/raad/data_local
-#>  /rdsi/PRIVATE/raad/data_staging
-#>  /rdsi/PRIVATE/raad/data_deprecated
-#>  /rdsi/PUBLIC/raad/data'
-#> Uploading raad file cache as at 2019-05-08 13:12:30 (959790 files listed)
+#> '/rdsi/PRIVATE/raad/data               2019-09-18 22:35:13
+#>  /rdsi/PRIVATE/raad/data_local         2019-09-18 22:39:53
+#>  /rdsi/PRIVATE/raad/data_staging       2019-09-18 22:39:54
+#>  /rdsi/PRIVATE/raad/data_deprecated    2019-09-18 22:42:44
+#>  /rdsi/PUBLIC/raad/data                2019-09-18 22:54:34'
+#> Uploading raad file cache as at 2019-09-18 23:08:03 (1012611 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
 #> class         : LazyRaster
@@ -222,7 +222,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.670   0.080   0.879
+    #>   0.695   0.163  21.221
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
@@ -269,14 +269,14 @@ plot(mars, col = grey(seq(0, 1, length = 256)))
 
 ``` r
 as_raster(mars)
-#> class       : RasterLayer 
-#> dimensions  : 480, 672, 322560  (nrow, ncol, ncell)
-#> resolution  : 0.535712, 0.3749984  (x, y)
-#> extent      : -180, 179.9984, -89.99922, 90  (xmin, xmax, ymin, ymax)
-#> coord. ref. : NA 
-#> data source : in memory
-#> names       : layer 
-#> values      : -7716, 20910  (min, max)
+#> class      : RasterLayer 
+#> dimensions : 480, 672, 322560  (nrow, ncol, ncell)
+#> resolution : 0.535712, 0.3749984  (x, y)
+#> extent     : -180, 179.9984, -89.99922, 90  (xmin, xmax, ymin, ymax)
+#> crs        : NA 
+#> source     : memory
+#> names      : layer 
+#> values     : -7716, 20910  (min, max)
 
 plot(lazycrop(mars, raster::extent(-100, -30, -18, 5)), 
      col = grey(seq(0, 1, length = 256)))

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lazy raster S3 methods — lazyraster-methods • lazyraster</title>
+<title>lazyraster: Generate Raster Data Lazily from 'GDAL' — lazyraster-package • lazyraster</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,13 @@
 
 
 
-<meta property="og:title" content="Lazy raster S3 methods — lazyraster-methods" />
-<meta property="og:description" content="Print and format for lazyraster.
-Plot for lazyraster, data pulled on-demand at a reasonable level-of-detail." />
+<meta property="og:title" content="lazyraster: Generate Raster Data Lazily from 'GDAL' — lazyraster-package" />
+<meta property="og:description" content="Read raster data at a specified resolution on-demand. Augments
+ the 'raster' package by never reading data from a 'GDAL' source until absolutely
+ necessary for generating an in-memory 'raster' object. A lazyraster object
+ may be cropped and turned into a 'raster' object, and by default will only 
+ read a small amount of data sufficient for a an overall summary. The amount 
+ of data read can be controlled by specifying the output dimensions." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,66 +113,40 @@ Plot for lazyraster, data pulled on-demand at a reasonable level-of-detail." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Lazy raster S3 methods</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hypertidy/lazyraster/blob/master/R/lazy-methods.R'><code>R/lazy-methods.R</code></a></small>
-    <div class="hidden name"><code>lazyraster-methods.Rd</code></div>
+    <h1>lazyraster: Generate Raster Data Lazily from 'GDAL'</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hypertidy/lazyraster/blob/master/R/lazyraster-package.R'><code>R/lazyraster-package.R</code></a></small>
+    <div class="hidden name"><code>lazyraster-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Print and format for lazyraster.</p>
-<p>Plot for lazyraster, data pulled on-demand at a reasonable level-of-detail.</p>
+    <p>Read raster data at a specified resolution on-demand. Augments
+ the 'raster' package by never reading data from a 'GDAL' source until absolutely
+ necessary for generating an in-memory 'raster' object. A lazyraster object
+ may be cropped and turned into a 'raster' object, and by default will only 
+ read a small amount of data sufficient for a an overall summary. The amount 
+ of data read can be controlled by specifying the output dimensions.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for lazyraster</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for lazyraster</span>
-<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='co'># S3 method for lazyraster</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>)</pre>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>a [lazyraster]</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>passed to [raster::plot]</p></td>
-    </tr>
-    <tr>
-      <th>y</th>
-      <td><p>ignored</p></td>
-    </tr>
-    </table>
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://github.com/hypertidy/lazyraster'>https://github.com/hypertidy/lazyraster</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/hypertidy/lazyraster/issues'>https://github.com/hypertidy/lazyraster/issues</a></p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+</div>
 
-    <p>Data is pulled from the GDAL source at a resolution suited for
-the currently open graphics device.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>fl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"images/ga_srtm.png"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"lazyraster"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='lazyraster.html'>lazyraster</a></span>(<span class='no'>fl</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: ymin is greater than ymax, switching</span></div><div class='output co'>#&gt; class         : LazyRaster
-#&gt; dimensions    : 652, 753 (nrow, ncol)
-#&gt; resolution    : 1.0000, 1.0000 (x, y)
-#&gt; extent        :   0.0000, 753.0000,   0.0000, 652.0000 (xmin, xmax, ymin, ymax)
-#&gt; crs           : &lt;placeholder&gt;
-#&gt; values        : NA, NA (min, max - range from entire extent)
-#&gt; window extent : &lt;whole extent&gt;
-#&gt; window index  : &lt;-&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='lazyraster.html'>lazyraster</a></span>(<span class='no'>fl</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: ymin is greater than ymax, switching</span></div><div class='img'><img src='lazyraster-methods-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p><strong>Maintainer</strong>: Michael Sumner <a href='mailto:mdsumner@gmail.com'>mdsumner@gmail.com</a></p>
   </div>
 </div>
 

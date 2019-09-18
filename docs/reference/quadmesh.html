@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lazy raster S3 methods — lazyraster-methods • lazyraster</title>
+<title>Quadmesh for lazyrasters — quadmesh • lazyraster</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,8 @@
 
 
 
-<meta property="og:title" content="Lazy raster S3 methods — lazyraster-methods" />
-<meta property="og:description" content="Print and format for lazyraster.
-Plot for lazyraster, data pulled on-demand at a reasonable level-of-detail." />
+<meta property="og:title" content="Quadmesh for lazyrasters — quadmesh" />
+<meta property="og:description" content="Provides a re-exported generic quadmesh and a method for lazyraster." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,64 +108,59 @@ Plot for lazyraster, data pulled on-demand at a reasonable level-of-detail." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Lazy raster S3 methods</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hypertidy/lazyraster/blob/master/R/lazy-methods.R'><code>R/lazy-methods.R</code></a></small>
-    <div class="hidden name"><code>lazyraster-methods.Rd</code></div>
+    <h1>Quadmesh for lazyrasters</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hypertidy/lazyraster/blob/master/R/quadmesh.R'><code>R/quadmesh.R</code></a></small>
+    <div class="hidden name"><code>quadmesh.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Print and format for lazyraster.</p>
-<p>Plot for lazyraster, data pulled on-demand at a reasonable level-of-detail.</p>
+    <p>Provides a re-exported generic quadmesh and a method for lazyraster.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for lazyraster</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for lazyraster</span>
-<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for lazyraster</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>quadmesh</span>(<span class='no'>x</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>,
+  <span class='kw'>texture</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>texture_filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a [lazyraster]</p></td>
+      <td><p>raster object for mesh structure</p></td>
+    </tr>
+    <tr>
+      <th>z</th>
+      <td><p>raster object for height values</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>remove quads where missing values?</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>passed to [raster::plot]</p></td>
+      <td><p>arguments passed to as_raster, for both `x` and `z` if necessary</p></td>
     </tr>
     <tr>
-      <th>y</th>
-      <td><p>ignored</p></td>
+      <th>texture</th>
+      <td><p>optional input RGB raster, 3-layers</p></td>
+    </tr>
+    <tr>
+      <th>texture_filename</th>
+      <td><p>optional input file path for PNG texture</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Data is pulled from the GDAL source at a resolution suited for
-the currently open graphics device.</p>
+    <p>A quadmesh is a [rgl::mesh3d] extension, and can be plotted in 3D
+with [rgl::shade3d].</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>fl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"images/ga_srtm.png"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"lazyraster"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='lazyraster.html'>lazyraster</a></span>(<span class='no'>fl</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: ymin is greater than ymax, switching</span></div><div class='output co'>#&gt; class         : LazyRaster
-#&gt; dimensions    : 652, 753 (nrow, ncol)
-#&gt; resolution    : 1.0000, 1.0000 (x, y)
-#&gt; extent        :   0.0000, 753.0000,   0.0000, 652.0000 (xmin, xmax, ymin, ymax)
-#&gt; crs           : &lt;placeholder&gt;
-#&gt; values        : NA, NA (min, max - range from entire extent)
-#&gt; window extent : &lt;whole extent&gt;
-#&gt; window index  : &lt;-&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='lazyraster.html'>lazyraster</a></span>(<span class='no'>fl</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: ymin is greater than ymax, switching</span></div><div class='img'><img src='lazyraster-methods-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

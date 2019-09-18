@@ -7,11 +7,11 @@
 \alias{plot.lazyraster}
 \title{Lazy raster S3 methods}
 \usage{
-\\method{print}{lazyraster}(x, ...)
+\method{print}{lazyraster}(x, ...)
 
-\\method{format}{lazyraster}(x, ...)
+\method{format}{lazyraster}(x, ...)
 
-\\method{plot}{lazyraster}(x, y, ...)
+\method{plot}{lazyraster}(x, y, ...)
 }
 \arguments{
 \item{x}{a [lazyraster]}
