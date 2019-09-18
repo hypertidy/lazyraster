@@ -4,17 +4,33 @@
 \alias{lazyraster-methods}
 \alias{print.lazyraster}
 \alias{format.lazyraster}
+\alias{plot.lazyraster}
 \title{Lazy raster S3 methods}
 \usage{
-\method{print}{lazyraster}(x, ...)
+\\method{print}{lazyraster}(x, ...)
 
-\method{format}{lazyraster}(x, ...)
+\\method{format}{lazyraster}(x, ...)
+
+\\method{plot}{lazyraster}(x, y, ...)
 }
 \arguments{
-\item{x}{a `lazyraster`}
+\item{x}{a [lazyraster]}
 
-\item{...}{reserved}
+\item{...}{passed to [raster::plot]}
+
+\item{y}{ignored}
 }
 \description{
 Print and format for lazyraster.
+
+Plot for lazyraster, data pulled on-demand at a reasonable level-of-detail.
+}
+\details{
+Data is pulled from the GDAL source at a resolution suited for
+the currently open graphics device.
+}
+\examples{
+fl <- system.file("images/ga_srtm.png", package = "lazyraster")
+print(lazyraster(fl))
+plot(lazyraster(fl))
 }

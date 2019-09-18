@@ -15,6 +15,8 @@ lazycrop(x, y, ..., verbose = FALSE)
 \item{y}{Extent object, or any object from which an Extent object can be extracted (see Details)}
 
 \item{...}{Additional arguments as for \code{\link{writeRaster}}}
+
+\item{verbose}{print extra information or not}
 }
 \description{
 Set an active window of data that will be pulled by conversion

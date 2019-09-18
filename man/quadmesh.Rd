@@ -24,3 +24,7 @@
 \description{
 Provides a re-exported generic quadmesh and a method for lazyraster.
 }
+\details{
+A quadmesh is a [rgl::mesh3d] extension, and can be plotted in 3D
+with [rgl::shade3d].
+}

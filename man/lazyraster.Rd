@@ -5,26 +5,31 @@
 \alias{as_raster}
 \title{Lazy raster}
 \usage{
-lazyraster(gdalsource, band = 1, sds = NULL)
-
-as_raster(x, dim = NULL, resample = "NearestNeighbour")
+lazyraster(gdalsource, band = 1, sds = NULL, ...)
 
 as_raster(x, dim = NULL, resample = "NearestNeighbour")
 }
 \arguments{
 \item{gdalsource}{a file name or other source string}
 
+\item{band}{which band to use, defaults to 1}
+
 \item{sds}{which subdataset to use, set to 1 if in doubt (see `vapour::vapour_sds_names`)}
 
-\item{x}{a lazyraster}
+\item{...}{ignored for now}
 
-\item{dim}{dimensions of data to return}
+\item{x}{a [lazyraster]}
 
-\item{resample}{resample method to use, see `vapour::raster_io`}
+\item{dim}{dimensions, pixel size in rows and columns}
+
+\item{resample}{resampling method, see [vapour::vapour_read_raster]}
 }
 \description{
 Read metadata only from a raster source, for later use with plotting and
 conversion to raster.
+
+Create a actual [raster::raster] object by breaking the lazy
+contract and demanding pixel values at a given resolution.
 }
 \details{
 If the inferred Y extents appear to be reversed (ymax > ymin) then they are
@@ -33,6 +38,9 @@ a geotransform and so is required for use with raster. This might not be the rig
 geotransforms are very general and it might mean the data is meant to be oriented that way.
 (I don't know why GDAL sets a positive Y pixel height as the default, it's a bit of a pain -
 should the data be flipped, or should Y be interpreted negative - no way to know!).
+
+Control the dimensions and method for resampling with the 'dim' and
+'resample' arguments.
 }
 \examples{
 sstfile <- system.file("extdata/sst.tif", package = "vapour")

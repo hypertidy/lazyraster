@@ -9,18 +9,19 @@
 #' geotransforms are very general and it might mean the data is meant to be oriented that way.
 #' (I don't know why GDAL sets a positive Y pixel height as the default, it's a bit of a pain -
 #' should the data be flipped, or should Y be interpreted negative - no way to know!).
+#'
 #' @param gdalsource a file name or other source string
-#' @param x a lazyraster
-#' @param dim dimensions of data to return
-#' @param resample resample method to use, see `vapour::raster_io`
+#' @param band which band to use, defaults to 1
 #' @param sds which subdataset to use, set to 1 if in doubt (see `vapour::vapour_sds_names`)
+#' @param ... ignored for now
+#'
 #' @export
 #' @examples
 #' sstfile <- system.file("extdata/sst.tif", package = "vapour")
 #' lazyraster(sstfile)
 #' as_raster(lazyraster(sstfile))
 #' as_raster(lazycrop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
-lazyraster <- function(gdalsource, band = 1, sds = NULL) {
+lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
   vars <- as.data.frame(vapour::vapour_sds_names(gdalsource), stringsAsFactors = FALSE)
   if (is.null(sds)) sds <- 1
   stopifnot(sds > 0)
@@ -46,14 +47,25 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL) {
                  window = list(window = NULL, windowextent = NULL),
                  raster = raster), class = "lazyraster")
 }
-#' @name lazyraster
-#' @export
-as_raster <- function(x, ...) {
-  UseMethod("as_raster")
-}
+#' Convert to in-memory raster
+#'
+#' Create a actual [raster::raster] object by breaking the lazy
+#' contract and demanding pixel values at a given resolution.
+#'
+#' Control the dimensions and method for resampling with the 'dim' and
+#' 'resample' arguments.
+#'
+#' @param x a [lazyraster]
+#' @param dim dimensions, pixel size in rows and columns
+#' @param resample resampling method, see [vapour::vapour_read_raster]
+#'
 #' @name lazyraster
 #' @export
 as_raster <- function(x, dim = NULL, resample = "NearestNeighbour") {
+  UseMethod("as_raster")
+}
+#' @export
+as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour") {
   pull_lazyraster(x, pulldim = dim, resample = resample)
 }
 
@@ -82,6 +94,7 @@ lazy_to_raster <- function(x, dim = NULL) {
 #' Set an active window of data that will be pulled by conversion
 #' to an actual raster.
 #' @inheritParams raster::crop
+#' @param verbose print extra information or not
 #' @export
 #' @name lazycrop
 lazycrop <- function(x, y, ..., verbose = FALSE) {
@@ -90,6 +103,13 @@ lazycrop <- function(x, y, ..., verbose = FALSE) {
 lazycrop.BasicRaster <- function(x, y, ..., verbose = FALSE) {
   ## hmm, what if there's no file, we end up with
   ## carrying around the original data?
+  fn <- raster::filename(x)
+  if (fn != "") {
+    out <- lazycrop(lazyraster(fn), y = y, verbose= verbose, ...)
+  } else {
+    stop("no file behind this raster object")
+  }
+  out
 }
 #' @export
 #' @name lazycrop

@@ -1,16 +1,21 @@
 #' Lazy raster S3 methods
 #'
 #' Print and format for lazyraster.
-#' @param x a `lazyraster`
-#' @param ... reserved
 #' @name lazyraster-methods
 #' @export
+#' @usage \\method{print}{lazyraster}(x, ...)
+#' @examples
+#' fl <- system.file("images/ga_srtm.png", package = "lazyraster")
+#' print(lazyraster(fl))
+#' plot(lazyraster(fl))
 print.lazyraster <- function(x, ...) {
   junk <- lapply(format(x), cat)
   invisible(x)
 }
 
 #' @name lazyraster-methods
+#' @usage \\method{format}{lazyraster}(x, ...)
+#' @export
 #' @export
 format.lazyraster <- function(x, ...) {
   object <- x
@@ -41,16 +46,19 @@ format.lazyraster <- function(x, ...) {
 
 #' Lazy raster S3 plot method
 #'
-#' Plot for lazyraster.
-#' @param x a `lazyraster`
+#' Plot for lazyraster, data pulled on-demand at a reasonable level-of-detail.
+#'
+#' Data is pulled from the GDAL source at a resolution suited for
+#' the currently open graphics device.
+#' @param x a [lazyraster]
 #' @param y ignored
-#' @param ... passed to raster plot
+#' @param ... passed to [raster::plot]
 #' @importFrom raster plot
 #' @importFrom graphics plot
-#' @aliases plot
-#' @usage plot(x, y, ...)
+#' @export plot
 #' @rawNamespace S3method(plot,lazyraster)
-#' @name lazyraster-plot-method
+#' @usage \\method{plot}{lazyraster}(x, y, ...)
+#' @name lazyraster-methods
 #' @export
 plot.lazyraster <- function(x, y, ...) {
   raster::plot(as_raster(x), ...)
