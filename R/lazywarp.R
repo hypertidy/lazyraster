@@ -33,10 +33,10 @@ extdim_to_geotransform <- function(ext, dim) {
 lazywarp <- function(gdalsource, target, a_srs = "") {
 
   ## FIXME:: needs an exported function to do this part in vapour
-  vals <- vapour:::warp_memory_cpp(gdalsource, a_srs,
+  vals <- vapour:::warp_memory_cpp(gdalsource, source_WKT = a_srs,
                                    target_WKT = vapour::vapour_srs_wkt(raster::projection(target)),
-                                   extdim_to_geotransform(extent(target), dim(target)[1:2]),
-                                   dim(target)[1:2])
+                                   target_geotransform = extdim_to_geotransform(extent(target), dim(target)[1:2]),
+                                   target_dim = dim(target)[1:2])
   ##print(target)
   ## TODO: deal with missing value
   ## just a hack for now
