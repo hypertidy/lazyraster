@@ -29,7 +29,7 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
   ## vapour #34
   if (nrow(vars) > 1) gdalsource <- vars$subdataset[sds]
 
-  info <- vapour::vapour_raster_info(gdalsource)
+  info <- vapour::vapour_raster_info(gdalsource, min_max = TRUE)
   if (band < 1) stop("band must be 1 or greater")
   if (band > info$bands) stop(sprintf("band greater than total number of bands (%i)", info$bands))
   raster <- list(band = band)
