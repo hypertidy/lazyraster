@@ -34,12 +34,13 @@ lazywarp <- function(gdalsource, target, a_srs = "") {
 
   ## FIXME:: needs an exported function to do this part in vapour
   vals <- vapour:::warp_memory_cpp(gdalsource, a_srs,
-                                   target_WKT = proj_to_wkt_cpp(raster::projection(target)),
+                                   target_WKT = vapour::vapour_srs_wkt(raster::projection(target)),
                                    extdim_to_geotransform(extent(target), dim(target)[1:2]),
                                    dim(target)[1:2])
   ##print(target)
   ## TODO: deal with missing value
-  vals[vals < -3.0000e+38 ] <- NA
-  setValues(target, vals)
+  ## just a hack for now
+  vals[vals <= min(vals) ] <- NA
+  raster::setValues(target, vals)
 }
 

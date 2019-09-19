@@ -29,7 +29,7 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
   ## vapour #34
   if (nrow(vars) > 1) gdalsource <- vars$subdataset[sds]
 
-  info <- vapour::vapour_raster_info(gdalsource, min_max = TRUE)
+  info <- vapour::vapour_raster_info(gdalsource)
   if (band < 1) stop("band must be 1 or greater")
   if (band > info$bands) stop(sprintf("band greater than total number of bands (%i)", info$bands))
   raster <- list(band = band)
@@ -167,9 +167,9 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour") {
   }
 
   vals <- vapour::vapour_read_raster(x$source, band = x$raster$band, window = c(window_odim, pulldim[1], pulldim[2]),
-                            resample = resample)
-  ## TODO clamp values to info$minmax - set NA
-  vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
+                            resample = resample, set_na = TRUE)
+  ## TODO clamp values to info$minmax - no longer needed with vapour set_na
+  #vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
 
   raster::setValues(r, vals)
 }
