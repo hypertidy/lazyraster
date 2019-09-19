@@ -23,3 +23,5 @@ Suggests:
     palr
 URL: https://github.com/hypertidy/lazyraster
 BugReports: https://github.com/hypertidy/lazyraster/issues
+Remotes: hypertidy/vapour
+
