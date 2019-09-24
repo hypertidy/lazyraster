@@ -16,31 +16,34 @@ extdim_to_geotransform <- function(ext, dim) {
 #' Currently only works as if 64-bit real band values, but GDAL's RasterIO
 #' does sort out conversions. We set a missing value as if it's very low, but
 #' it might be zero (as in the example), so WIP.
+#'
 #' @param gdalsource a file name or other source string
 #' @param target raster target object
+#' @param band band number (single) of source
 #' @param a_srs PROJ4 string to apply to gdalsource in case it is wrong or missing
-#' @noRd
+#'
+#' @export
 #' @examples
 #' laea_srs <- "+proj=laea +lon_0=147 +lat_0=-52 +datum=WGS84"
 #' ex <- c(-1e6, 1e6, -1e6, 1e6)
 #' library(raster)
 #' ras <- raster(extent(ex), crs = laea_srs, nrows= 100, ncols = 100)
 #' f <- system.file("extdata/sst.tif", package = "vapour", mustWork = TRUE)
-#' r <- projectRaster(raster(f), ras)
-#' r2 <- vapour:::lazywarp(f, ras)
+#' #r <- projectRaster(raster(f), ras)
+#' r2 <- lazywarp(f, ras)
 #' r2[r2 < 1] <- NA
 #' plot(r2)
-lazywarp <- function(gdalsource, target, a_srs = "") {
+lazywarp <- function(gdalsource,  target, band = 1L, a_srs = NULL) {
 
   ## FIXME:: needs an exported function to do this part in vapour
-  vals <- vapour:::warp_memory_cpp(gdalsource, source_WKT = a_srs,
-                                   target_WKT = vapour::vapour_srs_wkt(raster::projection(target)),
-                                   target_geotransform = extdim_to_geotransform(extent(target), dim(target)[1:2]),
-                                   target_dim = dim(target)[1:2])
-  ##print(target)
+  vals <- vapour::vapour_warp_raster(gdalsource, band = band,
+                        geotransform = extdim_to_geotransform(extent(target), dim(target)[1:2]),
+                        dimension = dim(target)[1:2],
+                        wkt = vapour::vapour_srs_wkt(raster::projection(target)),
+                        source_wkt = a_srs
+
+                              )[[1]] ## hardcode the one band for now
   ## TODO: deal with missing value
-  ## just a hack for now
-  vals[vals <= min(vals) ] <- NA
   raster::setValues(target, vals)
 }
 
