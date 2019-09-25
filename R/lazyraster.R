@@ -55,18 +55,20 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
 #' Control the dimensions and method for resampling with the 'dim' and
 #' 'resample' arguments.
 #'
+#' When `native = TRUE` the `dim` argument is ignored, and no resampling is performed.
 #' @param x a [lazyraster]
 #' @param dim dimensions, pixel size in rows and columns
 #' @param resample resampling method, see [vapour::vapour_read_raster]
+#' @param native return raster at native resolution, default is `FALSE`
 #'
 #' @name lazyraster
 #' @export
-as_raster <- function(x, dim = NULL, resample = "NearestNeighbour") {
+as_raster <- function(x, dim = NULL, resample = "NearestNeighbour", native = FALSE) {
   UseMethod("as_raster")
 }
 #' @export
-as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour") {
-  pull_lazyraster(x, pulldim = dim, resample = resample)
+as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour", native = FALSE) {
+  pull_lazyraster(x, pulldim = dim, resample = resample, native = native)
 }
 
 
@@ -145,15 +147,26 @@ to_xy_minmax <- function(x) {
   c(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)
 }
 #' @importFrom grDevices dev.size
-pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour") {
+pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", native = FALSE) {
   ## TODO: this needs to account for the "usr" bounds, the current
   ## bounds that will be plotted to
+  if (native) {
+    dd <- c(diff(x$window$window[1:2]) + 1,
+            diff(x$window$window[3:4]) + 1)
+    if (!is.null(pulldim)) {
+      warning("when 'native = TRUE' the 'dim' argument is ignored")
+      message(sprintf("using native dimension %s", paste(dd, collapse = ", ")))
+    }
+   pulldim <- dd
+  }
   if (is.null(pulldim)) pulldim <- grDevices::dev.size("px")
 
   if (length(pulldim) != 2L) {
     warning("dim will be replicated or shortened to length 2")
     pulldim <- rep(pulldim, length = 2L)
   }
+
+
   ## TODO raster from ssraster, override with dim
   r <- lazy_to_raster(x, dim = pulldim)
   ## TODO pull window spec from info/plotdim, allow choice of resampling

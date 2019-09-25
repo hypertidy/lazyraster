@@ -7,7 +7,8 @@
 \usage{
 lazyraster(gdalsource, band = 1, sds = NULL, ...)
 
-as_raster(x, dim = NULL, resample = "NearestNeighbour")
+as_raster(x, dim = NULL, resample = "NearestNeighbour",
+  native = FALSE)
 }
 \arguments{
 \item{gdalsource}{a file name or other source string}
