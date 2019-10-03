@@ -182,12 +182,12 @@ library(raadtools)
 #> Loading required package: raster
 #> Loading required package: sp
 #> global option 'raadfiles.data.roots' set:
-#> '/rdsi/PRIVATE/raad/data               2019-10-03 10:35:12
-#>  /rdsi/PRIVATE/raad/data_local         2019-10-03 10:40:37
-#>  /rdsi/PRIVATE/raad/data_staging       2019-10-03 10:40:38
-#>  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 10:45:13
+#> '/rdsi/PRIVATE/raad/data               2019-10-03 12:35:12
+#>  /rdsi/PRIVATE/raad/data_local         2019-10-03 12:35:53
+#>  /rdsi/PRIVATE/raad/data_staging       2019-10-03 12:35:54
+#>  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 12:39:49
 #>  /rdsi/PUBLIC/raad/data                2019-10-03 10:53:19'
-#> Uploading raad file cache as at 2019-10-03 12:17:36 (1017940 files listed)
+#> Uploading raad file cache as at 2019-10-03 12:41:12 (1017941 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
 #> class         : LazyRaster
@@ -209,7 +209,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.705   0.107   0.946
+    #>   0.763   0.109   0.976
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
@@ -335,5 +335,5 @@ plot(as_raster(crop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), col 
 <img src="man/figures/README-tms-2.png" width="100%" />
 
 Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
-to abide by its terms.
+Conduct](https://github.com/hypertidy/lazyraster/blob/master/CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
