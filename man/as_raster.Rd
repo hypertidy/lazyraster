@@ -16,6 +16,9 @@ as_raster(x, dim = NULL, resample = "NearestNeighbour",
 
 \item{native}{return raster at native resolution, default is \code{FALSE}}
 }
+\value{
+a regular raster 'BasicRaster' in-memory object
+}
 \description{
 Create an actual \link[raster:raster]{raster::raster} object by breaking the lazy
 contract and demanding pixel values at a given resolution.

@@ -21,6 +21,9 @@
 
 \item{texture_filename}{optional input file path for PNG texture}
 }
+\value{
+a quadmesh, derived from \link[rgl:mesh3d]{rgl::mesh3d}
+}
 \description{
 Provides a re-exported generic quadmesh and a method for lazyraster.
 }

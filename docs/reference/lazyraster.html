@@ -36,10 +36,10 @@
 
 
 <meta property="og:title" content="Lazy raster — lazyraster" />
-<meta property="og:description" content="Read metadata only from a raster source, for later use with plotting and
-conversion to raster.
-Create a actual [raster::raster] object by breaking the lazy
-contract and demanding pixel values at a given resolution." />
+<meta property="og:description" content="A lazyraster is a metadata-only shell around a raster file source. Only metadata is read
+and and used for extent and resolution logic. A lazyraster may be cropped lazily
+and if plotted or converted to in-memory raster only a reasonable level-of-detail is actually
+used." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -72,7 +72,7 @@ contract and demanding pixel values at a given resolution." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">lazyraster</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -117,15 +117,13 @@ contract and demanding pixel values at a given resolution." />
     </div>
 
     <div class="ref-description">
-    <p>Read metadata only from a raster source, for later use with plotting and
-conversion to raster.</p>
-<p>Create a actual [raster::raster] object by breaking the lazy
-contract and demanding pixel values at a given resolution.</p>
+    <p>A lazyraster is a metadata-only shell around a raster file source. Only metadata is read
+and and used for extent and resolution logic. A lazyraster may be cropped lazily
+and if plotted or converted to in-memory raster only a reasonable level-of-detail is actually
+used.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lazyraster</span>(<span class='no'>gdalsource</span>, <span class='kw'>band</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>sds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
-
-<span class='fu'>as_raster</span>(<span class='no'>x</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>resample</span> <span class='kw'>=</span> <span class='st'>"NearestNeighbour"</span>)</pre>
+    <pre class="usage"><span class='fu'>lazyraster</span>(<span class='no'>gdalsource</span>, <span class='kw'>band</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>sds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,36 +138,31 @@ contract and demanding pixel values at a given resolution.</p>
     </tr>
     <tr>
       <th>sds</th>
-      <td><p>which subdataset to use, set to 1 if in doubt (see `vapour::vapour_sds_names`)</p></td>
+      <td><p>which subdataset to use, set to 1 if in doubt (see <code><a href='https://rdrr.io/pkg/vapour/man/vapour_sds_names.html'>vapour::vapour_sds_names</a></code>)</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>ignored for now</p></td>
     </tr>
-    <tr>
-      <th>x</th>
-      <td><p>a [lazyraster]</p></td>
-    </tr>
-    <tr>
-      <th>dim</th>
-      <td><p>dimensions, pixel size in rows and columns</p></td>
-    </tr>
-    <tr>
-      <th>resample</th>
-      <td><p>resampling method, see [vapour::vapour_read_raster]</p></td>
-    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a lazyraster object, a simple shell around a GDAL raster source</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If the inferred Y extents appear to be reversed (ymax &gt; ymin) then they are
+    <p>See <code><a href='lazyraster-raster-S4.html'>crop()</a></code> for cropping - it works the same but returns a lazyraster,
+and <code><a href='as_raster.html'>as_raster()</a></code> for converting to an in-memory raster.</p>
+    <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
+
+    
+
+<p>If the inferred Y extents appear to be reversed (ymax &gt; ymin) then they are
 reversed, with a warning. This occurs for any GDAL data source that does not have
 a geotransform and so is required for use with raster. This might not be the right interpretation,
 geotransforms are very general and it might mean the data is meant to be oriented that way.
 (I don't know why GDAL sets a positive Y pixel height as the default, it's a bit of a pain -
 should the data be flipped, or should Y be interpreted negative - no way to know!).</p>
-<p>Control the dimensions and method for resampling with the 'dim' and
-'resample' arguments.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>sstfile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/sst.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"vapour"</span>)
@@ -180,7 +173,8 @@ should the data be flipped, or should Y be interpreted negative - no way to know
 #&gt; crs           : &lt;placeholder&gt;
 #&gt; values        : NA, NA (min, max - range from entire extent)
 #&gt; window extent : &lt;whole extent&gt;
-#&gt; window index  : &lt;-&gt;</div><div class='input'><span class='fu'>as_raster</span>(<span class='fu'>lazyraster</span>(<span class='no'>sstfile</span>))</div><div class='output co'>#&gt; class      : RasterLayer 
+#&gt; window index  : &lt;-&gt;</div><div class='input'><span class='co'>## convert to raster (in memory, but not all of the source)</span>
+<span class='fu'><a href='as_raster.html'>as_raster</a></span>(<span class='fu'>lazyraster</span>(<span class='no'>sstfile</span>))</div><div class='output co'>#&gt; class      : RasterLayer 
 #&gt; dimensions : 504, 504, 254016  (nrow, ncol, ncell)
 #&gt; resolution : 0.01986111, 0.03972443  (x, y)
 #&gt; extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
@@ -188,7 +182,16 @@ should the data be flipped, or should Y be interpreted negative - no way to know
 #&gt; source     : memory
 #&gt; names      : layer 
 #&gt; values     : -3.4e+38, 289.859  (min, max)
-#&gt; </div><div class='input'><span class='fu'>as_raster</span>(<span class='fu'><a href='lazycrop.html'>lazycrop</a></span>(<span class='fu'>lazyraster</span>(<span class='no'>sstfile</span>), <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/extent.html'>extent</a></span>(<span class='fl'>142</span>, <span class='fl'>143</span>, -<span class='fl'>50</span>, -<span class='fl'>45</span>)))</div><div class='output co'>#&gt; class      : RasterLayer 
+#&gt; </div><div class='input'><span class='co'>## crop and stay as lazyraster</span>
+<span class='fu'><a href='lazyraster-raster-S4.html'>crop</a></span>(<span class='fu'>lazyraster</span>(<span class='no'>sstfile</span>), <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/extent.html'>extent</a></span>(<span class='fl'>142</span>, <span class='fl'>143</span>, -<span class='fl'>50</span>, -<span class='fl'>45</span>))</div><div class='output co'>#&gt; class         : LazyRaster
+#&gt; dimensions    : 286, 143 (nrow, ncol)
+#&gt; resolution    : 0.07000000, 0.07000389 (x, y)
+#&gt; extent        : 140.00000, 150.01000, -60.01833, -39.99722 (xmin, xmax, ymin, ymax)
+#&gt; crs           : &lt;placeholder&gt;
+#&gt; values        : NA, NA (min, max - range from entire extent)
+#&gt; window extent : 141.96000, 143.01000, -50.00778, -44.96750
+#&gt; window index  : 27, 42, 71, 143</div><div class='input'><span class='co'>## crop and convert to raster</span>
+<span class='fu'><a href='as_raster.html'>as_raster</a></span>(<span class='fu'><a href='lazyraster-raster-S4.html'>crop</a></span>(<span class='fu'>lazyraster</span>(<span class='no'>sstfile</span>), <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/extent.html'>extent</a></span>(<span class='fl'>142</span>, <span class='fl'>143</span>, -<span class='fl'>50</span>, -<span class='fl'>45</span>)))</div><div class='output co'>#&gt; class      : RasterLayer 
 #&gt; dimensions : 504, 504, 254016  (nrow, ncol, ncell)
 #&gt; resolution : 0.002083333, 0.01000056  (x, y)
 #&gt; extent     : 141.96, 143.01, -50.00778, -44.9675  (xmin, xmax, ymin, ymax)
@@ -202,7 +205,9 @@ should the data be flipped, or should Y be interpreted negative - no way to know
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#warning">Warning</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

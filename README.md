@@ -20,9 +20,6 @@ resolution. This means that you can define a graphics device and then
 stream just the right amount of pixels to fill it from a GDAL data
 source.
 
-If you are interesed or have problems installing this package please
-just let me know\! It’s still early days and very WIP.
-
 ## Installation
 
 The package can be installed from Github.
@@ -34,6 +31,8 @@ remotes::install_github("hypertidy/lazyraster")
 
 See [vapour](https://github.com/hypertidy/vapour) for more on the
 prerequisites.
+
+## Details
 
 There are functions `lazyraster()` to act like the `raster::raster()`
 function and provide information but no data, and `crop()` to act like
@@ -56,25 +55,9 @@ and will be applied to reduce or increase the resolution.
 We can’t utilize the RasterIO level-of-detail functionality for non-GDAL
 sources.
 
-We can only read the first band.
-
-The only really useable output is a raster layer. You cannot yet specify
-that return is at native resolution WIP.
+We can only access a single band.
 
 We can’t control the details of the data type.
-
-The projection string is not coming through properly, this is a problem
-in vapour.
-
-The plot-size logic should work on the current “usr” world coordinates,
-not the size of the device (if it’s different).
-
-The vapour package isn’t yet on CRAN.
-
-Subdataset support is very new and needs checking.
-
-Using online sources is not easy, it needs a particular GDAL connection
-string to work properly.
 
 ## GDAL
 
@@ -98,7 +81,7 @@ code is in this package, `vapour` is pointedly bare-bones and provides
 very little interpretation of a data source because it is designed for
 use in development.
 
-## Example
+## Examples
 
 Connect lazily to a GeoTIFF, see details of what’s there, crop to a
 section and then read it in and plot.
@@ -205,7 +188,7 @@ library(raadtools)
 #>  /rdsi/PRIVATE/raad/data_staging       2019-10-03 10:40:38
 #>  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 10:45:13
 #>  /rdsi/PUBLIC/raad/data                2019-10-03 10:53:19'
-#> Uploading raad file cache as at 2019-10-03 11:45:00 (1017940 files listed)
+#> Uploading raad file cache as at 2019-10-03 11:51:05 (1017940 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
 #> class         : LazyRaster
@@ -227,7 +210,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.721   0.085   0.920
+    #>   0.752   0.078   0.940
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
@@ -243,8 +226,6 @@ title("Tasmania topography + bathymetric contours, from Gebco 2014", cex.main = 
 ```
 
 <img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
-
-## How useful is this, really?
 
 This is not just to plot big rasters, it’s potentially useful for
 streaming gridded data to a device that is resizing the view port

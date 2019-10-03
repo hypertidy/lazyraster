@@ -23,6 +23,10 @@ extent_lazyraster(x, ...)
 
 \item{...}{arguments passed to underlying raster function}
 }
+\value{
+\code{\link[=lazyraster]{lazyraster()}} and \code{\link[=crop]{crop()}} return a lazyraster object, \code{\link[=extent]{extent()}} returns
+a regular raster extent
+}
 \description{
 These methods are generics from the raster package, extended to work for lazyrasters.
 }

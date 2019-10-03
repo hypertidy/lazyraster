@@ -27,9 +27,6 @@ knitr::opts_chunk$set(
 The goal of lazyraster is to get raster data on demand at the right resolution. This means that you can
 define a graphics device and then stream just the right amount of pixels to fill it from a GDAL data source.  
 
-If you are interesed or have problems installing this package please just let me know!  It's still early days and very WIP. 
-
-
 ## Installation
 
 The package can be installed from Github.
@@ -41,6 +38,7 @@ remotes::install_github("hypertidy/lazyraster")
 
 See [vapour](https://github.com/hypertidy/vapour) for more on the prerequisites. 
 
+## Details 
 
 There are functions `lazyraster()` to act like the `raster::raster()` function and provide information but no data, and `crop()` to act like `raster::crop()` and then `as_raster` to break the lazy chain and build an actual raster object. The size of the currently open (or latent-default) device is used as a reasonable size for the output grid, but can be controlled by argument `dim`. 
 
@@ -52,23 +50,9 @@ A variety of resampling algorithms are available (nearest neighbour is the defau
 
 We can't utilize the RasterIO level-of-detail functionality for non-GDAL sources. 
 
-We can only read the first band. 
-
-The only really useable output is a raster layer. You cannot yet specify that return is at native resolution WIP. 
+We can only access a single band. 
 
 We can't control the details of the data type. 
-
-The projection string is not coming through properly, this is a problem in vapour. 
-
-The plot-size logic should work on the current "usr" world coordinates, not the size of the device (if it's different). 
-
-The vapour package isn't yet on CRAN. 
-
-Subdataset support is very new and needs checking.
-
-Using online sources is not easy, it needs a particular GDAL connection string to work properly. 
-
-
 
 ## GDAL
 
@@ -79,7 +63,7 @@ This uses a standard internal functionality of GDAL, the [RasterIO function of t
 
 To make this work we use the GDAL package [vapour](https://github.com/hypertidy/vapour). All of the ease-of-use code is in this package, `vapour` is pointedly bare-bones and provides very little interpretation of a data source because it is designed for use in development. 
 
-## Example
+## Examples
 
 Connect lazily to a GeoTIFF, see details of what's there, crop to a section and then read it in and plot. 
 
@@ -150,11 +134,7 @@ contour(rbath, add = TRUE, levels = quantile(rbath, prob = seq(0, 1, length.out 
 title("Tasmania topography + bathymetric contours, from Gebco 2014", cex.main = 0.85)
 ```
 
-## How useful is this, really?
-
 This is not just to plot big rasters, it's potentially useful for streaming gridded data to a device that is resizing the view port interactively. We also use it to explore a data set for useability and general coverage, and designing sensible resampling workflows for very large data models. 
-
-
 
 
 ```{r mars}

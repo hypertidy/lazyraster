@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">lazyraster</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -80,7 +80,6 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#lazyraster" class="anchor"></a>lazyraster</h1></div>
 <p>The goal of lazyraster is to get raster data on demand at the right resolution. This means that you can define a graphics device and then stream just the right amount of pixels to fill it from a GDAL data source.</p>
-<p>If you are interesed or have problems installing this package please just let me know! It’s still early days and very WIP.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -88,7 +87,11 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## install.packages("remotes")</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"hypertidy/lazyraster"</span>)</a></code></pre></div>
 <p>See <a href="https://github.com/hypertidy/vapour">vapour</a> for more on the prerequisites.</p>
-<p>There are functions <code>lazyraster</code> to act like the <code><a href="https://rdrr.io/pkg/raster/man/raster.html">raster::raster</a></code> function and provide information but no data, and <code>lazycrop</code> to act like <code><a href="https://rdrr.io/pkg/raster/man/crop.html">raster::crop</a></code> and then <code>as_raster</code> to break the lazy chain and build an actual raster object. The size of the currently open (or latent-default) device is used as a reasonable size for the output grid, but can be controlled by argument <code>dim</code>.</p>
+</div>
+<div id="details" class="section level2">
+<h2 class="hasAnchor">
+<a href="#details" class="anchor"></a>Details</h2>
+<p>There are functions <code><a href="reference/lazyraster.html">lazyraster()</a></code> to act like the <code><a href="https://rdrr.io/pkg/raster/man/raster.html">raster::raster()</a></code> function and provide information but no data, and <code><a href="reference/lazyraster-raster-S4.html">crop()</a></code> to act like <code><a href="https://rdrr.io/pkg/raster/man/crop.html">raster::crop()</a></code> and then <code>as_raster</code> to break the lazy chain and build an actual raster object. The size of the currently open (or latent-default) device is used as a reasonable size for the output grid, but can be controlled by argument <code>dim</code>.</p>
 <p>When the data is read <code>lazyraster</code> can specify the exact dimensions of the output raster, and by default a reasonable guess at the number of pixels required to fill the current device is used.</p>
 <p>A variety of resampling algorithms are available (nearest neighbour is the default, <a href="https://github.com/hypertidy/vapour/blob/master/R/raster-input.R#L9">see this list for more</a>) and will be applied to reduce or increase the resolution.</p>
 </div>
@@ -96,14 +99,8 @@
 <h2 class="hasAnchor">
 <a href="#limitations" class="anchor"></a>Limitations</h2>
 <p>We can’t utilize the RasterIO level-of-detail functionality for non-GDAL sources.</p>
-<p>We can only read the first band.</p>
-<p>The only really useable output is a raster layer. You cannot yet specify that return is at native resolution WIP.</p>
+<p>We can only access a single band.</p>
 <p>We can’t control the details of the data type.</p>
-<p>The projection string is not coming through properly, this is a problem in vapour.</p>
-<p>The plot-size logic should work on the current “usr” world coordinates, not the size of the device (if it’s different).</p>
-<p>The vapour package isn’t yet on CRAN.</p>
-<p>Subdataset support is very new and needs checking.</p>
-<p>Using online sources is not easy, it needs a particular GDAL connection string to work properly.</p>
 </div>
 <div id="gdal" class="section level2">
 <h2 class="hasAnchor">
@@ -115,39 +112,44 @@
 <a href="#vapour" class="anchor"></a>vapour</h2>
 <p>To make this work we use the GDAL package <a href="https://github.com/hypertidy/vapour">vapour</a>. All of the ease-of-use code is in this package, <code>vapour</code> is pointedly bare-bones and provides very little interpretation of a data source because it is designed for use in development.</p>
 </div>
-<div id="example" class="section level2">
+<div id="examples" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<a href="#examples" class="anchor"></a>Examples</h2>
 <p>Connect lazily to a GeoTIFF, see details of what’s there, crop to a section and then read it in and plot.</p>
 <p>This is not a huge file, but is easily accessible and demonstrates the idea.</p>
 <p>First we connect to a source and show two versions, the first is information about the data in its native form (286 rows and 143 columns), and then an actual RasterLayer but at a very small requested size (24 rows by 12 columns).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">sstfile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/sst.tif"</span>, <span class="dt">package =</span> <span class="st">"vapour"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(lazyraster)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">lazy &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(sstfile)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">lazy <span class="co">## stay lazy</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; class         : LazyRaster</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; dimensions    : 286, 143 (nrow, ncol)</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; resolution    : 0.07000000, 0.07000389 (x, y)</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; extent        : 140.00000, 150.01000, -60.01833, -39.99722 (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; crs           : &lt;placeholder&gt;</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; values        : NA, NA (min, max - range from entire extent)</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; window extent : &lt;whole extent&gt;</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; window index  : &lt;-&gt;</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">## be only so lazy</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="kw"><a href="reference/lazyraster.html">as_raster</a></span>(lazy, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">24</span>))</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; class      : RasterLayer </span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; dimensions : 24, 12, 288  (nrow, ncol, ncell)</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; resolution : 0.8341667, 0.834213  (x, y)</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; crs        : NA </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; source     : memory</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; names      : layer </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; values     : -3.4e+38, 289.478  (min, max)</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Attaching package: 'lazyraster'</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; The following object is masked from 'package:graphics':</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;     plot</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">lazy &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(sstfile)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">lazy <span class="co">## stay lazy</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; class         : LazyRaster</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; dimensions    : 286, 143 (nrow, ncol)</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; resolution    : 0.07000000, 0.07000389 (x, y)</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; extent        : 140.00000, 150.01000, -60.01833, -39.99722 (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; crs           : &lt;placeholder&gt;</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; values        : NA, NA (min, max - range from entire extent)</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; window extent : &lt;whole extent&gt;</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; window index  : &lt;-&gt;</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">## be only so lazy</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(lazy, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">24</span>))</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; class      : RasterLayer </span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; dimensions : 24, 12, 288  (nrow, ncol, ncell)</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; resolution : 0.8341667, 0.834213  (x, y)</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; crs        : NA </span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; source     : memory</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; names      : layer </span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; values     : -3.4e+38, 289.478  (min, max)</span></a></code></pre></div>
 <p>The call to <code>as_raster</code> read actual data from the file, hence the difference between the range of data values reported first from the whole extent, and then reported by raster itself for the resample data read in.</p>
 <p>Now let <code>lazyraster</code> make its own choice about the size of the output. This will be based on the return value of <code><a href="https://rdrr.io/r/grDevices/dev.size.html">dev.size("px")</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## note how we actually resample up because this data is not very large</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/lazyraster.html">as_raster</a></span>(lazy)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(lazy)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; class      : RasterLayer </span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; dimensions : 480, 672, 322560  (nrow, ncol, ncell)</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; resolution : 0.01489583, 0.04171065  (x, y)</span></a>
@@ -160,7 +162,7 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">## what do we get if we set up a bitmap device</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">tf &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="dt">fileext =</span> <span class="st">"png"</span>)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/grDevices/png.html">png</a></span>(tf, <span class="dt">height =</span> <span class="dv">50</span>, <span class="dt">width =</span> <span class="dv">40</span>)</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw"><a href="reference/lazyraster.html">as_raster</a></span>(lazy)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(lazy)</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; class      : RasterLayer </span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; dimensions : 50, 40, 2000  (nrow, ncol, ncell)</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; resolution : 0.25025, 0.4004222  (x, y)</span></a>
@@ -181,12 +183,12 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Loading required package: raster</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Loading required package: sp</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; global option 'raadfiles.data.roots' set:</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; '/rdsi/PRIVATE/raad/data               2019-09-18 22:35:13</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_local         2019-09-18 22:39:53</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_staging       2019-09-18 22:39:54</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_deprecated    2019-09-18 22:42:44</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  /rdsi/PUBLIC/raad/data                2019-09-18 22:54:34'</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Uploading raad file cache as at 2019-09-18 23:08:03 (1012611 files listed)</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; '/rdsi/PRIVATE/raad/data               2019-10-03 10:35:12</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_local         2019-10-03 10:40:37</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_staging       2019-10-03 10:40:38</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 10:45:13</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  /rdsi/PUBLIC/raad/data                2019-10-03 10:53:19'</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Uploading raad file cache as at 2019-10-03 11:51:05 (1017940 files listed)</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11">f &lt;-<span class="st"> </span>raadtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raadtools/man/readtopo.html">topofile</a></span>(<span class="st">"gebco_14"</span>)</a>
 <a class="sourceLine" id="cb5-12" data-line-number="12"><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; class         : LazyRaster</span></a>
@@ -205,20 +207,16 @@
 <a class="sourceLine" id="cb5-26" data-line-number="26">})</a></code></pre></div>
 <p><img src="reference/figures/README-raadtools-1.png" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">#&gt;    user  system elapsed </span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   0.695   0.163  21.221</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   0.752   0.078   0.940</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(op)</a></code></pre></div>
 <p>Now, plot the same kind of image but zoom in on a region purposefully. The resolution provided has adapted to the context asked for.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rtas &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazycrop.html">lazycrop</a></span>(rworld, <span class="kw"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span>(<span class="fl">143.4</span>, <span class="dv">149</span>, <span class="dv">-44</span>, <span class="fl">-39.1</span>))</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rtas &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster-raster-S4.html">crop</a></span>(rworld, <span class="kw"><a href="reference/lazyraster-raster-S4.html">extent</a></span>(<span class="fl">143.4</span>, <span class="dv">149</span>, <span class="dv">-44</span>, <span class="fl">-39.1</span>))</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(rtas, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">64</span>)), <span class="dt">zlim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1550</span>))</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">rbath &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">as_raster</a></span>(rtas)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">rbath &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(rtas)</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4">rbath[rbath <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/contour.html">contour</a></span>(rbath, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/quantile.html">quantile</a></span>(rbath, <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">8</span>)))</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/title.html">title</a></span>(<span class="st">"Tasmania topography + bathymetric contours, from Gebco 2014"</span>, <span class="dt">cex.main =</span> <span class="fl">0.85</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-1-1.png" width="100%"></p>
-</div>
-<div id="how-useful-is-this-really" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-useful-is-this-really" class="anchor"></a>How useful is this, really?</h2>
 <p>This is not just to plot big rasters, it’s potentially useful for streaming gridded data to a device that is resizing the view port interactively. We also use it to explore a data set for useability and general coverage, and designing sensible resampling workflows for very large data models.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">## PLEASE take care with this url, it is a 11Gb GeoTIFF</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">## https://astrogeology.usgs.gov/search/map/Mars/Topography/HRSC_MOLA_Blend/Mars_HRSC_MOLA_BlendDEM_Global_200mp_v2</span></a>
@@ -236,7 +234,7 @@
 <a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; window index  : &lt;-&gt;</span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(mars, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">256</span>)))</a></code></pre></div>
 <p><img src="reference/figures/README-mars-1.png" width="100%"></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/lazyraster.html">as_raster</a></span>(mars)</a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(mars)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; class      : RasterLayer </span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; dimensions : 480, 672, 322560  (nrow, ncol, ncell)</span></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; resolution : 0.535712, 0.3749984  (x, y)</span></a>
@@ -246,7 +244,7 @@
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; names      : layer </span></a>
 <a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; values     : -7716, 20910  (min, max)</span></a>
 <a class="sourceLine" id="cb9-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/lazycrop.html">lazycrop</a></span>(mars, raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span>(<span class="op">-</span><span class="dv">100</span>, <span class="dv">-30</span>, <span class="dv">-18</span>, <span class="dv">5</span>)), </a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/lazyraster-raster-S4.html">crop</a></span>(mars, raster<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span>(<span class="op">-</span><span class="dv">100</span>, <span class="dv">-30</span>, <span class="dv">-18</span>, <span class="dv">5</span>)), </a>
 <a class="sourceLine" id="cb9-12" data-line-number="12">     <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">256</span>)))</a></code></pre></div>
 <p><img src="reference/figures/README-mars-2.png" width="100%"></p>
 <p>We’ve successfully used it to plot a DEM of Australia from a 67 Gb ESRI binary grid (ADF) supplied by GeoScience Australia in <em>a few minutes</em> (the grid is more than 1e5 pixels each dimension, so I’m not having this document build do the job but here’s a figure I prepared earlier).</p>
@@ -287,16 +285,16 @@
 <a class="sourceLine" id="cb11-30" data-line-number="30"></a>
 <a class="sourceLine" id="cb11-31" data-line-number="31">s &lt;-<span class="st"> </span><span class="kw">gibs_xml</span>(<span class="kw"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date</a></span>()<span class="op">-</span><span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb11-32" data-line-number="32">gibs &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(s)</a>
-<a class="sourceLine" id="cb11-33" data-line-number="33">r2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">as_raster</a></span>(gibs, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>))</a>
+<a class="sourceLine" id="cb11-33" data-line-number="33">r2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(gibs, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>))</a>
 <a class="sourceLine" id="cb11-34" data-line-number="34"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(raster)</a>
 <a class="sourceLine" id="cb11-35" data-line-number="35"><span class="co">## run the same simplification but with a different resampling </span></a>
 <a class="sourceLine" id="cb11-36" data-line-number="36"><span class="co">## method</span></a>
-<a class="sourceLine" id="cb11-37" data-line-number="37"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/lazyraster.html">as_raster</a></span>(gibs, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>), <span class="dt">resample =</span> <span class="st">"CubicSpline"</span>), <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(palr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/palr/man/sstPal.html">sstPal</a></span>(<span class="dv">64</span>), <span class="dv">45</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb11-37" data-line-number="37"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(gibs, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>), <span class="dt">resample =</span> <span class="st">"CubicSpline"</span>), <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(palr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/palr/man/sstPal.html">sstPal</a></span>(<span class="dv">64</span>), <span class="dv">45</span>))</a></code></pre></div>
 <p><img src="reference/figures/README-tms-1.png" width="100%"></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">## run with a different extent</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">e &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span>(<span class="op">-</span><span class="dv">806000</span>, <span class="dv">1080000</span>, <span class="dv">-3200000</span>, <span class="dv">-500000</span>)</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/lazyraster.html">as_raster</a></span>(<span class="kw"><a href="reference/lazycrop.html">lazycrop</a></span>(gibs, e), <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>), <span class="dt">resample =</span> <span class="st">"CubicSpline"</span>), <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(palr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/palr/man/sstPal.html">sstPal</a></span>(<span class="dv">64</span>), <span class="dv">45</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb12-3" data-line-number="3">e &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster-raster-S4.html">extent</a></span>(<span class="op">-</span><span class="dv">806000</span>, <span class="dv">1080000</span>, <span class="dv">-3200000</span>, <span class="dv">-500000</span>)</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(<span class="kw"><a href="reference/lazyraster-raster-S4.html">crop</a></span>(gibs, e), <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>), <span class="dt">resample =</span> <span class="st">"CubicSpline"</span>), <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(palr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/palr/man/sstPal.html">sstPal</a></span>(<span class="dv">64</span>), <span class="dv">45</span>))</a></code></pre></div>
 <p><img src="reference/figures/README-tms-2.png" width="100%"></p>
 <p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>

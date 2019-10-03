@@ -17,6 +17,8 @@ lazycrop <- function(...) {
 #' @aliases extent crop
 #' @rdname lazyraster-raster-S4
 #' @name lazyraster-raster-S4
+#' @return [lazyraster()] and [crop()] return a lazyraster object, [extent()] returns
+#' a regular raster extent
 #' @examples
 #' sstfile <- system.file("extdata/sst.tif", package = "vapour")
 #' lr <- lazyraster(sstfile)

@@ -9,6 +9,7 @@
 #' @importFrom quadmesh quadmesh
 #' @export quadmesh
 #' @name quadmesh
+#' @return a quadmesh, derived from [rgl::mesh3d]
 #' @export
 quadmesh.lazyraster <- function (x, z = x, na.rm = FALSE, ...,
                                  texture = NULL,

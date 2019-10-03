@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">lazyraster</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Raster methods (S4) for lazyraster.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hypertidy/lazyraster/blob/master/R/lazy-S4-methods.R'><code>R/lazy-S4-methods.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/hypertidy/lazyraster/blob/master/R/00lazy-S4-methods.R'><code>R/00lazy-S4-methods.R</code></a></small>
     <div class="hidden name"><code>lazyraster-raster-S4.Rd</code></div>
     </div>
 
@@ -117,7 +117,10 @@
     <p>These methods are generics from the raster package, extended to work for lazyrasters.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>raster_lazyraster</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='co'># S4 method for lazyraster</span>
+<span class='fu'>crop</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>)
+
+<span class='fu'>raster_lazyraster</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='fu'>extent_lazyraster</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
@@ -129,21 +132,49 @@
       <td><p>various (raster, extent)</p></td>
     </tr>
     <tr>
+      <th>y</th>
+      <td><p>an object with extent (for crop)</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>arguments passed to underlying raster function</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code><a href='lazyraster.html'>lazyraster()</a></code> and <code>crop()</code> return a lazyraster object, <code>extent()</code> returns
+a regular raster extent</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For <code>crop()</code> this set an active window of data using the same <code>crop()</code>
+function as the raster package. This is the data window that will be pulled
+by conversion to an actual raster by <code><a href='as_raster.html'>as_raster()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>[raster::raster()], [raster::extent()]</p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster::raster()</a></code>, <code><a href='https://rdrr.io/pkg/raster/man/extent.html'>raster::extent()</a></code>, <code><a href='https://rdrr.io/pkg/raster/man/crop.html'>raster::crop()</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>sstfile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/sst.tif"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"vapour"</span>)
+<span class='no'>lr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lazyraster.html'>lazyraster</a></span>(<span class='no'>sstfile</span>)
+<span class='co'>## crop and stay as lazyraster</span>
+<span class='fu'>crop</span>(<span class='fu'><a href='lazyraster.html'>lazyraster</a></span>(<span class='no'>sstfile</span>), <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/extent.html'>extent</a></span>(<span class='fl'>142</span>, <span class='fl'>143</span>, -<span class='fl'>50</span>, -<span class='fl'>45</span>))</div><div class='output co'>#&gt; class         : LazyRaster
+#&gt; dimensions    : 286, 143 (nrow, ncol)
+#&gt; resolution    : 0.07000000, 0.07000389 (x, y)
+#&gt; extent        : 140.00000, 150.01000, -60.01833, -39.99722 (xmin, xmax, ymin, ymax)
+#&gt; crs           : &lt;placeholder&gt;
+#&gt; values        : NA, NA (min, max - range from entire extent)
+#&gt; window extent : 141.96000, 143.01000, -50.00778, -44.96750
+#&gt; window index  : 27, 42, 71, 143</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

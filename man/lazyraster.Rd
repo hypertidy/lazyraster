@@ -15,6 +15,9 @@ lazyraster(gdalsource, band = 1, sds = NULL, ...)
 
 \item{...}{ignored for now}
 }
+\value{
+a lazyraster object, a simple shell around a GDAL raster source
+}
 \description{
 A lazyraster is a metadata-only shell around a raster file source. Only metadata is read
 and and used for extent and resolution logic. A lazyraster may be cropped lazily

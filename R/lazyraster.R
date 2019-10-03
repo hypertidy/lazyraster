@@ -19,7 +19,7 @@
 #' @param band which band to use, defaults to 1
 #' @param sds which subdataset to use, set to 1 if in doubt (see `vapour::vapour_sds_names`)
 #' @param ... ignored for now
-#'
+#' @return a lazyraster object, a simple shell around a GDAL raster source
 #' @export
 #' @examples
 #' sstfile <- system.file("extdata/sst.tif", package = "vapour")
@@ -71,7 +71,7 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
 #' @param dim dimensions, pixel size in rows and columns
 #' @param resample resampling method, see [vapour::vapour_read_raster]
 #' @param native return raster at native resolution, default is `FALSE`
-#'
+#' @return a regular raster 'BasicRaster' in-memory object
 #' @name as_raster
 #' @export
 as_raster <- function(x, dim = NULL, resample = "NearestNeighbour", native = FALSE) {
