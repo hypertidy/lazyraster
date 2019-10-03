@@ -205,7 +205,7 @@ library(raadtools)
 #>  /rdsi/PRIVATE/raad/data_staging       2019-10-03 10:40:38
 #>  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 10:45:13
 #>  /rdsi/PUBLIC/raad/data                2019-10-03 10:53:19'
-#> Uploading raad file cache as at 2019-10-03 10:53:58 (1017940 files listed)
+#> Uploading raad file cache as at 2019-10-03 11:45:00 (1017940 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
 #> class         : LazyRaster
@@ -227,7 +227,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.713   0.088   0.908
+    #>   0.721   0.085   0.920
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
