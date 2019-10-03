@@ -56,7 +56,7 @@ We can't control the details of the data type.
 
 ## GDAL
 
-This uses a standard internal functionality of GDAL, the [RasterIO function of the GDALRasterBand](http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1). This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven't found any problems with it at all using it in R, but the support for it is very minimal. You can access it indirectly using `rgdal::readGDAL` for the underlying function, as the `raster` package does.  
+This uses a standard internal functionality of GDAL, the [RasterIO function of the GDALRasterBand](https://gdal.org/doxygen/classGDALRasterBand.html). This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven't found any problems with it at all using it in R, but the support for it is very minimal. You can access it indirectly using `rgdal::readGDAL` for the underlying function, as the `raster` package does.  
 
 ## vapour
 
@@ -215,7 +215,7 @@ plot(as_raster(crop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), col 
 ```
 
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+Please note that this project is released with a [Contributor Code of Conduct](https://github.com/hypertidy/lazyraster/blob/master/CODE_OF_CONDUCT.md).
 By participating in this project you agree to abide by its terms.
 
 

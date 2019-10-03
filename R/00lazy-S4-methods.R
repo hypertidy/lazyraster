@@ -24,7 +24,7 @@ lazycrop <- function(...) {
 #' lr <- lazyraster(sstfile)
 #' ## crop and stay as lazyraster
 #' crop(lazyraster(sstfile), raster::extent(142, 143, -50, -45))
-setOldClass("lazyraster")
+methods::setOldClass("lazyraster")
 if (!isGeneric("extent")) {
   setGeneric("extent", function(x, ...)
     standardGeneric("extent"))

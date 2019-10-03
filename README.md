@@ -63,15 +63,14 @@ We can’t control the details of the data type.
 
 This uses a standard internal functionality of GDAL, the [RasterIO
 function of the
-GDALRasterBand](http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1).
-This is used in a lot of different software, and is obviously pretty
-robust and well tested by the GDAL community, but I only really have
-experience with one product (commercial, now defunct) that used it
-extensively for live interactive visualization and data streaming. I
-haven’t found any problems with it at all using it in R, but the support
-for it is very minimal. You can access it indirectly using
-`rgdal::readGDAL` for the underlying function, as the `raster` package
-does.
+GDALRasterBand](https://gdal.org/doxygen/classGDALRasterBand.html). This
+is used in a lot of different software, and is obviously pretty robust
+and well tested by the GDAL community, but I only really have experience
+with one product (commercial, now defunct) that used it extensively for
+live interactive visualization and data streaming. I haven’t found any
+problems with it at all using it in R, but the support for it is very
+minimal. You can access it indirectly using `rgdal::readGDAL` for the
+underlying function, as the `raster` package does.
 
 ## vapour
 
@@ -188,7 +187,7 @@ library(raadtools)
 #>  /rdsi/PRIVATE/raad/data_staging       2019-10-03 10:40:38
 #>  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 10:45:13
 #>  /rdsi/PUBLIC/raad/data                2019-10-03 10:53:19'
-#> Uploading raad file cache as at 2019-10-03 11:51:05 (1017940 files listed)
+#> Uploading raad file cache as at 2019-10-03 12:17:36 (1017940 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
 #> class         : LazyRaster
@@ -210,7 +209,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.752   0.078   0.940
+    #>   0.705   0.107   0.946
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.

@@ -105,7 +105,7 @@
 <div id="gdal" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gdal" class="anchor"></a>GDAL</h2>
-<p>This uses a standard internal functionality of GDAL, the <a href="http://www.gdal.org/classGDALRasterBand.html#a30786c81246455321e96d73047b8edf1">RasterIO function of the GDALRasterBand</a>. This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven’t found any problems with it at all using it in R, but the support for it is very minimal. You can access it indirectly using <code><a href="https://rdrr.io/pkg/rgdal/man/readGDAL.html">rgdal::readGDAL</a></code> for the underlying function, as the <code>raster</code> package does.</p>
+<p>This uses a standard internal functionality of GDAL, the <a href="https://gdal.org/doxygen/classGDALRasterBand.html">RasterIO function of the GDALRasterBand</a>. This is used in a lot of different software, and is obviously pretty robust and well tested by the GDAL community, but I only really have experience with one product (commercial, now defunct) that used it extensively for live interactive visualization and data streaming. I haven’t found any problems with it at all using it in R, but the support for it is very minimal. You can access it indirectly using <code><a href="https://rdrr.io/pkg/rgdal/man/readGDAL.html">rgdal::readGDAL</a></code> for the underlying function, as the <code>raster</code> package does.</p>
 </div>
 <div id="vapour" class="section level2">
 <h2 class="hasAnchor">
@@ -188,7 +188,7 @@
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_staging       2019-10-03 10:40:38</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 10:45:13</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  /rdsi/PUBLIC/raad/data                2019-10-03 10:53:19'</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Uploading raad file cache as at 2019-10-03 11:51:05 (1017940 files listed)</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Uploading raad file cache as at 2019-10-03 12:17:36 (1017940 files listed)</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11">f &lt;-<span class="st"> </span>raadtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/raadtools/man/readtopo.html">topofile</a></span>(<span class="st">"gebco_14"</span>)</a>
 <a class="sourceLine" id="cb5-12" data-line-number="12"><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; class         : LazyRaster</span></a>
@@ -207,7 +207,7 @@
 <a class="sourceLine" id="cb5-26" data-line-number="26">})</a></code></pre></div>
 <p><img src="reference/figures/README-raadtools-1.png" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">#&gt;    user  system elapsed </span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   0.752   0.078   0.940</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   0.705   0.107   0.946</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(op)</a></code></pre></div>
 <p>Now, plot the same kind of image but zoom in on a region purposefully. The resolution provided has adapted to the context asked for.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rtas &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster-raster-S4.html">crop</a></span>(rworld, <span class="kw"><a href="reference/lazyraster-raster-S4.html">extent</a></span>(<span class="fl">143.4</span>, <span class="dv">149</span>, <span class="dv">-44</span>, <span class="fl">-39.1</span>))</a>
