@@ -1,8 +1,12 @@
 #' Lazy raster
 #'
-#' Read metadata only from a raster source, for later use with plotting and
-#' conversion to raster.
+#' A lazyraster is a metadata-only shell around a raster file source. Only metadata is read
+#' and and used for extent and resolution logic. A lazyraster may be cropped lazily
+#' and if plotted or converted to in-memory raster only a reasonable level-of-detail is actually
+#' used.
 #'
+#' See [lazycrop()] for cropping, and [as_raster()] for converting to an in-memory raster.
+#' @section Warning:
 #' If the inferred Y extents appear to be reversed (ymax > ymin) then they are
 #' reversed, with a warning. This occurs for any GDAL data source that does not have
 #' a geotransform and so is required for use with raster. This might not be the right interpretation,
@@ -47,9 +51,11 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
                  window = list(window = NULL, windowextent = NULL),
                  raster = raster), class = "lazyraster")
 }
+
+
 #' Convert to in-memory raster
 #'
-#' Create a actual [raster::raster] object by breaking the lazy
+#' Create an actual [raster::raster] object by breaking the lazy
 #' contract and demanding pixel values at a given resolution.
 #'
 #' Control the dimensions and method for resampling with the 'dim' and
@@ -61,7 +67,7 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
 #' @param resample resampling method, see [vapour::vapour_read_raster]
 #' @param native return raster at native resolution, default is `FALSE`
 #'
-#' @name lazyraster
+#' @name as_raster
 #' @export
 as_raster <- function(x, dim = NULL, resample = "NearestNeighbour", native = FALSE) {
   UseMethod("as_raster")
@@ -102,6 +108,8 @@ lazy_to_raster <- function(x, dim = NULL) {
 lazycrop <- function(x, y, ..., verbose = FALSE) {
   UseMethod("lazycrop")
 }
+#' @export
+#' @name lazycrop
 lazycrop.BasicRaster <- function(x, y, ..., verbose = FALSE) {
   ## hmm, what if there's no file, we end up with
   ## carrying around the original data?

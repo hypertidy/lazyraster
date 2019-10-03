@@ -2,13 +2,11 @@
 % Please edit documentation in R/lazy-S4-methods.R
 \name{lazyraster-raster-S4}
 \alias{lazyraster-raster-S4}
+\alias{extent}
 \alias{raster_lazyraster}
-\alias{extent_lazyraster}
 \title{Raster methods (S4) for lazyraster.}
 \usage{
 raster_lazyraster(x, ...)
-
-extent_lazyraster(x, ...)
 }
 \arguments{
 \item{x}{various (raster, extent)}
@@ -19,5 +17,5 @@ extent_lazyraster(x, ...)
 These methods are generics from the raster package, extended to work for lazyrasters.
 }
 \seealso{
-[raster::raster()], [raster::extent()]
+\code{\link[raster:raster]{raster::raster()}}, \code{\link[raster:extent]{raster::extent()}}
 }

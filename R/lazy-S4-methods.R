@@ -6,6 +6,7 @@
 #' @param x various (raster, extent)
 #' @param ... arguments passed to underlying raster function
 #' @seealso [raster::raster()], [raster::extent()]
+#' @aliases extent
 #' @rdname lazyraster-raster-S4
 #' @name lazyraster-raster-S4
 setOldClass("lazyraster")
@@ -24,7 +25,6 @@ raster_lazyraster <- function(x, ...) {
 }
 setMethod("raster", "lazyraster", raster_lazyraster)
 
-#' @name lazyraster-raster-S4
 #' @importFrom raster extent
 extent_lazyraster <- function(x, ...) {
   ## TODO logic if x is a raster and ... is the r1, r2, c1, c2

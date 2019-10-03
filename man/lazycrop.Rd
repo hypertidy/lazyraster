@@ -2,10 +2,13 @@
 % Please edit documentation in R/lazyraster.R
 \name{lazycrop}
 \alias{lazycrop}
+\alias{lazycrop.BasicRaster}
 \alias{lazycrop.lazyraster}
 \title{Lazy crop}
 \usage{
 lazycrop(x, y, ..., verbose = FALSE)
+
+\method{lazycrop}{BasicRaster}(x, y, ..., verbose = FALSE)
 
 \method{lazycrop}{lazyraster}(x, y, ..., verbose = FALSE)
 }

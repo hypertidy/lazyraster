@@ -15,7 +15,7 @@
 
 \item{na.rm}{remove quads where missing values?}
 
-\item{...}{arguments passed to as_raster, for both `x` and `z` if necessary}
+\item{...}{arguments passed to as_raster, for both \code{x} and \code{z} if necessary}
 
 \item{texture}{optional input RGB raster, 3-layers}
 
@@ -25,6 +25,6 @@
 Provides a re-exported generic quadmesh and a method for lazyraster.
 }
 \details{
-A quadmesh is a [rgl::mesh3d] extension, and can be plotted in 3D
-with [rgl::shade3d].
+A quadmesh is a \link[rgl:mesh3d]{rgl::mesh3d} extension, and can be plotted in 3D
+with \link[rgl:shade3d]{rgl::shade3d}.
 }

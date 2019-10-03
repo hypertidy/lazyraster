@@ -14,9 +14,9 @@
 \method{plot}{lazyraster}(x, y, ...)
 }
 \arguments{
-\item{x}{a [lazyraster]}
+\item{x}{a \link{lazyraster}}
 
-\item{...}{passed to [raster::plot]}
+\item{...}{passed to \link[raster:plot]{raster::plot}}
 
 \item{y}{ignored}
 }

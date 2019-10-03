@@ -22,7 +22,7 @@ extdim_to_geotransform <- function(ext, dim) {
 #' @param band band number (single) of source
 #' @param a_srs PROJ4 string to apply to gdalsource in case it is wrong or missing
 #'
-#' @export
+#' @noRd
 #' @examples
 #' laea_srs <- "+proj=laea +lon_0=147 +lat_0=-52 +datum=WGS84"
 #' ex <- c(-1e6, 1e6, -1e6, 1e6)
@@ -35,15 +35,16 @@ extdim_to_geotransform <- function(ext, dim) {
 #' plot(r2)
 lazywarp <- function(gdalsource,  target, band = 1L, a_srs = NULL) {
 
+  stop("not implemented")
   ## FIXME:: needs an exported function to do this part in vapour
-  vals <- vapour::vapour_warp_raster(gdalsource, band = band,
-                        geotransform = extdim_to_geotransform(extent(target), dim(target)[1:2]),
-                        dimension = dim(target)[1:2],
-                        wkt = vapour::vapour_srs_wkt(raster::projection(target)),
-                        source_wkt = a_srs
-
-                              )[[1]] ## hardcode the one band for now
-  ## TODO: deal with missing value
-  raster::setValues(target, vals)
+  # vals <- vapour::vapour_warp_raster(gdalsource, band = band,
+  #                       geotransform = extdim_to_geotransform(extent(target), dim(target)[1:2]),
+  #                       dimension = dim(target)[1:2],
+  #                       wkt = vapour::vapour_srs_wkt(raster::projection(target)),
+  #                       source_wkt = a_srs
+  #
+  #                             )[[1]] ## hardcode the one band for now
+  # ## TODO: deal with missing value
+  # raster::setValues(target, vals)
 }
 

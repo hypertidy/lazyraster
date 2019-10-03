@@ -2,47 +2,38 @@
 % Please edit documentation in R/lazyraster.R
 \name{lazyraster}
 \alias{lazyraster}
-\alias{as_raster}
 \title{Lazy raster}
 \usage{
 lazyraster(gdalsource, band = 1, sds = NULL, ...)
-
-as_raster(x, dim = NULL, resample = "NearestNeighbour",
-  native = FALSE)
 }
 \arguments{
 \item{gdalsource}{a file name or other source string}
 
 \item{band}{which band to use, defaults to 1}
 
-\item{sds}{which subdataset to use, set to 1 if in doubt (see `vapour::vapour_sds_names`)}
+\item{sds}{which subdataset to use, set to 1 if in doubt (see \code{vapour::vapour_sds_names})}
 
 \item{...}{ignored for now}
-
-\item{x}{a [lazyraster]}
-
-\item{dim}{dimensions, pixel size in rows and columns}
-
-\item{resample}{resampling method, see [vapour::vapour_read_raster]}
 }
 \description{
-Read metadata only from a raster source, for later use with plotting and
-conversion to raster.
-
-Create a actual [raster::raster] object by breaking the lazy
-contract and demanding pixel values at a given resolution.
+A lazyraster is a metadata-only shell around a raster file source. Only metadata is read
+and and used for extent and resolution logic. A lazyraster may be cropped lazily
+and if plotted or converted to in-memory raster only a reasonable level-of-detail is actually
+used.
 }
 \details{
+See \code{\link[=lazycrop]{lazycrop()}} for cropping, and \code{\link[=as_raster]{as_raster()}} for converting to an in-memory raster.
+}
+\section{Warning}{
+
 If the inferred Y extents appear to be reversed (ymax > ymin) then they are
 reversed, with a warning. This occurs for any GDAL data source that does not have
 a geotransform and so is required for use with raster. This might not be the right interpretation,
 geotransforms are very general and it might mean the data is meant to be oriented that way.
 (I don't know why GDAL sets a positive Y pixel height as the default, it's a bit of a pain -
 should the data be flipped, or should Y be interpreted negative - no way to know!).
-
-Control the dimensions and method for resampling with the 'dim' and
-'resample' arguments.
 }
+
 \examples{
 sstfile <- system.file("extdata/sst.tif", package = "vapour")
 lazyraster(sstfile)
