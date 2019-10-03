@@ -108,19 +108,7 @@ lazy_to_raster <- function(x, dim = NULL) {
 lazycrop <- function(x, y, ..., verbose = FALSE) {
   UseMethod("lazycrop")
 }
-#' @export
-#' @name lazycrop
-lazycrop.BasicRaster <- function(x, y, ..., verbose = FALSE) {
-  ## hmm, what if there's no file, we end up with
-  ## carrying around the original data?
-  fn <- raster::filename(x)
-  if (fn != "") {
-    out <- lazycrop(lazyraster(fn), y = y, verbose= verbose, ...)
-  } else {
-    stop("no file behind this raster object")
-  }
-  out
-}
+
 #' @export
 #' @name lazycrop
 lazycrop.lazyraster <- function(x, y, ..., verbose = FALSE) {
