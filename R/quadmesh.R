@@ -2,14 +2,14 @@
 #'
 #' Provides a re-exported generic quadmesh and a method for lazyraster.
 #'
-#' A quadmesh is a [rgl::mesh3d] extension, and can be plotted in 3D
-#' with [rgl::shade3d].
+#' A quadmesh is a 'rgl::mesh3d' extension, and can be plotted in 3D
+#' with 'rgl::shade3d'.
 #' @inheritParams quadmesh::quadmesh
 #' @param ... arguments passed to as_raster, for both `x` and `z` if necessary
 #' @importFrom quadmesh quadmesh
 #' @export quadmesh
 #' @name quadmesh
-#' @return a quadmesh, derived from [rgl::mesh3d]
+#' @return a quadmesh, derived from 'rgl::mesh3d'
 #' @export
 quadmesh.lazyraster <- function (x, z = x, na.rm = FALSE, ...,
                                  texture = NULL,

@@ -22,12 +22,12 @@
 \item{texture_filename}{optional input file path for PNG texture}
 }
 \value{
-a quadmesh, derived from \link[rgl:mesh3d]{rgl::mesh3d}
+a quadmesh, derived from 'rgl::mesh3d'
 }
 \description{
 Provides a re-exported generic quadmesh and a method for lazyraster.
 }
 \details{
-A quadmesh is a \link[rgl:mesh3d]{rgl::mesh3d} extension, and can be plotted in 3D
-with \link[rgl:shade3d]{rgl::shade3d}.
+A quadmesh is a 'rgl::mesh3d' extension, and can be plotted in 3D
+with 'rgl::shade3d'.
 }

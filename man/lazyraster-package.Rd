@@ -8,7 +8,7 @@
 \description{
 Read raster data at a specified resolution on-demand. Augments
  the 'raster' package by never reading data from a 'GDAL' source until absolutely
- necessary for generating an in-memory 'raster' object. A lazyraster object
+ necessary for generating an in-memory 'raster' object. A 'lazyraster' object
  may be cropped and turned into a 'raster' object, and by default will only 
  read a small amount of data sufficient for a an overall summary. The amount 
  of data read can be controlled by specifying the output dimensions.

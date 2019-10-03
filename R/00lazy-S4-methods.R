@@ -17,6 +17,7 @@ lazycrop <- function(...) {
 #' @aliases extent crop
 #' @rdname lazyraster-raster-S4
 #' @name lazyraster-raster-S4
+#' @importFrom methods setOldClass
 #' @return [lazyraster()] and [crop()] return a lazyraster object, [extent()] returns
 #' a regular raster extent
 #' @examples
