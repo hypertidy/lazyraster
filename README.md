@@ -35,12 +35,12 @@ remotes::install_github("hypertidy/lazyraster")
 See [vapour](https://github.com/hypertidy/vapour) for more on the
 prerequisites.
 
-There are functions `lazyraster` to act like the `raster::raster`
-function and provide information but no data, and `lazycrop` to act like
-`raster::crop` and then `as_raster` to break the lazy chain and build an
-actual raster object. The size of the currently open (or latent-default)
-device is used as a reasonable size for the output grid, but can be
-controlled by argument `dim`.
+There are functions `lazyraster()` to act like the `raster::raster()`
+function and provide information but no data, and `crop()` to act like
+`raster::crop()` and then `as_raster` to break the lazy chain and build
+an actual raster object. The size of the currently open (or
+latent-default) device is used as a reasonable size for the output grid,
+but can be controlled by argument `dim`.
 
 When the data is read `lazyraster` can specify the exact dimensions of
 the output raster, and by default a reasonable guess at the number of
@@ -114,6 +114,11 @@ size (24 rows by 12 columns).
 ``` r
 sstfile <- system.file("extdata/sst.tif", package = "vapour")
 library(lazyraster)
+#> 
+#> Attaching package: 'lazyraster'
+#> The following object is masked from 'package:graphics':
+#> 
+#>     plot
 lazy <- lazyraster(sstfile)
 lazy ## stay lazy
 #> class         : LazyRaster
@@ -195,12 +200,12 @@ library(raadtools)
 #> Loading required package: raster
 #> Loading required package: sp
 #> global option 'raadfiles.data.roots' set:
-#> '/rdsi/PRIVATE/raad/data               2019-09-18 22:35:13
-#>  /rdsi/PRIVATE/raad/data_local         2019-09-18 22:39:53
-#>  /rdsi/PRIVATE/raad/data_staging       2019-09-18 22:39:54
-#>  /rdsi/PRIVATE/raad/data_deprecated    2019-09-18 22:42:44
-#>  /rdsi/PUBLIC/raad/data                2019-09-18 22:54:34'
-#> Uploading raad file cache as at 2019-09-18 23:08:03 (1012611 files listed)
+#> '/rdsi/PRIVATE/raad/data               2019-10-03 10:35:12
+#>  /rdsi/PRIVATE/raad/data_local         2019-10-03 10:40:37
+#>  /rdsi/PRIVATE/raad/data_staging       2019-10-03 10:40:38
+#>  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 10:45:13
+#>  /rdsi/PUBLIC/raad/data                2019-10-03 10:53:19'
+#> Uploading raad file cache as at 2019-10-03 10:53:58 (1017940 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
 #> class         : LazyRaster
@@ -222,14 +227,14 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.695   0.163  21.221
+    #>   0.713   0.088   0.908
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
 The resolution provided has adapted to the context asked for.
 
 ``` r
-rtas <- lazycrop(rworld, extent(143.4, 149, -44, -39.1))
+rtas <- crop(rworld, extent(143.4, 149, -44, -39.1))
 plot(rtas, col = grey(seq(0, 1, length.out = 64)), zlim = c(0, 1550))
 rbath <- as_raster(rtas)
 rbath[rbath > 0] <- NA
@@ -278,7 +283,7 @@ as_raster(mars)
 #> names      : layer 
 #> values     : -7716, 20910  (min, max)
 
-plot(lazycrop(mars, raster::extent(-100, -30, -18, 5)), 
+plot(crop(mars, raster::extent(-100, -30, -18, 5)), 
      col = grey(seq(0, 1, length = 256)))
 ```
 
@@ -344,7 +349,7 @@ plot(as_raster(gibs, dim = c(150, 150), resample = "CubicSpline"), col = head(pa
 
 ## run with a different extent
 e <- extent(-806000, 1080000, -3200000, -500000)
-plot(as_raster(lazycrop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))
+plot(as_raster(crop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))
 ```
 
 <img src="man/figures/README-tms-2.png" width="100%" />

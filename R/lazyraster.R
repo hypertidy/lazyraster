@@ -5,7 +5,8 @@
 #' and if plotted or converted to in-memory raster only a reasonable level-of-detail is actually
 #' used.
 #'
-#' See [lazycrop()] for cropping, and [as_raster()] for converting to an in-memory raster.
+#' See [crop()] for cropping - it works the same but returns a lazyraster,
+#' and [as_raster()] for converting to an in-memory raster.
 #' @section Warning:
 #' If the inferred Y extents appear to be reversed (ymax > ymin) then they are
 #' reversed, with a warning. This occurs for any GDAL data source that does not have
@@ -23,8 +24,12 @@
 #' @examples
 #' sstfile <- system.file("extdata/sst.tif", package = "vapour")
 #' lazyraster(sstfile)
+#' ## convert to raster (in memory, but not all of the source)
 #' as_raster(lazyraster(sstfile))
-#' as_raster(lazycrop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
+#' ## crop and stay as lazyraster
+#' crop(lazyraster(sstfile), raster::extent(142, 143, -50, -45))
+#' ## crop and convert to raster
+#' as_raster(crop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
 lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
   vars <- as.data.frame(vapour::vapour_sds_names(gdalsource), stringsAsFactors = FALSE)
   if (is.null(sds)) sds <- 1
@@ -97,40 +102,8 @@ lazy_to_raster <- function(x, dim = NULL) {
   raster::raster(raster::extent(ext), nrows = dim[2], ncols = dim[1], crs = proj)
 }
 
-#' Lazy crop
-#'
-#' Set an active window of data that will be pulled by conversion
-#' to an actual raster.
-#' @inheritParams raster::crop
-#' @param verbose print extra information or not
-#' @export
-#' @name lazycrop
-lazycrop <- function(x, y, ..., verbose = FALSE) {
-  UseMethod("lazycrop")
-}
 
-#' @export
-#' @name lazycrop
-lazycrop.lazyraster <- function(x, y, ..., verbose = FALSE) {
-  ex <- extent(y)
-  ## make sure our window extent reflects the parent
-  rx <- lazy_to_raster(x)
-  ex <- raster::extent(raster::crop(rx, ex, snap = "out"))
 
-  xr <- raster::xres(rx)
-  yr <- raster::yres(rx)
-  col1 <- raster::colFromX(rx, ex@xmin)
-  col2 <- raster::colFromX(rx, ex@xmax)
-  row1 <- raster::rowFromY(rx, ex@ymax)
-  row2 <- raster::rowFromY(rx, ex@ymin)
-  if (is.na(row1)) row1 <- 1
-  if (is.na(row2)) row2 <- rx@nrows
-
-  x$window <- list(window = c(col1 - 1, col2 - 1, row1 - 1, row2 - 1),
-                   windowextent = c(ex@xmin, ex@xmax, ex@ymin, ex@ymax))
-  if (verbose) print(x$window)
-  x
-}
 
 
 to_xy_minmax <- function(x) {

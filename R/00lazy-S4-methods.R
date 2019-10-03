@@ -6,7 +6,7 @@
 #' @param x various (raster, extent)
 #' @param ... arguments passed to underlying raster function
 #' @seealso [raster::raster()], [raster::extent()]
-#' @aliases extent
+#' @aliases extent crop
 #' @rdname lazyraster-raster-S4
 #' @name lazyraster-raster-S4
 setOldClass("lazyraster")
@@ -17,6 +17,10 @@ if (!isGeneric("extent")) {
 if (!isGeneric("raster")) {
   setGeneric("raster", function(x, ...)
     standardGeneric("raster"))
+}
+if (!isGeneric("crop")) {
+  setGeneric("crop", function(x, ...)
+    standardGeneric("crop"))
 }
 #' @name lazyraster-raster-S4
 #' @importFrom raster raster

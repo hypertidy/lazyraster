@@ -22,7 +22,8 @@ and if plotted or converted to in-memory raster only a reasonable level-of-detai
 used.
 }
 \details{
-See \code{\link[=lazycrop]{lazycrop()}} for cropping, and \code{\link[=as_raster]{as_raster()}} for converting to an in-memory raster.
+See \code{\link[=crop]{crop()}} for cropping - it works the same but returns a lazyraster,
+and \code{\link[=as_raster]{as_raster()}} for converting to an in-memory raster.
 }
 \section{Warning}{
 
@@ -37,6 +38,10 @@ should the data be flipped, or should Y be interpreted negative - no way to know
 \examples{
 sstfile <- system.file("extdata/sst.tif", package = "vapour")
 lazyraster(sstfile)
+## convert to raster (in memory, but not all of the source)
 as_raster(lazyraster(sstfile))
-as_raster(lazycrop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
+## crop and stay as lazyraster
+crop(lazyraster(sstfile), raster::extent(142, 143, -50, -45))
+## crop and convert to raster
+as_raster(crop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
 }
