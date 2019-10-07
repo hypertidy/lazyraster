@@ -1,0 +1,35 @@
+---
+title: "lazyraster"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{lazyraster}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+A lazyraster provides a simple way to explore any large raster data that is readable by GDAL [https://gdal.org/]((the Geospatial Data Abstraction Library)). 
+
+As with the [raster package](https://CRAN.r-project.org/package=raster) the `lazyraster()` function reads no
+data but builds an object that understands the original file source. 
+
+```{r setup}
+library(lazyraster)
+
+sstfile <- system.file("extdata/sst.tif", package = "vapour")
+
+lr <- lazyraster(sstfile)
+lr
+```
+
+As with raster, we can plot the object to get a quick summary - but note that we haven't yet had our . 
+
+```{r plot}
+plot(lr, col = hcl.colors(12, "YlOrRd", rev = TRUE))
+```
