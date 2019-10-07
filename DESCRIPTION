@@ -1,5 +1,5 @@
 Package: lazyraster
-Version: 0.5.0
+Version: 0.5.0.9001
 Title: Generate Raster Data Lazily from 'GDAL' 
 Description: Read raster data at a specified resolution on-demand via 'GDAL' 
  (the Geospatial Data Abstraction Library <https://gdal.org/>). Augments the 
@@ -21,7 +21,8 @@ Imports:
     methods,
     quadmesh (>= 0.4.0)
 Suggests: 
-    palr
+    palr,
+    testthat (>= 2.1.0)
 URL: https://github.com/hypertidy/lazyraster
 BugReports: https://github.com/hypertidy/lazyraster/issues
 Roxygen: list(markdown = TRUE)
