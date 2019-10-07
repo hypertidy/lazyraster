@@ -120,8 +120,13 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   ## TODO: this needs to account for the "usr" bounds, the current
   ## bounds that will be plotted to
   if (native) {
-    dd <- c(diff(x$window$window[1:2]) + 1,
+    # fix https://github.com/hypertidy/lazyraster/issues/9
+    if (is.null(x$window$window)) {
+      dd <- x$info$dimXY
+    } else {
+      dd <- c(diff(x$window$window[1:2]) + 1,
             diff(x$window$window[3:4]) + 1)
+    }
     if (!is.null(pulldim)) {
       warning("when 'native = TRUE' the 'dim' argument is ignored")
       message(sprintf("using native dimension %s", paste(dd, collapse = ", ")))
