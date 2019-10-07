@@ -1,5 +1,5 @@
 Package: lazyraster
-Version: 0.5.0.9001
+Version: 0.5.0
 Title: Generate Raster Data Lazily from 'GDAL' 
 Description: Read raster data at a specified resolution on-demand via 'GDAL' 
  (the Geospatial Data Abstraction Library <https://gdal.org/>). Augments the 
