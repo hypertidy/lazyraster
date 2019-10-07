@@ -6,12 +6,13 @@
 \alias{_PACKAGE}
 \title{lazyraster: Generate Raster Data Lazily from 'GDAL'}
 \description{
-Read raster data at a specified resolution on-demand. Augments
- the 'raster' package by never reading data from a 'GDAL' source until absolutely
- necessary for generating an in-memory 'raster' object. A 'lazyraster' object
- may be cropped and turned into a 'raster' object, and by default will only 
- read a small amount of data sufficient for a an overall summary. The amount 
- of data read can be controlled by specifying the output dimensions.
+Read raster data at a specified resolution on-demand via 'GDAL' 
+ (the Geospatial Data Abstraction Library <https://gdal.org/>). Augments the 
+ 'raster' package by never reading data from a raster source until necessary for 
+ generating an in-memory 'raster' object. A 'lazyraster' object may be cropped 
+ and converted to 'raster' object, and by default will only read a small amount 
+ of data sufficient for an overall summary. The amount of data read can be 
+ controlled by specifying the output dimensions.
 }
 \seealso{
 Useful links:

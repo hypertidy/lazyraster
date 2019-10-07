@@ -1,12 +1,13 @@
 Package: lazyraster
 Version: 0.5.0
 Title: Generate Raster Data Lazily from 'GDAL' 
-Description: Read raster data at a specified resolution on-demand. Augments
- the 'raster' package by never reading data from a 'GDAL' source until absolutely
- necessary for generating an in-memory 'raster' object. A 'lazyraster' object
- may be cropped and turned into a 'raster' object, and by default will only 
- read a small amount of data sufficient for a an overall summary. The amount 
- of data read can be controlled by specifying the output dimensions. 
+Description: Read raster data at a specified resolution on-demand via 'GDAL' 
+ (the Geospatial Data Abstraction Library <https://gdal.org/>). Augments the 
+ 'raster' package by never reading data from a raster source until necessary for 
+ generating an in-memory 'raster' object. A 'lazyraster' object may be cropped 
+ and converted to 'raster' object, and by default will only read a small amount 
+ of data sufficient for an overall summary. The amount of data read can be 
+ controlled by specifying the output dimensions. 
 Authors@R: person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"))
 License: GPL-3
 Encoding: UTF-8
