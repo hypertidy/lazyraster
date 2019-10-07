@@ -1,9 +1,9 @@
 
-FOLD into patch release if CRAN rejects: 
+# lazyraster 0.5.0
 
 * fix default window for native when no crop applied, https://github.com/hypertidy/lazyraster/issues/9
 
-# lazyraster 0.5.0
+* clarify DESCRIPTION thanks to CRAN feedback
 
 ## BREAKING CHANGES
 
