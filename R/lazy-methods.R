@@ -60,6 +60,6 @@ format.lazyraster <- function(x, ...) {
 #' @usage \method{plot}{lazyraster}(x, y, ...)
 #' @name lazyraster-methods
 #' @export
-plot.lazyraster <- function(x, y, ...) {
-  raster::plot(as_raster(x), ...)
+plot.lazyraster <- function(x, y,  ...) {
+  raster::plot(as_raster(x),  ...)
 }
