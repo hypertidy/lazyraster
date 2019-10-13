@@ -22,7 +22,8 @@ Imports:
     quadmesh (>= 0.4.0)
 Suggests: 
     palr,
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    covr
 URL: https://github.com/hypertidy/lazyraster
 BugReports: https://github.com/hypertidy/lazyraster/issues
 Roxygen: list(markdown = TRUE)
