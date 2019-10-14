@@ -1,3 +1,6 @@
+# lazyraster dev
+
+* Added window dimension to lazyraster print out (boilerplate for no crop). 
 
 # lazyraster 0.5.0
 
