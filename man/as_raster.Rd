@@ -27,5 +27,8 @@ contract and demanding pixel values at a given resolution.
 Control the dimensions and method for resampling with the 'dim' and
 'resample' arguments.
 
+If \code{dim} is non-integer it is rounded according to what raster does with the
+dimensions.
+
 When \code{native = TRUE} the \code{dim} argument is ignored, and no resampling is performed.
 }
