@@ -1,0 +1,78 @@
+---
+title: "USGS-topo-wmts"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{USGS-topo-wmts}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Example workflow to obtain online imagery from the USGS - [tweet by Byran Rabon ](https://twitter.com/BryanRabon/status/1193375216761757697). 
+
+
+```{r setup, eval = FALSE}
+library(lazyraster)
+
+u <- "WMTS:https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/WMTS/1.0.0/WMTSCapabilities.xml,layer=USGSTopo,tilematrixset=default028mm"
+#raster::brick(u)
+## raster's no good at crop+decimate, so lazyraster
+
+## but, we need to get a band at a time
+l <- purrr::map(1:3, ~lazyraster(u, band = .x))
+lx <- l
+# ex <- new("Extent", xmin = -10488538.9539657, xmax = -9554282.8734729, 
+#           ymin = 5344208.16776348, ymax = 6023667.13539462)
+centre <- c(-9004415, 3806965)
+radius <- 4000
+library(raster)
+ex <- extent(centre[c(1, 1, 2, 2)] + c(-1, 1, -1, 1) * radius)
+
+ext <- ex
+dim <- as.integer(ceiling(rep(max(dev.size("px")), 2)/2))
+plot <- TRUE
+alpha <- FALSE
+
+plot_get_wmts <- function(lx, ext = NULL, dim = NULL, ..., plot = TRUE, alpha = FALSE) {
+  if (alpha) idx <- 1:4 else idx <- 1:3
+  if (is.null(ext)) ext <- raster::extent(lx[[1]])
+  print(idx)
+  print(ext)
+  print(dim)
+  rgb <- raster::brick(lapply(idx, function(xx) as_raster(crop(lx[[xx]], ext), dim = dim)))
+  if (plot) raster::plotRGB(rgb)
+  invisible(rgb)
+}
+
+
+## not working to get different sized x, y (problem in lazyraster?)
+rgb_map <- plot_get_wmts(l, ex, dim = rep(max(dev.size("px")), 2)/2) # * c((xmax(ex) - xmin(ex))/(ymax(ex) - ymin(ex)), 1))
+
+
+raster::plotRGB(rgb_map)
+```
+
+Now convert to ggplot2 form, using [trail here](https://github.com/hypertidy/ceramic/issues/4). 
+
+```{r ggplot-rgb, eval = FALSE}
+library(ggplot2)
+
+tab <- tibble::as_tibble(as.data.frame(rgb_map, xy = TRUE))
+names(tab) <- c("x", "y", "red", "green", "blue")
+#tab <- dplyr::filter(tab, !is.na(red))
+
+## ... when we have missing values, we should drop them or rgb() will error
+tab$hex <- rgb(tab$red, tab$green, tab$blue, maxColorValue = 255)
+ggplot(tab, aes(x, y, fill = hex)) + 
+  geom_raster() + 
+  coord_equal() + 
+  scale_fill_identity()
+```
