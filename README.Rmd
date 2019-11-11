@@ -169,7 +169,7 @@ plot(ga)
 
 
 
-```{r tms, eval=F}
+```{r tms, eval=TRUE}
 # Make a TMS source and read at the desired resolution. 
 # More here: http://rpubs.com/cyclemumner/358029
 # 
