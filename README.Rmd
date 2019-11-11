@@ -36,7 +36,7 @@ The package can be installed from Github.
 remotes::install_github("hypertidy/lazyraster")
 ```
 
-See [vapour](https://github.com/hypertidy/vapour) for more on the prerequisites. 
+See [vapour](https://github.com/hypertidy/vapour) for more on the installation prerequisites. 
 
 ## Details 
 
@@ -169,7 +169,7 @@ plot(ga)
 
 
 
-```{r tms}
+```{r tms, eval=F}
 # Make a TMS source and read at the desired resolution. 
 # More here: http://rpubs.com/cyclemumner/358029
 # 

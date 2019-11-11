@@ -11,3 +11,4 @@
 ^codecov\.yml$
 ^gdalwmschache$
 ^vignettes/gdalwmscache$
+^tic\.R$

@@ -1,12 +1,46 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+# Default configuration for use with tic package
+# tic documentation to get started: https://ropenscilabs.github.io/tic/
+# Usually you shouldn't need to change the first part of the file
 
+# DO NOT CHANGE THE CODE BELOW
+before_install:
+  - R -q -e 'if (!requireNamespace("remotes")) install.packages("remotes")'
+  - R -q -e 'if (getRversion() < "3.2" && !requireNamespace("curl")) install.packages("curl")'
+  - R -q -e 'remotes::install_github("ropenscilabs/tic", upgrade = "always"); print(tic::dsl_load()); tic::prepare_all_stages()'
+  - R -q -e 'tic::before_install()'
+install: R -q -e 'tic::install()'
+after_install: R -q -e 'tic::after_install()'
+before_script: R -q -e 'tic::before_script()'
+script: R -q -e 'tic::script()'
+after_success: R -q -e 'tic::after_success()'
+after_failure: R -q -e 'tic::after_failure()'
+before_deploy: R -q -e 'tic::before_deploy()'
+deploy:
+  provider: script
+  script: R -q -e 'tic::deploy()'
+  on:
+    all_branches: true
+after_deploy: R -q -e 'tic::after_deploy()'
+after_script: R -q -e 'tic::after_script()'
+# DO NOT CHANGE THE CODE ABOVE
+
+# Custom parts:
+
+# Header
 language: r
-sudo: enabled
-
-cache:
-  - packages
-  - ccache
+sudo: false
+dist: trusty
+cache: packages
 latex: false
+
+#env
+env:
+  global:
+  - MAKEFLAGS="-j 2"
+
+#services
+services:
 
 addons:
   apt:
@@ -14,12 +48,6 @@ addons:
       - sourceline: 'ppa:opencpu/jq'
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
-#      - libprotobuf-dev
-#      - protobuf-compiler
-#      - libv8-3.14-dev
-#      - libjq-dev
-#      - libjson-c-dev
-#      - libudunits2-dev
       - libproj-dev
       - libgeos-dev
       - libspatialite-dev
@@ -58,10 +86,3 @@ matrix:
           env:
            - BUILD_NAME=osx_release
            - R_CODECOV=true
-          #- os: osx
-          #r: devel
-          #before_install: ''
-          #disable_homebrew: true
-
-after_success:
-  - Rscript -e 'covr::codecov()'

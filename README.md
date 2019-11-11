@@ -30,7 +30,7 @@ remotes::install_github("hypertidy/lazyraster")
 ```
 
 See [vapour](https://github.com/hypertidy/vapour) for more on the
-prerequisites.
+installation prerequisites.
 
 ## Details
 
@@ -182,14 +182,21 @@ library(raadtools)
 #> Loading required package: raster
 #> Loading required package: sp
 #> global option 'raadfiles.data.roots' set:
-#> '/rdsi/PRIVATE/raad/data               2019-10-09 11:35:11
-#>  /rdsi/PRIVATE/raad/data_local         2019-10-09 11:35:49
-#>  /rdsi/PRIVATE/raad/data_staging       2019-10-09 11:35:49
-#>  /rdsi/PRIVATE/raad/data_deprecated    2019-10-09 11:38:40
-#>  /rdsi/PUBLIC/raad/data                2019-10-09 11:45:12'
-#> Uploading raad file cache as at 2019-10-09 11:53:19 (1018905 files listed)
+#> '//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data               2019-11-10 14:44:35
+#>  //aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_local         2019-11-10 14:35:47
+#>  //aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_deprecated    2018-09-17 13:42:33'
+#> Uploading raad file cache as at 2019-11-11 14:57:51 (993664 files listed)
 f <- raadtools::topofile("gebco_14")
 lazyraster(f)
+#> Warning in normalizePath(path.expand(path), winslash, mustWork):
+#> path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/
+#> www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\
+#> \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":
+#> Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork):
+#> path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/
+#> www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied
 #> class         : LazyRaster
 #> dimensions    : 21600, 43200 (nrow, ncol)
 #> resolution    : 0.008333333, 0.008333333 (x, y)
@@ -204,12 +211,31 @@ system.time({
   rworld <- lazyraster(f)
 plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab = "", asp = "", legend = FALSE)
 })
+#> Warning in normalizePath(path.expand(path), winslash, mustWork):
+#> path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/
+#> www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\
+#> \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":
+#> Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork):
+#> path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/
+#> www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\
+#> \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":
+#> Access is denied
+
+#> Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\
+#> \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":
+#> Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork):
+#> path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/
+#> www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied
 ```
 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.703   0.103   0.929
+    #>    0.97    0.39    3.84
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
@@ -218,7 +244,26 @@ The resolution provided has adapted to the context asked for.
 ``` r
 rtas <- crop(rworld, extent(143.4, 149, -44, -39.1))
 plot(rtas, col = grey(seq(0, 1, length.out = 64)), zlim = c(0, 1550))
+#> Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\
+#> \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":
+#> Access is denied
+
+#> Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\
+#> \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":
+#> Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork):
+#> path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/
+#> www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied
 rbath <- as_raster(rtas)
+#> Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\
+#> \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":
+#> Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\
+#> \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":
+#> Access is denied
+#> Warning in normalizePath(path.expand(path), winslash, mustWork):
+#> path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/
+#> www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied
 rbath[rbath > 0] <- NA
 contour(rbath, add = TRUE, levels = quantile(rbath, prob = seq(0, 1, length.out = 8)))
 title("Tasmania topography + bathymetric contours, from Gebco 2014", cex.main = 0.85)
@@ -321,18 +366,11 @@ library(raster)
 ## run the same simplification but with a different resampling 
 ## method
 plot(as_raster(gibs, dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))
-```
-
-<img src="man/figures/README-tms-1.png" width="100%" />
-
-``` r
 
 ## run with a different extent
 e <- extent(-806000, 1080000, -3200000, -500000)
 plot(as_raster(crop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))
 ```
-
-<img src="man/figures/README-tms-2.png" width="100%" />
 
 Please note that this project is released with a [Contributor Code of
 Conduct](https://github.com/hypertidy/lazyraster/blob/master/CODE_OF_CONDUCT.md).
