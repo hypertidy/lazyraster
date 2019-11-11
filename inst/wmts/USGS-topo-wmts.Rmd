@@ -22,8 +22,14 @@ Example workflow to obtain online imagery from the USGS - [tweet by Byran Rabon 
 ```{r setup, eval = FALSE}
 library(lazyraster)
 
-u <- "WMTS:https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/WMTS/1.0.0/WMTSCapabilities.xml,layer=USGSTopo,tilematrixset=default028mm"
-#raster::brick(u)
+## SDS syntax found by gdalinfo on the source URL(which ends at WMTSCapabilities.xml)
+## zoom is added as per https://gdal.org/drivers/raster/wmts.html
+u <- "WMTS:https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/WMTS/1.0.0/WMTSCapabilities.xml,layer=USGSTopo,tilematrixset=default028mm,zoom_level=0"
+
+slippymath::()
+raster::brick(u)
+stars::read_stars(u, proxy = TRUE)
+
 ## raster's no good at crop+decimate, so lazyraster
 
 ## but, we need to get a band at a time
@@ -33,6 +39,11 @@ lx <- l
 #           ymin = 5344208.16776348, ymax = 6023667.13539462)
 centre <- c(-9004415, 3806965)
 radius <- 4000
+merc <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs"
+ll_ext <- sf::sf_project(merc, "+proj=longlat +a=6378137 +b=6378137", as.matrix(expand.grid(x = centre[1] + c(-1, 1) * radius, 
+                      y = centre[2] + c(-1, 1) * radius)))
+
+                      
 library(raster)
 ex <- extent(centre[c(1, 1, 2, 2)] + c(-1, 1, -1, 1) * radius)
 

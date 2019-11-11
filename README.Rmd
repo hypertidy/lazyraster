@@ -4,7 +4,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-111
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![Travis-CI Build Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&env=BUILD_NAME=trusty_release&label=linux)](https://travis-ci.org/hypertidy/lazyraster)
