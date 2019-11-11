@@ -1,6 +1,5 @@
 pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
-articles:
-  USGS-topo-wmts: USGS-topo-wmts.html
+articles: {}
 

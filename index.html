@@ -52,18 +52,6 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/USGS-topo-wmts.html">USGS-topo-wmts</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -197,33 +185,32 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Loading required package: raster</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Loading required package: sp</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; global option 'raadfiles.data.roots' set:</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; '/rdsi/PRIVATE/raad/data               2019-11-11 03:35:09</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_local         2019-11-11 03:39:01</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_staging       2019-11-11 03:39:01</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_deprecated    2019-11-11 03:39:01</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  /rdsi/PUBLIC/raad/data                2019-11-11 03:48:38'</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Uploading raad file cache as at 2019-11-11 04:03:21 (859381 files listed)</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; '/rdsi/PRIVATE/raad/data               2019-11-11 09:35:09</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_local         2019-11-11 09:35:50</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_staging       2019-11-11 09:35:50</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_deprecated    2019-11-11 09:35:50</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  /rdsi/PUBLIC/raad/data                2019-11-11 09:45:53'</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Uploading raad file cache as at 2019-11-11 10:53:02 (859381 files listed)</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11">f &lt;-<span class="st"> </span>raadtools<span class="op">::</span><span class="kw">topofile</span>(<span class="st">"gebco_14"</span>)</a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; Raad file cache is up to date as at 2019-11-11 04:03:21 (859381 files listed)</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; class            : LazyRaster</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; dimensions       : 21600, 43200 (nrow, ncol)</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; resolution       : 0.008333333, 0.008333333 (x, y)</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; extent           : -180.0000,  180.0000,  -90.0000,   90.0000 (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; crs              : &lt;placeholder&gt;</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; values           : NA, NA (min, max - range from entire extent)</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; window extent    : &lt;whole extent&gt;</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; window index     : &lt;-&gt;</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; window dimension : (full) (ncol, nrow)</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(raster)</a>
-<a class="sourceLine" id="cb5-24" data-line-number="24">op &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({</a>
-<a class="sourceLine" id="cb5-26" data-line-number="26">  rworld &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(rworld, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">100</span>)), <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">xlab =</span> <span class="st">""</span>, <span class="dt">ylab =</span> <span class="st">""</span>, <span class="dt">asp =</span> <span class="st">""</span>, <span class="dt">legend =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb5-28" data-line-number="28">})</a></code></pre></div>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; class            : LazyRaster</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; dimensions       : 21600, 43200 (nrow, ncol)</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; resolution       : 0.008333333, 0.008333333 (x, y)</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; extent           : -180.0000,  180.0000,  -90.0000,   90.0000 (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; crs              : &lt;placeholder&gt;</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; values           : NA, NA (min, max - range from entire extent)</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; window extent    : &lt;whole extent&gt;</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; window index     : &lt;-&gt;</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; window dimension : (full) (ncol, nrow)</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(raster)</a>
+<a class="sourceLine" id="cb5-23" data-line-number="23">op &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({</a>
+<a class="sourceLine" id="cb5-25" data-line-number="25">  rworld &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(rworld, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">100</span>)), <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">xlab =</span> <span class="st">""</span>, <span class="dt">ylab =</span> <span class="st">""</span>, <span class="dt">asp =</span> <span class="st">""</span>, <span class="dt">legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb5-27" data-line-number="27">})</a></code></pre></div>
 <p><img src="reference/figures/README-raadtools-1.png" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">#&gt;    user  system elapsed </span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   0.737   0.031   0.898</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   0.714   0.033   0.867</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(op)</a></code></pre></div>
 <p>Now, plot the same kind of image but zoom in on a region purposefully. The resolution provided has adapted to the context asked for.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rtas &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster-raster-S4.html">crop</a></span>(rworld, <span class="kw"><a href="reference/lazyraster-raster-S4.html">extent</a></span>(<span class="fl">143.4</span>, <span class="dv">149</span>, <span class="dv">-44</span>, <span class="fl">-39.1</span>))</a>
