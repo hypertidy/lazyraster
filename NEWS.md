@@ -1,5 +1,7 @@
 # lazyraster dev
 
+* Avoid issue of non-integer dimensions, with different rounding schemes #13. 
+
 * Added window dimension to lazyraster print out (boilerplate for no crop). 
 
 # lazyraster 0.5.0

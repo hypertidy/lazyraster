@@ -66,6 +66,9 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
 #' Control the dimensions and method for resampling with the 'dim' and
 #' 'resample' arguments.
 #'
+#' If `dim` is non-integer it is rounded according to what raster does with the
+#' dimensions.
+#'
 #' When `native = TRUE` the `dim` argument is ignored, and no resampling is performed.
 #' @param x a [lazyraster]
 #' @param dim dimensions, pixel size in rows and columns
@@ -143,6 +146,10 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
 
   ## TODO raster from ssraster, override with dim
   r <- lazy_to_raster(x, dim = pulldim)
+  ## GDAL rounds down, but raster has already rounded up (snap = out)
+  ## so we should derive the pulldim from the raster
+  pulldim <- dim(r)[c(2L, 1L)]  ##https://github.com/hypertidy/lazyraster/issues/13
+
   ## TODO pull window spec from info/plotdim, allow choice of resampling
   window_odim <- c(0, 0, x$info$dimXY[1], x$info$dimXY[2]) ## the global window
   if (!is.null(x$window$window)) {
