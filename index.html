@@ -140,25 +140,26 @@
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;     plot</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8">lazy &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(sstfile)</a>
 <a class="sourceLine" id="cb2-9" data-line-number="9">lazy ## stay lazy</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; class         : LazyRaster</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; dimensions    : 286, 143 (nrow, ncol)</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; resolution    : 0.07000000, 0.07000389 (x, y)</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; extent        : 140.00000, 150.01000, -60.01833, -39.99722 (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; crs           : &lt;placeholder&gt;</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; values        : NA, NA (min, max - range from entire extent)</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; window extent : &lt;whole extent&gt;</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; window index  : &lt;-&gt;</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19">## be only so lazy</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(lazy, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">24</span>))</a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; class      : RasterLayer </span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; dimensions : 24, 12, 288  (nrow, ncol, ncell)</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; resolution : 0.8341667, 0.834213  (x, y)</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; crs        : NA </span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; source     : memory</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; names      : layer </span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; values     : -3.4e+38, 289.478  (min, max)</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; class            : LazyRaster</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; dimensions       : 286, 143 (nrow, ncol)</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; resolution       : 0.07000000, 0.07000389 (x, y)</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; extent           : 140.00000, 150.01000, -60.01833, -39.99722 (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; crs              : &lt;placeholder&gt;</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; values           : NA, NA (min, max - range from entire extent)</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; window extent    : &lt;whole extent&gt;</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; window index     : &lt;-&gt;</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; window dimension : (full) (ncol, nrow)</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">## be only so lazy</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(lazy, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">12</span>, <span class="dv">24</span>))</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; class      : RasterLayer </span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; dimensions : 24, 12, 288  (nrow, ncol, ncell)</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; resolution : 0.8341667, 0.834213  (x, y)</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; crs        : NA </span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; source     : memory</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; names      : layer </span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; values     : -3.4e+38, 289.478  (min, max)</span></a></code></pre></div>
 <p>The call to <code>as_raster</code> read actual data from the file, hence the difference between the range of data values reported first from the whole extent, and then reported by raster itself for the resample data read in.</p>
 <p>Now let <code>lazyraster</code> make its own choice about the size of the output. This will be based on the return value of <code><a href="https://rdrr.io/r/grDevices/dev.size.html">dev.size("px")</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">## note how we actually resample up because this data is not very large</a>
@@ -196,84 +197,41 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Loading required package: raster</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Loading required package: sp</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; global option 'raadfiles.data.roots' set:</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; '//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data               2019-11-10 14:44:35</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  //aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_local         2019-11-10 14:35:47</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  //aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data_deprecated    2018-09-17 13:42:33'</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; Uploading raad file cache as at 2019-11-11 14:57:51 (993664 files listed)</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">f &lt;-<span class="st"> </span>raadtools<span class="op">::</span><span class="kw">topofile</span>(<span class="st">"gebco_14"</span>)</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork):</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; Access is denied</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork):</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; class         : LazyRaster</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; dimensions    : 21600, 43200 (nrow, ncol)</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; resolution    : 0.008333333, 0.008333333 (x, y)</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; extent        : -180.0000,  180.0000,  -90.0000,   90.0000 (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; crs           : &lt;placeholder&gt;</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; values        : NA, NA (min, max - range from entire extent)</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; window extent : &lt;whole extent&gt;</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; window index  : &lt;-&gt;</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(raster)</a>
-<a class="sourceLine" id="cb5-29" data-line-number="29">op &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({</a>
-<a class="sourceLine" id="cb5-31" data-line-number="31">  rworld &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(rworld, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">100</span>)), <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">xlab =</span> <span class="st">""</span>, <span class="dt">ylab =</span> <span class="st">""</span>, <span class="dt">asp =</span> <span class="st">""</span>, <span class="dt">legend =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb5-33" data-line-number="33">})</a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork):</span></a>
-<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt; path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/</span></a>
-<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt; www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied</span></a>
-<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\</span></a>
-<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":</span></a>
-<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; Access is denied</span></a>
-<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork):</span></a>
-<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt; path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/</span></a>
-<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt; www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied</span></a>
-<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\</span></a>
-<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="co">#&gt; \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":</span></a>
-<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt; Access is denied</span></a>
-<a class="sourceLine" id="cb5-46" data-line-number="46"></a>
-<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\</span></a>
-<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt; \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":</span></a>
-<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt; Access is denied</span></a>
-<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork):</span></a>
-<a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt; path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/</span></a>
-<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="co">#&gt; www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; '/rdsi/PRIVATE/raad/data               2019-11-11 03:35:09</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_local         2019-11-11 03:39:01</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_staging       2019-11-11 03:39:01</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  /rdsi/PRIVATE/raad/data_deprecated    2019-11-11 03:39:01</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  /rdsi/PUBLIC/raad/data                2019-11-11 03:48:38'</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Uploading raad file cache as at 2019-11-11 04:03:21 (859381 files listed)</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">f &lt;-<span class="st"> </span>raadtools<span class="op">::</span><span class="kw">topofile</span>(<span class="st">"gebco_14"</span>)</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; Raad file cache is up to date as at 2019-11-11 04:03:21 (859381 files listed)</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; class            : LazyRaster</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; dimensions       : 21600, 43200 (nrow, ncol)</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; resolution       : 0.008333333, 0.008333333 (x, y)</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; extent           : -180.0000,  180.0000,  -90.0000,   90.0000 (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; crs              : &lt;placeholder&gt;</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; values           : NA, NA (min, max - range from entire extent)</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; window extent    : &lt;whole extent&gt;</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; window index     : &lt;-&gt;</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; window dimension : (full) (ncol, nrow)</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(raster)</a>
+<a class="sourceLine" id="cb5-24" data-line-number="24">op &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({</a>
+<a class="sourceLine" id="cb5-26" data-line-number="26">  rworld &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(f)</a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(rworld, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">100</span>)), <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">xlab =</span> <span class="st">""</span>, <span class="dt">ylab =</span> <span class="st">""</span>, <span class="dt">asp =</span> <span class="st">""</span>, <span class="dt">legend =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb5-28" data-line-number="28">})</a></code></pre></div>
 <p><img src="reference/figures/README-raadtools-1.png" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co">#&gt;    user  system elapsed </span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;    0.97    0.39    3.84</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   0.737   0.031   0.898</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(op)</a></code></pre></div>
 <p>Now, plot the same kind of image but zoom in on a region purposefully. The resolution provided has adapted to the context asked for.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">rtas &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster-raster-S4.html">crop</a></span>(rworld, <span class="kw"><a href="reference/lazyraster-raster-S4.html">extent</a></span>(<span class="fl">143.4</span>, <span class="dv">149</span>, <span class="dv">-44</span>, <span class="fl">-39.1</span>))</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(rtas, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">64</span>)), <span class="dt">zlim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1550</span>))</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; Access is denied</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; Access is denied</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork):</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13">rbath &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(rtas)</a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; Access is denied</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork): path[1]="\</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; \aad.gov.au\files\AADC\Scientific_Data\Data\gridded_new\data\www.bodc.ac.uk\gebco\GEBCO_2014_2D.nc":</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; Access is denied</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; Warning in normalizePath(path.expand(path), winslash, mustWork):</span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; path[1]="//aad.gov.au/files/AADC/Scientific_Data/Data/gridded_new/data/</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; www.bodc.ac.uk/gebco/GEBCO_2014_2D.nc": Access is denied</span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23">rbath[rbath <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/contour.html">contour</a></span>(rbath, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/quantile.html">quantile</a></span>(rbath, <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">8</span>)))</a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="kw"><a href="https://rdrr.io/r/graphics/title.html">title</a></span>(<span class="st">"Tasmania topography + bathymetric contours, from Gebco 2014"</span>, <span class="dt">cex.main =</span> <span class="fl">0.85</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb7-3" data-line-number="3">rbath &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(rtas)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">rbath[rbath <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/contour.html">contour</a></span>(rbath, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/quantile.html">quantile</a></span>(rbath, <span class="dt">prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">8</span>)))</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/title.html">title</a></span>(<span class="st">"Tasmania topography + bathymetric contours, from Gebco 2014"</span>, <span class="dt">cex.main =</span> <span class="fl">0.85</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-1-1.png" width="100%"></p>
 <p>This is not just to plot big rasters, it’s potentially useful for streaming gridded data to a device that is resizing the view port interactively. We also use it to explore a data set for useability and general coverage, and designing sensible resampling workflows for very large data models.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">## PLEASE take care with this url, it is a 11Gb GeoTIFF</a>
@@ -282,15 +240,16 @@
 <a class="sourceLine" id="cb8-4" data-line-number="4">## note prefix with GDAL's URL indirection</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5">mars &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster.html">lazyraster</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"/vsicurl"</span>, dangerurl))</a>
 <a class="sourceLine" id="cb8-6" data-line-number="6">mars</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; class         : LazyRaster</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; dimensions    : 53347, 106694 (nrow, ncol)</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; resolution    : 0.003374121, 0.003374121 (x, y)</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; extent        : -180.00000,  179.99845,  -89.99922,   90.00000 (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; crs           : &lt;placeholder&gt;</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; values        : NA, NA (min, max - range from entire extent)</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; window extent : &lt;whole extent&gt;</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; window index  : &lt;-&gt;</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(mars, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">256</span>)))</a></code></pre></div>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; class            : LazyRaster</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; dimensions       : 53347, 106694 (nrow, ncol)</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; resolution       : 0.003374121, 0.003374121 (x, y)</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; extent           : -180.00000,  179.99845,  -89.99922,   90.00000 (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; crs              : &lt;placeholder&gt;</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; values           : NA, NA (min, max - range from entire extent)</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; window extent    : &lt;whole extent&gt;</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; window index     : &lt;-&gt;</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; window dimension : (full) (ncol, nrow)</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(mars, <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/grDevices/gray.html">grey</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">256</span>)))</a></code></pre></div>
 <p><img src="reference/figures/README-mars-1.png" width="100%"></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(mars)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; class      : RasterLayer </span></a>
@@ -348,10 +307,18 @@
 <a class="sourceLine" id="cb11-35" data-line-number="35">## run the same simplification but with a different resampling </a>
 <a class="sourceLine" id="cb11-36" data-line-number="36">## method</a>
 <a class="sourceLine" id="cb11-37" data-line-number="37"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(gibs, <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>), <span class="dt">resample =</span> <span class="st">"CubicSpline"</span>), <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(palr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/palr/man/sst_pal.html">sstPal</a></span>(<span class="dv">64</span>), <span class="dv">45</span>))</a>
-<a class="sourceLine" id="cb11-38" data-line-number="38"></a>
-<a class="sourceLine" id="cb11-39" data-line-number="39">## run with a different extent</a>
-<a class="sourceLine" id="cb11-40" data-line-number="40">e &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster-raster-S4.html">extent</a></span>(<span class="op">-</span><span class="dv">806000</span>, <span class="dv">1080000</span>, <span class="dv">-3200000</span>, <span class="dv">-500000</span>)</a>
-<a class="sourceLine" id="cb11-41" data-line-number="41"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(<span class="kw"><a href="reference/lazyraster-raster-S4.html">crop</a></span>(gibs, e), <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>), <span class="dt">resample =</span> <span class="st">"CubicSpline"</span>), <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(palr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/palr/man/sst_pal.html">sstPal</a></span>(<span class="dv">64</span>), <span class="dv">45</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb11-38" data-line-number="38"><span class="co">#&gt; Warning: 'palr::sstPal' is deprecated.</span></a>
+<a class="sourceLine" id="cb11-39" data-line-number="39"><span class="co">#&gt; Use 'sst_pal' instead.</span></a>
+<a class="sourceLine" id="cb11-40" data-line-number="40"><span class="co">#&gt; See help("Deprecated")</span></a></code></pre></div>
+<p><img src="reference/figures/README-tms-1.png" width="100%"></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">## run with a different extent</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">e &lt;-<span class="st"> </span><span class="kw"><a href="reference/lazyraster-raster-S4.html">extent</a></span>(<span class="op">-</span><span class="dv">806000</span>, <span class="dv">1080000</span>, <span class="dv">-3200000</span>, <span class="dv">-500000</span>)</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span>(<span class="kw"><a href="reference/as_raster.html">as_raster</a></span>(<span class="kw"><a href="reference/lazyraster-raster-S4.html">crop</a></span>(gibs, e), <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">150</span>, <span class="dv">150</span>), <span class="dt">resample =</span> <span class="st">"CubicSpline"</span>), <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span>(palr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/palr/man/sst_pal.html">sstPal</a></span>(<span class="dv">64</span>), <span class="dv">45</span>))</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; Warning: 'palr::sstPal' is deprecated.</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; Use 'sst_pal' instead.</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; See help("Deprecated")</span></a></code></pre></div>
+<p><img src="reference/figures/README-tms-2.png" width="100%"></p>
 <p>Please note that this project is released with a <a href="https://github.com/hypertidy/lazyraster/blob/master/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
