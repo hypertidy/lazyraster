@@ -71,19 +71,21 @@ lazyraster <- function(gdalsource, band = NULL, sds = NULL, ...) {
 #' dimensions.
 #'
 #' When `native = TRUE` the `dim` argument is ignored, and no resampling is performed.
+#'
 #' @param x a [lazyraster]
 #' @param dim dimensions, pixel size in rows and columns
 #' @param resample resampling method, see [vapour::vapour_read_raster]
 #' @param native return raster at native resolution, default is `FALSE`
+#' @param band set to 1-based band numbers to return (independently of those set with [lazyraster()])
 #' @return a regular raster 'BasicRaster' in-memory object
 #' @name as_raster
 #' @export
-as_raster <- function(x, dim = NULL, resample = "NearestNeighbour", native = FALSE) {
+as_raster <- function(x, dim = NULL, resample = "NearestNeighbour", native = FALSE, band = 1L) {
   UseMethod("as_raster")
 }
 #' @export
-as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour", native = FALSE) {
-  pull_lazyraster(x, pulldim = dim, resample = resample, native = native)
+as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour", native = FALSE, band = 1L) {
+  pull_lazyraster(x, pulldim = dim, resample = resample, native = native, band = band)
 }
 
 
@@ -120,7 +122,7 @@ to_xy_minmax <- function(x) {
   c(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)
 }
 #' @importFrom grDevices dev.size
-pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", native = FALSE) {
+pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", native = FALSE, band = 1L) {
   ## TODO: this needs to account for the "usr" bounds, the current
   ## bounds that will be plotted to
   if (native) {
@@ -161,7 +163,10 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
     window_odim <- c(window[c(1, 3)], (window[2] - window[1])+ 1, (window[4] - window[3]) + 1)
   }
 
-  vals <- lapply(x$raster$band,
+  bands <- x$raster$band
+  if (!is.null(band)) bands <- band
+  if (is.null(band)) bands <- seq_len(x$info$bands)
+  vals <- lapply(bands,
                 function(bnd) {
                   vapour::vapour_read_raster(x$source,
                                              band = bnd,
