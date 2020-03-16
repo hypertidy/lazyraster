@@ -4,12 +4,12 @@
 \alias{lazyraster}
 \title{Lazy raster}
 \usage{
-lazyraster(gdalsource, band = 1, sds = NULL, ...)
+lazyraster(gdalsource, band = NULL, sds = NULL, ...)
 }
 \arguments{
 \item{gdalsource}{a file name or other source string}
 
-\item{band}{which band to use, defaults to 1}
+\item{band}{which band to use, defaults to all present}
 
 \item{sds}{which subdataset to use, set to 1 if in doubt (see \code{vapour::vapour_sds_names})}
 

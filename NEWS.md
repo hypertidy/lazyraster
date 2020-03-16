@@ -1,5 +1,7 @@
 # lazyraster dev
 
+* Allow multiple bands, defaults to all available. 
+
 * Avoid issue of non-integer dimensions, with different rounding schemes #13. 
 
 * Added window dimension to lazyraster print out (boilerplate for no crop). 

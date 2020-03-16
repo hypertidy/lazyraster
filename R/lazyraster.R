@@ -16,7 +16,7 @@
 #' should the data be flipped, or should Y be interpreted negative - no way to know!).
 #'
 #' @param gdalsource a file name or other source string
-#' @param band which band to use, defaults to 1
+#' @param band which band to use, defaults to all present
 #' @param sds which subdataset to use, set to 1 if in doubt (see `vapour::vapour_sds_names`)
 #' @param ... ignored for now
 #' @return a lazyraster object, a simple shell around a GDAL raster source
@@ -30,7 +30,7 @@
 #' crop(lazyraster(sstfile), raster::extent(142, 143, -50, -45))
 #' ## crop and convert to raster
 #' as_raster(crop(lazyraster(sstfile), raster::extent(142, 143, -50, -45)))
-lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
+lazyraster <- function(gdalsource, band = NULL, sds = NULL, ...) {
   vars <- as.data.frame(vapour::vapour_sds_names(gdalsource), stringsAsFactors = FALSE)
   if (is.null(sds)) sds <- 1
   stopifnot(sds > 0)
@@ -39,8 +39,9 @@ lazyraster <- function(gdalsource, band = 1, sds = NULL, ...) {
   if (nrow(vars) > 1) gdalsource <- vars$subdataset[sds]
 
   info <- vapour::vapour_raster_info(gdalsource)
-  if (band < 1) stop("band must be 1 or greater")
-  if (band > info$bands) stop(sprintf("band greater than total number of bands (%i)", info$bands))
+  if (is.null(band)) band <- seq_len(info$bands)
+  if (all(band < 1)) stop("band must be 1 or greater")
+  if (all(band > info$bands)) stop(sprintf("band greater than total number of bands (%i)", info$bands))
   raster <- list(band = band)
 
   if (info$geotransform[6L] > 0) {
@@ -160,11 +161,23 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
     window_odim <- c(window[c(1, 3)], (window[2] - window[1])+ 1, (window[4] - window[3]) + 1)
   }
 
-  vals <- vapour::vapour_read_raster(x$source, band = x$raster$band, window = c(window_odim, pulldim[1], pulldim[2]),
-                            resample = resample, set_na = TRUE)[[1]] ## hardcode 1 band
+  vals <- lapply(x$raster$band,
+                function(bnd) {
+                  vapour::vapour_read_raster(x$source,
+                                             band = bnd,
+                                             window = c(window_odim, pulldim[1], pulldim[2]),
+                            resample = resample, set_na = TRUE)[[1L]]})  ## no multibands in vapour yet
+
   ## TODO clamp values to info$minmax - no longer needed with vapour set_na
   #vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
 
-  raster::setValues(r, vals)
+  out <-
+  if (length(vals) > 1L) {
+    raster::setValues(raster::brick(replicate(length(vals), r, simplify = FALSE)),
+                      do.call(cbind, vals))
+  } else {
+   raster::setValues(r, unlist(vals))
+  }
+  out
 }
 
