@@ -37,7 +37,7 @@ test_that("error handling", {
   expect_equal(dim(lazy_to_raster(lr, dim = NULL)), c(286, 143, 1))
 
   expect_warning(pull_lazyraster(lr, pulldim = 10))
-  expect_message(expect_warning(pull_lazyraster(lr, pulldim = 10, native = TRUE)))
+  #expect_message(expect_warning(pull_lazyraster(lr, pulldim = 10, native = TRUE)))
 
   expect_s4_class(pull_lazyraster(lr), "BasicRaster")
 })

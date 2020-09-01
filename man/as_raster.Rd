@@ -4,8 +4,7 @@
 \alias{as_raster}
 \title{Convert to in-memory raster}
 \usage{
-as_raster(x, dim = NULL, resample = "NearestNeighbour",
-  native = FALSE)
+as_raster(x, dim = NULL, resample = "NearestNeighbour", native = FALSE)
 }
 \arguments{
 \item{x}{a \link{lazyraster}}

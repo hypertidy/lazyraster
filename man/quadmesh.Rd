@@ -5,8 +5,7 @@
 \alias{quadmesh.lazyraster}
 \title{Quadmesh for lazyrasters}
 \usage{
-\method{quadmesh}{lazyraster}(x, z = x, na.rm = FALSE, ...,
-  texture = NULL, texture_filename = NULL)
+\method{quadmesh}{lazyraster}(x, z = x, na.rm = FALSE, ..., texture = NULL, texture_filename = NULL)
 }
 \arguments{
 \item{x}{raster object for mesh structure}
