@@ -90,14 +90,14 @@ as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour", n
 
 
 lazy_to_raster <- function(x, dim = NULL) {
-  ## assume lazyraster
-  if (is.null(dim)) dim <- x$info$dimXY
   ext <- to_xy_minmax(x)
   if (!is.null(x$window$window)) {
     window <- x$window$window
-    if (is.null(dim)) dim <- c(window[2] - window[1], window[4] - window[3]) + 1
+    if (is.null(dim)) dim <- c(window[2] - window[1] + 1, window[4] - window[3] + 1)
     ext <- x$window$windowextent
   }
+  if (is.null(dim)) dim <- x$info$dimXY
+
   proj <- x$info$projection
   #if (!substr(proj, 1, 1) == "+") {
   proj <- NA_character_
@@ -126,28 +126,19 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   ## TODO: this needs to account for the "usr" bounds, the current
   ## bounds that will be plotted to
   if (native) {
-    # fix https://github.com/hypertidy/lazyraster/issues/9
-    if (is.null(x$window$window)) {
-      dd <- x$info$dimXY
-    } else {
-      dd <- c(diff(x$window$window[1:2]) + 1,
-            diff(x$window$window[3:4]) + 1)
-    }
     if (!is.null(pulldim)) {
       warning("when 'native = TRUE' the 'dim' argument is ignored")
-      message(sprintf("using native dimension %s", paste(dd, collapse = ", ")))
     }
-   pulldim <- dd
+   pulldim <- NULL
+  } else {
+    if (is.null(pulldim)) pulldim <- grDevices::dev.size("px")
   }
-  if (is.null(pulldim)) pulldim <- grDevices::dev.size("px")
-
-  if (length(pulldim) != 2L) {
+  if (!is.null(pulldim) && length(pulldim) != 2L) {
     warning("dim will be replicated or shortened to length 2")
     pulldim <- rep(pulldim, length = 2L)
   }
 
-
-  ## TODO raster from ssraster, override with dim
+## TODO raster from ssraster, override with dim
   r <- lazy_to_raster(x, dim = pulldim)
   ## GDAL rounds down, but raster has already rounded up (snap = out)
   ## so we should derive the pulldim from the raster

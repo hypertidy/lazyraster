@@ -1,5 +1,7 @@
 # lazyraster dev
 
+* Fixed problem with native dimension for as_raster() output thanks to @Blundys #19
+
 * Allow multiple bands, defaults to all available. 
 
 * Avoid issue of non-integer dimensions, with different rounding schemes #13. 

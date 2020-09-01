@@ -43,16 +43,22 @@ lazycrop_lazyraster <- function(x, y, ...) {
   ex <- extent(y)
   ## make sure our window extent reflects the parent
   rx <- lazy_to_raster(x)
-  ex <- raster::extent(raster::crop(rx, ex, snap = "out"))
+  #ex <- raster::extent(raster::crop(rx, ex, snap = "out"))
+  r0 <- raster::crop(rx, ex, snap = "out")
+  ex <- raster::extent(r0)
+  col1 <- raster::colFromX(rx, raster::xFromCell(r0, 1))
+  col2 <- raster::colFromX(rx, raster::xFromCell(r0, raster::ncell(r0)))
 
-  xr <- raster::xres(rx)
-  yr <- raster::yres(rx)
-  col1 <- raster::colFromX(rx, ex@xmin)
-  col2 <- raster::colFromX(rx, ex@xmax)
-  row1 <- raster::rowFromY(rx, ex@ymax)
-  row2 <- raster::rowFromY(rx, ex@ymin)
-  if (is.na(row1)) row1 <- 1
-  if (is.na(row2)) row2 <- rx@nrows
+  row1 <- raster::rowFromY(rx, raster::yFromCell(r0, 1))
+  row2 <- raster::rowFromY(rx, raster::yFromCell(r0, raster::ncell(r0)))
+  # xr <- raster::xres(rx)
+  # yr <- raster::yres(rx)
+  # col1 <- raster::colFromX(rx, ex@xmin)
+  # col2 <- raster::colFromX(rx, ex@xmax)
+  # row1 <- raster::rowFromY(rx, ex@ymax)
+  # row2 <- raster::rowFromY(rx, ex@ymin)
+  # if (is.na(row1)) row1 <- 1
+  # if (is.na(row2)) row2 <- rx@nrows
 
   x$window <- list(window = c(col1 - 1, col2 - 1, row1 - 1, row2 - 1),
                    windowextent = c(ex@xmin, ex@xmax, ex@ymin, ex@ymax))
