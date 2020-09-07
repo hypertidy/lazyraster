@@ -4,7 +4,13 @@
 \alias{as_raster}
 \title{Convert to in-memory raster}
 \usage{
-as_raster(x, dim = NULL, resample = "NearestNeighbour", native = FALSE)
+as_raster(
+  x,
+  dim = NULL,
+  resample = "NearestNeighbour",
+  native = FALSE,
+  band = 1L
+)
 }
 \arguments{
 \item{x}{a \link{lazyraster}}
@@ -14,6 +20,8 @@ as_raster(x, dim = NULL, resample = "NearestNeighbour", native = FALSE)
 \item{resample}{resampling method, see \link[vapour:vapour_read_raster]{vapour::vapour_read_raster}}
 
 \item{native}{return raster at native resolution, default is \code{FALSE}}
+
+\item{band}{set to 1-based band numbers to return (independently of those set with \code{\link[=lazyraster]{lazyraster()}})}
 }
 \value{
 a regular raster 'BasicRaster' in-memory object

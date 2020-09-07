@@ -19,7 +19,7 @@ print.lazyraster <- function(x, ...) {
 #' @export
 format.lazyraster <- function(x, ...) {
   object <- x
-  ex <- to_xy_minmax(object)
+  ex <- lazy_to_extent(object)
   windowdescription <- if (is.null(object$window$windowextent)) "<whole extent>" else paste(format(object$window$windowextent, nsmall = 4), collapse = ", ")
   windowindex <- if (is.null(object$window$window)) "<->" else paste(as.integer(object$window$window), collapse = ", ")
   windowdim <-   if (is.null(object$window$window)) "(full)" else paste(as.integer(c(diff(object$window$window[1:2]),

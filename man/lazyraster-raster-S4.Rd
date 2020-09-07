@@ -5,15 +5,9 @@
 \alias{extent}
 \alias{crop}
 \alias{crop,lazyraster-method}
-\alias{raster_lazyraster}
-\alias{extent_lazyraster}
 \title{Raster methods (S4) for lazyraster.}
 \usage{
 \S4method{crop}{lazyraster}(x, y, ...)
-
-raster_lazyraster(x, ...)
-
-extent_lazyraster(x, ...)
 }
 \arguments{
 \item{x}{various (raster, extent)}

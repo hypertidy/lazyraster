@@ -90,35 +90,22 @@ as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour", n
 
 
 lazy_to_raster <- function(x, dim = NULL) {
-  ext <- to_xy_minmax(x)
+  ext <- lazy_to_extent(x)
   if (!is.null(x$window$window)) {
     window <- x$window$window
-    if (is.null(dim)) dim <- c(window[2] - window[1] + 1, window[4] - window[3] + 1)
     ext <- x$window$windowextent
   }
   if (is.null(dim)) dim <- x$info$dimXY
-
   proj <- x$info$projection
-  #if (!substr(proj, 1, 1) == "+") {
   proj <- NA_character_
-  #warning("projstring doesn't look like a PROJ string")
-  #}
-  #if (! (grepl("\\+proj", proj) && grepl("^\\+init", proj))) proj <- NA_character_
-
   raster::raster(raster::extent(ext), nrows = dim[2], ncols = dim[1], crs = proj)
 }
 
-
-
-
-
-to_xy_minmax <- function(x) {
+lazy_to_extent <- function(x) {
   xmin <- x$info$geotransform[1L]
   xmax <- xmin + x$info$dimXY[1L] * x$info$geotransform[2L]
   ymax <- x$info$geotransform[4L]
   ymin <- ymax + x$info$dimXY[2L] * x$info$geotransform[6L]
-
-
   c(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax)
 }
 #' @importFrom grDevices dev.size
@@ -148,8 +135,6 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   window_odim <- c(0, 0, x$info$dimXY[1], x$info$dimXY[2]) ## the global window
   if (!is.null(x$window$window)) {
     window <- x$window$window
-
-
     ## convert window to offset/dim
     window_odim <- c(window[c(1, 3)], (window[2] - window[1])+ 1, (window[4] - window[3]) + 1)
   }
