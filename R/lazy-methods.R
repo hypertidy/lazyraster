@@ -23,7 +23,7 @@ format.lazyraster <- function(x, ...) {
   windowdescription <- if (is.null(object$window$windowextent)) "<whole extent>" else paste(format(object$window$windowextent, nsmall = 4), collapse = ", ")
   windowindex <- if (is.null(object$window$window)) "<->" else paste(as.integer(object$window$window), collapse = ", ")
   windowdim <-   if (is.null(object$window$window)) "(full)" else paste(as.integer(c(diff(object$window$window[1:2]),
-                                                                                     diff(object$window$window[3:4]))), collapse = ", ")
+                                                                                     diff(object$window$window[3:4])) + 1L), collapse = ", ")
 
   projection <- object$info$projstring
   if (is.null(projection) || nchar(projection) < 1 || is.na(projection) ) {

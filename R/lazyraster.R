@@ -99,9 +99,12 @@ lazy_to_raster <- function(x, dim = NULL) {
   if (!is.null(x$window$window)) {
     window <- x$window$window
     ext <- x$window$windowextent
-    dim <- c(diff(window[1:2]), diff(window[3:4]))
+
+    if (is.null(dim)) dim <- c(diff(window[1:2]), diff(window[3:4])) + 1L
+    #print(dim)
   }
   if (is.null(dim)) dim <- x$info$dimXY
+
   proj <- x$info$projection
   #proj <- NA_character_
   raster::raster(raster::extent(ext), nrows = dim[2], ncols = dim[1], crs = proj)
@@ -130,9 +133,10 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
     warning("dim will be replicated or shortened to length 2")
     pulldim <- rep(pulldim, length = 2L)
   }
-
+#print(pulldim)
 ## TODO raster from ssraster, override with dim
   r <- lazy_to_raster(x, dim = pulldim)
+ #print(dim(r)); print(res(r))
   ## GDAL rounds down, but raster has already rounded up (snap = out)
   ## so we should derive the pulldim from the raster
   pulldim <- dim(r)[c(2L, 1L)]  ##https://github.com/hypertidy/lazyraster/issues/13
