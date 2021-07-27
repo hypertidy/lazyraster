@@ -152,22 +152,23 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   bands <- x$raster$band
   if (!is.null(band)) bands <- band
   if (is.null(band)) bands <- seq_len(x$info$bands)
-  vals <- lapply(bands,
-                function(bnd) {
-                  vapour::vapour_read_raster(x$source,
-                                             band = bnd,
+  vals <- vapour::vapour_read_raster(x$source,
+                                             band = bands,
                                              window = c(window_odim, pulldim[1], pulldim[2]),
-                            resample = resample, set_na = TRUE)[[1L]]})  ## no multibands in vapour yet
+                            resample = resample)
 
   ## TODO clamp values to info$minmax - no longer needed with vapour set_na
   #vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
-
+  for (i in seq_along(vals)) {
+    ## set_na not working
+    vals[[i]][vals[[i]] <= x$info$nodata_value] <- NA
+  }
   out <-
   if (length(vals) > 1L) {
     raster::setValues(raster::brick(replicate(length(vals), r, simplify = FALSE)),
                       do.call(cbind, vals))
   } else {
-   raster::setValues(r, unlist(vals))
+   raster::setValues(r, vals[[1]])
   }
   out
 }

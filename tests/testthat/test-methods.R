@@ -7,7 +7,7 @@ test_that("print works", {
 })
 
 test_that("format works", {
-  expect_that(unlist(format(lr)), is_a("character"))
+  expect_that(unlist(format(lr), use.names = FALSE), is_a("character"))
 })
 
 test_that("plot works", {
