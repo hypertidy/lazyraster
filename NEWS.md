@@ -1,5 +1,9 @@
 # lazyraster dev
 
+* Projection string now displayed in print, prefers projstring over WKT but prints the latter if projstring not present. 
+
+* Now importing vapour >= 0.7.6. 
+
 * Fixed problem with native dimension for as_raster() output thanks to @Blundys #19
 
 * Allow multiple bands, defaults to all available. 

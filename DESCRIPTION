@@ -1,5 +1,5 @@
 Package: lazyraster
-Version: 0.5.0.9004
+Version: 0.5.0.9005
 Title: Generate Raster Data Lazily from 'GDAL' 
 Description: Read raster data at a specified resolution on-demand via 'GDAL' 
  (the Geospatial Data Abstraction Library <https://gdal.org/>). Augments the 
@@ -17,7 +17,7 @@ RoxygenNote: 7.1.1
 Imports: 
     graphics,
     raster,
-    vapour (>= 0.4.0),
+    vapour (>= 0.7.6),
     methods,
     quadmesh (>= 0.4.0)
 Suggests: 

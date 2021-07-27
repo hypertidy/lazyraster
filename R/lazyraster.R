@@ -88,16 +88,22 @@ as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour", n
   pull_lazyraster(x, pulldim = dim, resample = resample, native = native, band = band)
 }
 
-
+raster_info_to_raster <- function(x) {
+  raster::raster(raster::extent(x$extent), nrows = x$dimXY[2L], ncols= x$dimXY[1L], crs = x$projection)
+}
 lazy_to_raster <- function(x, dim = NULL) {
+
+  rr <- raster_info_to_raster(x$info)
+
   ext <- lazy_to_extent(x)
   if (!is.null(x$window$window)) {
     window <- x$window$window
     ext <- x$window$windowextent
+    dim <- c(diff(window[1:2]), diff(window[3:4]))
   }
   if (is.null(dim)) dim <- x$info$dimXY
   proj <- x$info$projection
-  proj <- NA_character_
+  #proj <- NA_character_
   raster::raster(raster::extent(ext), nrows = dim[2], ncols = dim[1], crs = proj)
 }
 

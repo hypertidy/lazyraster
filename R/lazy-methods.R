@@ -24,11 +24,16 @@ format.lazyraster <- function(x, ...) {
   windowindex <- if (is.null(object$window$window)) "<->" else paste(as.integer(object$window$window), collapse = ", ")
   windowdim <-   if (is.null(object$window$window)) "(full)" else paste(as.integer(c(diff(object$window$window[1:2]),
                                                                                      diff(object$window$window[3:4]))), collapse = ", ")
+
+  projection <- object$info$projstring
+  if (is.null(projection) || nchar(projection) < 1 || is.na(projection) ) {
+    projection <- object$info$projection
+  }
   x <- list(   classname = "LazyRaster",
                dimensions = object$info$dimXY,
                resolution = abs(object$info$geotransform[c(2, 6)]),
                extent = ex,
-               crs = "<placeholder>", ##object$info$projection,
+               crs = projection,
                source = object$source,
                values = object$info$minmax,
                windowdescription = windowdescription,

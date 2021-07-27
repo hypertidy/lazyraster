@@ -13,9 +13,9 @@
 #'
 #' @examples
 #' e <- raster::extent(153.00795, 153.04041, -27.49034, -27.45917)
-#' qldimg_wms0 <- 'https://spatial-img.information.qld.gov.au/"
+#' qldimg_wms0 <- "https://spatial-img.information.qld.gov.au/"
 #' wms1 <- "arcgis/services/Basemaps/LatestSatelliteWOS_AllUsers/ImageServer/WMSServer?"
-#' u <-   paste0(qldimg_wms, "service=WMS", "&version=1.3.0", "&request=GetMap",
+#' u <-   paste0(qldimg_wms0, "service=WMS", "&version=1.3.0", "&request=GetMap",
 #'               "&layers=LatestSatelliteWOS_AllUsers", "&styles=", "&crs=CRS%3A84")
 lazy_rgb  <- function(gdalsource, band = c(1L, 2L, 3L), sds = NULL, ...) {
   lrs <- lapply(band, function(bnd) lazyraster(gdalsource, band = bnd, sds = sds))

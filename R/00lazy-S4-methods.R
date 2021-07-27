@@ -56,7 +56,7 @@ lazycrop_lazyraster <- function(x, y, ...) {
 
   x
 }
-#' @rdname lazyraster-raster-S4
+#' @name lazyraster-raster-S4
 #' @importFrom raster crop
 #' @export crop
 setMethod("crop", "lazyraster", lazycrop_lazyraster)
@@ -66,7 +66,7 @@ setMethod("crop", "lazyraster", lazycrop_lazyraster)
 NULL
 setMethod("raster", "lazyraster", function(x, ...) { as_raster(x, ...)})
 
-#' @rdname lazyraster-raster-S4
+#' @name lazyraster-raster-S4
 #' @importFrom raster extent
 NULL
 setMethod("extent", "lazyraster", function(x, ...) { extent(lazy_to_extent(x), ...)})

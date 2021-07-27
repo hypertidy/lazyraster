@@ -4,7 +4,6 @@
 \alias{lazyraster-raster-S4}
 \alias{extent}
 \alias{crop}
-\alias{crop,lazyraster-method}
 \title{Raster methods (S4) for lazyraster.}
 \usage{
 \S4method{crop}{lazyraster}(x, y, ...)
