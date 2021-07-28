@@ -101,13 +101,16 @@ library(lazyraster)
 #> The following object is masked from 'package:graphics':
 #> 
 #>     plot
+#> The following object is masked from 'package:base':
+#> 
+#>     plot
 lazy <- lazyraster(sstfile)
 lazy ## stay lazy
 #> class            : LazyRaster
 #> dimensions       : 286, 143 (nrow, ncol)
 #> resolution       : 0.07000000, 0.07000389 (x, y)
 #> extent           : 140.00000, 150.01000, -60.01833, -39.99722 (xmin, xmax, ymin, ymax)
-#> crs              : <placeholder>
+#> crs              : +proj=longlat +datum=WGS84 +no_defs
 #> values           : NA, NA (min, max - range from entire extent)
 #> window extent    : <whole extent>
 #> window index     : <->
@@ -119,10 +122,10 @@ as_raster(lazy, dim = c(12, 24))
 #> dimensions : 24, 12, 288  (nrow, ncol, ncell)
 #> resolution : 0.8341667, 0.834213  (x, y)
 #> extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
-#> crs        : NA 
+#> crs        : +proj=longlat +datum=WGS84 +no_defs 
 #> source     : memory
 #> names      : layer 
-#> values     : -3.4e+38, 289.478  (min, max)
+#> values     : 271.602, 289.478  (min, max)
 ```
 
 The call to `as_raster` read actual data from the file, hence the
@@ -140,10 +143,10 @@ as_raster(lazy)
 #> dimensions : 480, 672, 322560  (nrow, ncol, ncell)
 #> resolution : 0.01489583, 0.04171065  (x, y)
 #> extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
-#> crs        : NA 
+#> crs        : +proj=longlat +datum=WGS84 +no_defs 
 #> source     : memory
 #> names      : layer 
-#> values     : -3.4e+38, 289.859  (min, max)
+#> values     : 271.35, 289.859  (min, max)
 ```
 
 More concretely, if we open a graphics device at a given size the raster
@@ -159,10 +162,10 @@ as_raster(lazy)
 #> dimensions : 50, 40, 2000  (nrow, ncol, ncell)
 #> resolution : 0.25025, 0.4004222  (x, y)
 #> extent     : 140, 150.01, -60.01833, -39.99722  (xmin, xmax, ymin, ymax)
-#> crs        : NA 
+#> crs        : +proj=longlat +datum=WGS84 +no_defs 
 #> source     : memory
 #> names      : layer 
-#> values     : -3.4e+38, 289.815  (min, max)
+#> values     : 271.41, 289.815  (min, max)
 #plot(as_raster(lazy))
 dev.off()
 #> png 
@@ -183,19 +186,21 @@ library(raadtools)
 #> Loading required package: raster
 #> Loading required package: sp
 #> global option 'raadfiles.data.roots' set:
-#> '/rdsi/PRIVATE/raad/data               2019-11-11 09:35:09
-#>  /rdsi/PRIVATE/raad/data_local         2019-11-11 09:35:50
-#>  /rdsi/PRIVATE/raad/data_staging       2019-11-11 09:35:50
-#>  /rdsi/PRIVATE/raad/data_deprecated    2019-11-11 09:35:50
-#>  /rdsi/PUBLIC/raad/data                2019-11-11 09:45:53'
-#> Uploading raad file cache as at 2019-11-11 10:53:02 (859381 files listed)
+#> '/rdsi/PRIVATE/raad/data               2021-06-10 21:27:17
+#>  /rdsi/PRIVATE/raad/data_local         2021-06-10 21:33:25
+#>  /rdsi/PRIVATE/raad/data_staging       2021-06-10 21:33:28
+#>  /rdsi/PRIVATE/raad/data_deprecated    2021-06-10 21:34:11
+#>  /rdsi/PUBLIC/raad/data                2021-06-10 21:13:58'
+#> Uploading raad file cache as at 2021-07-28 18:51:06 (1336524 files listed)
 f <- raadtools::topofile("gebco_14")
+#> Warning in if (!file.exists(topopath)) warning(sprintf("cannot file %s", : the
+#> condition has length > 1 and only the first element will be used
 lazyraster(f)
 #> class            : LazyRaster
 #> dimensions       : 21600, 43200 (nrow, ncol)
 #> resolution       : 0.008333333, 0.008333333 (x, y)
 #> extent           : -180.0000,  180.0000,  -90.0000,   90.0000 (xmin, xmax, ymin, ymax)
-#> crs              : <placeholder>
+#> crs              : 
 #> values           : NA, NA (min, max - range from entire extent)
 #> window extent    : <whole extent>
 #> window index     : <->
@@ -211,7 +216,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.714   0.033   0.867
+    #>   6.406  12.754 240.205
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
@@ -245,29 +250,71 @@ mars
 #> dimensions       : 53347, 106694 (nrow, ncol)
 #> resolution       : 0.003374121, 0.003374121 (x, y)
 #> extent           : -180.00000,  179.99845,  -89.99922,   90.00000 (xmin, xmax, ymin, ymax)
-#> crs              : <placeholder>
+#> crs              : +proj=longlat +R=3396190 +no_defs
 #> values           : NA, NA (min, max - range from entire extent)
 #> window extent    : <whole extent>
 #> window index     : <->
 #> window dimension : (full) (ncol, nrow)
 plot(mars, col = grey(seq(0, 1, length = 256)))
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
+#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
+#> +proj=longlat +R=3396190 +no_defs +type=crs
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
+#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
+#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
+#> +proj=longlat +R=3396190 +no_defs +type=crs
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
+#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
 ```
 
 <img src="man/figures/README-mars-1.png" width="100%" />
 
 ``` r
 as_raster(mars)
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
+#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
+#> +proj=longlat +R=3396190 +no_defs +type=crs
+
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
+#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
+#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
+#> +proj=longlat +R=3396190 +no_defs +type=crs
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
+#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
 #> class      : RasterLayer 
 #> dimensions : 480, 672, 322560  (nrow, ncol, ncell)
 #> resolution : 0.535712, 0.3749984  (x, y)
 #> extent     : -180, 179.9984, -89.99922, 90  (xmin, xmax, ymin, ymax)
-#> crs        : NA 
+#> crs        : +proj=longlat +R=3396190 +no_defs 
 #> source     : memory
 #> names      : layer 
 #> values     : -7716, 20910  (min, max)
 
 plot(crop(mars, raster::extent(-100, -30, -18, 5)), 
      col = grey(seq(0, 1, length = 256)))
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
+#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
+#> +proj=longlat +R=3396190 +no_defs +type=crs
+
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
+#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
+#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
+#> +proj=longlat +R=3396190 +no_defs +type=crs
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
+#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
+#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
+#> +proj=longlat +R=3396190 +no_defs +type=crs
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
+#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
+#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
+#> +proj=longlat +R=3396190 +no_defs +type=crs
+#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
+#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
 ```
 
 <img src="man/figures/README-mars-2.png" width="100%" />
@@ -332,7 +379,6 @@ plot(as_raster(gibs, dim = c(150, 150), resample = "CubicSpline"), col = head(pa
 <img src="man/figures/README-tms-1.png" width="100%" />
 
 ``` r
-
 ## run with a different extent
 e <- extent(-806000, 1080000, -3200000, -500000)
 plot(as_raster(crop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))

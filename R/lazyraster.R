@@ -152,11 +152,16 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   bands <- x$raster$band
   if (!is.null(band)) bands <- band
   if (is.null(band)) bands <- seq_len(x$info$bands)
-  vals <- vapour::vapour_read_raster(x$source,
-                                             band = bands,
-                                             window = c(window_odim, pulldim[1], pulldim[2]),
-                            resample = resample)
 
+  # vals <- vapour::vapour_read_raster(x$source,
+  #                                             band = bands,
+  #                                             window = c(window_odim, pulldim[1], pulldim[2]),
+  #                            resample = resample)
+
+  ext <- x$window$windowextent
+  if (is.null(ext)) ext <- x$info$extent
+  vals <- vapour::vapour_warp_raster(x$source, band = bands,
+                                     extent = ext, dimension = pulldim)
   ## TODO clamp values to info$minmax - no longer needed with vapour set_na
   #vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
   for (i in seq_along(vals)) {

@@ -7,7 +7,8 @@
 #' @examples
 #' fl <- system.file("images/ga_srtm.png", package = "lazyraster")
 #' print(lazyraster(fl))
-#' plot(lazyraster(fl))
+#' ## won't work with dumb images with gdalwarp, need rethink
+#' #plot(lazyraster(fl))
 print.lazyraster <- function(x, ...) {
   junk <- lapply(format(x), cat)
   invisible(x)

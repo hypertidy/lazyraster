@@ -1,5 +1,7 @@
 # lazyraster dev
 
+* lazyraster now uses `vapour_warp_raster()` to do the work, no more need for RasterIO. 
+
 * Speed up `as_raster()` by avoiding unlist(). 
 
 * Nodata values now respected for `as_raster()`. 
