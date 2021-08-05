@@ -5,6 +5,7 @@
 \alias{print.lazyraster}
 \alias{format.lazyraster}
 \alias{plot.lazyraster}
+\alias{plot}
 \title{Lazy raster S3 methods}
 \usage{
 \method{print}{lazyraster}(x, ...)

@@ -63,11 +63,10 @@ format.lazyraster <- function(x, ...) {
 #' @param y ignored
 #' @param ... passed to [raster::plot]
 #' @importFrom raster plot
-#' @importFrom graphics plot
-#' @export plot
-#' @rawNamespace S3method(plot,lazyraster)
-#' @usage \method{plot}{lazyraster}(x, y, ...)
+#' @method plot lazyraster
 #' @name lazyraster-methods
+#' @aliases plot
+#' @rdname lazyraster-methods
 #' @export
 plot.lazyraster <- function(x, y,  ...) {
   raster::plot(as_raster(x),  ...)

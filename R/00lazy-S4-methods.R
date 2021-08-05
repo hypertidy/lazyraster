@@ -14,10 +14,12 @@ lazycrop <- function(...) {
 #' @param y an object with extent (for crop)
 #' @param ... arguments passed to underlying raster function
 #' @seealso [raster::raster()], [raster::extent()], [raster::crop()]
-#' @aliases extent crop
-#' @rdname lazyraster-raster-S4
+#' @aliases extent crop crop,lazyraster-method
 #' @name lazyraster-raster-S4
 #' @importFrom methods setOldClass
+#' @method crop lazyraster
+#' @method raster lazyraster
+#' @method extent lazyraster
 #' @return [lazyraster()] and [crop()] return a lazyraster object, [extent()] returns
 #' a regular raster extent
 #' @examples
