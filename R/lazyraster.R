@@ -168,6 +168,8 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
     ## set_na not working
     vals[[i]][vals[[i]] <= x$info$nodata_value] <- NA
   }
+  op <- options(warn = -1)
+  on.exit(options(op), add = TRUE)
   out <-
   if (length(vals) > 1L) {
     raster::setValues(raster::brick(replicate(length(vals), r, simplify = FALSE)),
