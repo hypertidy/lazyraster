@@ -180,10 +180,10 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   if (is.null(proj)) proj <- raster::crs(r)@projargs
   if (packageVersion("vapour") <= "0.8.0") {
     vals <- vapour::vapour_warp_raster(x$source, band = bands,
-                                       extent = ext, dimension = pulldim, wkt = proj)
+                                       extent = ext, dimension = pulldim, wkt = proj, band_output_type = "Float64")
   } else {
     vals <- vapour::vapour_warp_raster(x$source, band = bands,
-                                     extent = ext, dimension = pulldim, projection = proj)
+                                     extent = ext, dimension = pulldim, projection = proj, band_output_type = "Float64")
   }
   ## TODO clamp values to info$minmax - no longer needed with vapour set_na
   #vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
