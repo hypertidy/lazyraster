@@ -1,5 +1,7 @@
 # lazyraster dev
 
+* New function `merc()` to give an easy extent in Mercator from longitude,latitude and a width,height. 
+
 * Fixed plot method documentation, thanks to @brownag https://github.com/hypertidy/lazyraster/issues/20. 
 
 * lazyraster now uses `vapour_warp_raster()` to do the work, no more need for RasterIO. 

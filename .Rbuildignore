@@ -13,3 +13,4 @@
 ^vignettes/gdalwmscache$
 ^tic\.R$
 ^\.github$
+^gdalwmscache$

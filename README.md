@@ -1,17 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
 
-[![Travis-CI Build
-Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&env=BUILD_NAME=trusty_release&label=linux)](https://travis-ci.org/hypertidy/lazyraster)
-[![Build
-Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&env=BUILD_NAME=osx_release&label=osx)](https://travis-ci.org/hypertidy/lazyraster)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/hypertidy/lazyraster?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/lazyraster)
-[![Coverage
-status](https://codecov.io/gh/hypertidy/lazyraster/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/lazyraster?branch=master)
+[![R-CMD-check](https://github.com/hypertidy/lazyraster/workflows/R-CMD-check/badge.svg)](https://github.com/hypertidy/lazyraster/actions)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/lazyraster)](https://cran.r-project.org/package=lazyraster)
-[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/lazyraster)](https://cran.r-project.org/package=lazyraster)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/lazyraster)](https://cran.r-project.org/package=lazyraster)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/lazyraster)](https://cran.r-project.org/package=lazyraster)
+<!-- badges: end -->
 
 # lazyraster
 
@@ -55,9 +50,7 @@ and will be applied to reduce or increase the resolution.
 We can’t utilize the RasterIO level-of-detail functionality for non-GDAL
 sources.
 
-We can only access a single band.
-
-We can’t control the details of the data type.
+We can’t control the details of the data type. (This is WIP)
 
 ## GDAL
 
@@ -70,7 +63,9 @@ with one product (commercial, now defunct) that used it extensively for
 live interactive visualization and data streaming. I haven’t found any
 problems with it at all using it in R, but the support for it is very
 minimal. You can access it indirectly using `rgdal::readGDAL` for the
-underlying function, as the `raster` package does.
+underlying function, as the `raster` package does, and there is the
+obscure ‘RasterIO’ list in the `stars::read_stars()`, but so far I can’t
+get this to work for tile servers.
 
 ## vapour
 
@@ -96,14 +91,6 @@ size (24 rows by 12 columns).
 ``` r
 sstfile <- system.file("extdata/sst.tif", package = "vapour")
 library(lazyraster)
-#> 
-#> Attaching package: 'lazyraster'
-#> The following object is masked from 'package:graphics':
-#> 
-#>     plot
-#> The following object is masked from 'package:base':
-#> 
-#>     plot
 lazy <- lazyraster(sstfile)
 lazy ## stay lazy
 #> class            : LazyRaster
@@ -173,7 +160,44 @@ dev.off()
 unlink(tf)
 ```
 
-This will work on really big files.
+This will work on really big files or online tile servers. Here are some
+online examples.
+
+``` r
+## a global satellite image tile server
+vearth <- '<GDAL_WMS> <Service name="VirtualEarth">
+ <ServerUrl>http://a${server_num}.ortho.tiles.virtualearth.net/tiles/a${quadkey}.jpeg?g=90</ServerUrl></Service>
+ <MaxConnections>4</MaxConnections>    <Cache/>    </GDAL_WMS>'
+
+## a USA topographic map service
+usgs <- paste0("WMTS:https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/",
+                  "MapServer/WMTS/1.0.0/WMTSCapabilities.xml,layer=USGSTopo,tilematrixset=default028mm")
+
+## a global elevation service
+awselev <- "<GDAL_WMS>   <Service name=\"TMS\">     <ServerUrl>https://s3.amazonaws.com/elevation-tiles-prod/geotiff/${z}/${x}/${y}.tif</ServerUrl>   </Service>   <DataWindow>     <UpperLeftX>-20037508.34</UpperLeftX>     <UpperLeftY>20037508.34</UpperLeftY>     <LowerRightX>20037508.34</LowerRightX>     <LowerRightY>-20037508.34</LowerRightY>     <TileLevel>14</TileLevel>     <TileCountX>1</TileCountX>     <TileCountY>1</TileCountY>     <YOrigin>top</YOrigin>   </DataWindow>   <Projection>EPSG:3857</Projection>   <BlockSizeX>512</BlockSizeX>   <BlockSizeY>512</BlockSizeY>   <BandsCount>1</BandsCount>   <DataType>Int16</DataType>   <ZeroBlockHttpCodes>403,404</ZeroBlockHttpCodes>   <DataValues>     <NoData>-32768</NoData>   </DataValues>   <Cache/> </GDAL_WMS>"
+
+library(raster)
+ve <- lazyraster(vearth)
+#plotRGB(as_raster(ve, band = 1:3, c(1024, 1024)))
+
+#(ve1 <- as_raster(ve, band = 1:3, c(1024, 1024)))
+
+plotRGB(as_raster(ve, band = 1:3, c(1024, 1024)))
+```
+
+<img src="man/figures/README-tile-serv-1.png" width="100%" />
+
+``` r
+# raster::plotRGB(as_raster(crop(ve, merc(0, 51.5, wh = 1e4)), band = 1:3, c(1024, 1024)))
+# 
+# us <- lazyraster(usgs)
+# raster::plotRGB(as_raster(us, band = 1:3, c(1024, 1024)))
+# raster::plotRGB(as_raster(crop(us, merc(-74, 41), wh = 150e3), dev.size("px"), band = 1:3, resample = "bilinear"))
+# 
+# elev <- lazyraster(awselev)
+# plot(elev, col = grey.colors(24))
+# plot(crop(elev, merc(147, -41, wh = 150e3)), zlim = c(0, NA), col = grey.colors(24))
+```
 
 (This example can’t work on your computer probably given use of local
 raadtools, but try it on your favourite big file).
@@ -183,24 +207,13 @@ just enough detail for the plot space. That’s all that happens.
 
 ``` r
 library(raadtools)
-#> Loading required package: raster
-#> Loading required package: sp
-#> global option 'raadfiles.data.roots' set:
-#> '/rdsi/PRIVATE/raad/data               2021-06-10 21:27:17
-#>  /rdsi/PRIVATE/raad/data_local         2021-06-10 21:33:25
-#>  /rdsi/PRIVATE/raad/data_staging       2021-06-10 21:33:28
-#>  /rdsi/PRIVATE/raad/data_deprecated    2021-06-10 21:34:11
-#>  /rdsi/PUBLIC/raad/data                2021-06-10 21:13:58'
-#> Uploading raad file cache as at 2021-07-28 18:51:06 (1336524 files listed)
-f <- raadtools::topofile("gebco_14")
-#> Warning in if (!file.exists(topopath)) warning(sprintf("cannot file %s", : the
-#> condition has length > 1 and only the first element will be used
+f <- raadtools::topofile("gebco_19")
 lazyraster(f)
 #> class            : LazyRaster
-#> dimensions       : 21600, 43200 (nrow, ncol)
-#> resolution       : 0.008333333, 0.008333333 (x, y)
+#> dimensions       : 43200, 86400 (nrow, ncol)
+#> resolution       : 0.004166667, 0.004166667 (x, y)
 #> extent           : -180.0000,  180.0000,  -90.0000,   90.0000 (xmin, xmax, ymin, ymax)
-#> crs              : 
+#> crs              : +proj=longlat +datum=WGS84 +no_defs
 #> values           : NA, NA (min, max - range from entire extent)
 #> window extent    : <whole extent>
 #> window index     : <->
@@ -216,7 +229,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   6.406  12.754 240.205
+    #>   0.775   0.004   0.802
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
@@ -228,7 +241,7 @@ plot(rtas, col = grey(seq(0, 1, length.out = 64)), zlim = c(0, 1550))
 rbath <- as_raster(rtas)
 rbath[rbath > 0] <- NA
 contour(rbath, add = TRUE, levels = quantile(rbath, prob = seq(0, 1, length.out = 8)))
-title("Tasmania topography + bathymetric contours, from Gebco 2014", cex.main = 0.85)
+title("Tasmania topography + bathymetric contours, from Gebco 2019", cex.main = 0.85)
 ```
 
 <img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
@@ -256,33 +269,12 @@ mars
 #> window index     : <->
 #> window dimension : (full) (ncol, nrow)
 plot(mars, col = grey(seq(0, 1, length = 256)))
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
-#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
-#> +proj=longlat +R=3396190 +no_defs +type=crs
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
-#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
-#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
-#> +proj=longlat +R=3396190 +no_defs +type=crs
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
-#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
 ```
 
 <img src="man/figures/README-mars-1.png" width="100%" />
 
 ``` r
 as_raster(mars)
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
-#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
-#> +proj=longlat +R=3396190 +no_defs +type=crs
-
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
-#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
-#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
-#> +proj=longlat +R=3396190 +no_defs +type=crs
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
-#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
 #> class      : RasterLayer 
 #> dimensions : 480, 672, 322560  (nrow, ncol, ncell)
 #> resolution : 0.535712, 0.3749984  (x, y)
@@ -294,27 +286,6 @@ as_raster(mars)
 
 plot(crop(mars, raster::extent(-100, -30, -18, 5)), 
      col = grey(seq(0, 1, length = 256)))
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
-#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
-#> +proj=longlat +R=3396190 +no_defs +type=crs
-
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
-#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
-#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
-#> +proj=longlat +R=3396190 +no_defs +type=crs
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
-#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
-#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
-#> +proj=longlat +R=3396190 +no_defs +type=crs
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
-#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj
-#> = prefer_proj): Discarded ellps Mars_2000_Sphere_IAU_IAG in Proj4 definition:
-#> +proj=longlat +R=3396190 +no_defs +type=crs
-#> Warning in showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj =
-#> prefer_proj): Discarded datum Mars_2000_(Sphere) in Proj4 definition
 ```
 
 <img src="man/figures/README-mars-2.png" width="100%" />
