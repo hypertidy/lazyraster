@@ -1,19 +1,32 @@
 #' Lazy raster
 #'
-#' A lazyraster is a metadata-only shell around a raster file source. Only metadata is read
-#' and and used for extent and resolution logic. A lazyraster may be cropped lazily
-#' and if plotted or converted to in-memory raster only a reasonable level-of-detail is actually
-#' used.
+#' Get a quick-view of a raster source, there are several levels of interrogation,
+#' decimated read, optional crop, and control of level-of-detail. Each of these
+#' is described further below.
 #'
-#' See [crop()] for cropping - it works the same but returns a lazyraster,
-#' and [as_raster()] for converting to an in-memory raster.
-#' @section Warning:
-#' If the inferred Y extents appear to be reversed (ymax > ymin) then they are
-#' reversed, with a warning. This occurs for any GDAL data source that does not have
-#' a geotransform and so is required for use with raster. This might not be the right interpretation,
-#' geotransforms are very general and it might mean the data is meant to be oriented that way.
-#' (I don't know why GDAL sets a positive Y pixel height as the default, it's a bit of a pain -
-#' should the data be flipped, or should Y be interpreted negative - no way to know!).
+#' First is a no-data view, we can see the extent, dimensions, projection, and
+#' other details; second is a *decimated* view, we read only enough data to make
+#' a picture of the entire raster; third, we may first spatially crop the raster
+#' (nothing is done, only our intention to crop is recorded), if we plot or
+#' reques the data we get the decimated view of this smaller region; fourth,
+#' specify the actual dimension of the output. We can control exactly what we
+#' get in the output, in terms of spatial extent and number of pixel values.
+#'
+#' A lazyraster is a metadata-only shell around a *GDAL raster* source. Only
+#' metadata is read and used for extent and dimension logic. A lazyraster may be
+#' cropped lazily and if plotted or converted to in-memory raster only a
+#' reasonable level-of-detail is actually used by default.
+#'
+#' See [crop()] for cropping - it works the same but returns a lazyraster, and
+#' [as_raster()] for converting to an in-memory raster.
+#' @section Warning: If the inferred Y extents appear to be reversed (ymax >
+#'   ymin) then they are reversed, with a warning. This occurs for any GDAL data
+#'   source that does not have a geotransform and so is required for use with
+#'   raster. This might not be the right interpretation, geotransforms are very
+#'   general and it might mean the data is meant to be oriented that way. (I
+#'   don't know why GDAL sets a positive Y pixel height as the default, it's a
+#'   bit of a pain - should the data be flipped, or should Y be interpreted
+#'   negative - no way to know!).
 #'
 #' @param gdalsource a file name or other source string
 #' @param band which band to use, defaults to all present
@@ -91,6 +104,7 @@ as_raster.lazyraster <- function(x, dim = NULL, resample = "NearestNeighbour", n
 raster_info_to_raster <- function(x) {
   raster::raster(raster::extent(x$extent), nrows = x$dimXY[2L], ncols= x$dimXY[1L], crs = x$projection)
 }
+
 lazy_to_raster <- function(x, dim = NULL) {
 
   rr <- raster_info_to_raster(x$info)
@@ -105,7 +119,14 @@ lazy_to_raster <- function(x, dim = NULL) {
   }
   if (is.null(dim)) dim <- x$info$dimXY
 
-  proj <- x$info$projection
+  if (inherits(dim, "BasicRaster")) {
+    template <- dim
+    proj <- raster::projection(template)
+    dim <- dim(template)
+    ext <- raster::extent(template)
+  } else {
+    proj <- x$info$projection
+  }
   #proj <- NA_character_
   raster::raster(raster::extent(ext), nrows = dim[2], ncols = dim[1], crs = proj)
 }
@@ -129,7 +150,7 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   } else {
     if (is.null(pulldim)) pulldim <- grDevices::dev.size("px")
   }
-  if (!is.null(pulldim) && length(pulldim) != 2L) {
+  if (!inherits(pulldim, "BasicRaster") && !is.null(pulldim) && length(pulldim) != 2L) {
     warning("dim will be replicated or shortened to length 2")
     pulldim <- rep(pulldim, length = 2L)
   }
@@ -153,15 +174,17 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   if (!is.null(band)) bands <- band
   if (is.null(band)) bands <- seq_len(x$info$bands)
 
-  # vals <- vapour::vapour_read_raster(x$source,
-  #                                             band = bands,
-  #                                             window = c(window_odim, pulldim[1], pulldim[2]),
-  #                            resample = resample)
-
-  ext <- x$window$windowextent
+  ext <- raster::extent(r) # x$window$windowextent
   if (is.null(ext)) ext <- x$info$extent
-  vals <- vapour::vapour_warp_raster(x$source, band = bands,
-                                     extent = ext, dimension = pulldim)
+  proj <- comment(raster::crs(r))
+  if (is.null(proj)) proj <- raster::crs(r)@projargs
+  if (packageVersion("vapour") <= "0.8.0") {
+    vals <- vapour::vapour_warp_raster(x$source, band = bands,
+                                       extent = ext, dimension = pulldim, wkt = proj)
+  } else {
+    vals <- vapour::vapour_warp_raster(x$source, band = bands,
+                                     extent = ext, dimension = pulldim, projection = proj)
+  }
   ## TODO clamp values to info$minmax - no longer needed with vapour set_na
   #vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
   for (i in seq_along(vals)) {

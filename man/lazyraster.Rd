@@ -19,23 +19,36 @@ lazyraster(gdalsource, band = NULL, sds = NULL, ...)
 a lazyraster object, a simple shell around a GDAL raster source
 }
 \description{
-A lazyraster is a metadata-only shell around a raster file source. Only metadata is read
-and and used for extent and resolution logic. A lazyraster may be cropped lazily
-and if plotted or converted to in-memory raster only a reasonable level-of-detail is actually
-used.
+Get a quick-view of a raster source, there are several levels of interrogation,
+decimated read, optional crop, and control of level-of-detail. Each of these
+is described further below.
 }
 \details{
-See \code{\link[=crop]{crop()}} for cropping - it works the same but returns a lazyraster,
-and \code{\link[=as_raster]{as_raster()}} for converting to an in-memory raster.
+First is a no-data view, we can see the extent, dimensions, projection, and
+other details; second is a \emph{decimated} view, we read only enough data to make
+a picture of the entire raster; third, we may first spatially crop the raster
+(nothing is done, only our intention to crop is recorded), if we plot or
+reques the data we get the decimated view of this smaller region; fourth,
+specify the actual dimension of the output. We can control exactly what we
+get in the output, in terms of spatial extent and number of pixel values.
+
+A lazyraster is a metadata-only shell around a \emph{GDAL raster} source. Only
+metadata is read and used for extent and dimension logic. A lazyraster may be
+cropped lazily and if plotted or converted to in-memory raster only a
+reasonable level-of-detail is actually used by default.
+
+See \code{\link[=crop]{crop()}} for cropping - it works the same but returns a lazyraster, and
+\code{\link[=as_raster]{as_raster()}} for converting to an in-memory raster.
 }
 \section{Warning}{
-
-If the inferred Y extents appear to be reversed (ymax > ymin) then they are
-reversed, with a warning. This occurs for any GDAL data source that does not have
-a geotransform and so is required for use with raster. This might not be the right interpretation,
-geotransforms are very general and it might mean the data is meant to be oriented that way.
-(I don't know why GDAL sets a positive Y pixel height as the default, it's a bit of a pain -
-should the data be flipped, or should Y be interpreted negative - no way to know!).
+ If the inferred Y extents appear to be reversed (ymax >
+ymin) then they are reversed, with a warning. This occurs for any GDAL data
+source that does not have a geotransform and so is required for use with
+raster. This might not be the right interpretation, geotransforms are very
+general and it might mean the data is meant to be oriented that way. (I
+don't know why GDAL sets a positive Y pixel height as the default, it's a
+bit of a pain - should the data be flipped, or should Y be interpreted
+negative - no way to know!).
 }
 
 \examples{
