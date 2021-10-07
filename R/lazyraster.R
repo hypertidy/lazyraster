@@ -178,6 +178,7 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
   if (is.null(ext)) ext <- x$info$extent
   proj <- comment(raster::crs(r))
   if (is.null(proj)) proj <- raster::crs(r)@projargs
+  if (is.na(proj) || nchar(proj) < 1) proj <- NULL
   if (packageVersion("vapour") <= "0.8.0") {
     vals <- vapour::vapour_warp_raster(x$source, band = bands,
                                        extent = ext, dimension = pulldim, wkt = proj, band_output_type = "Float64")
