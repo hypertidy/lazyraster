@@ -1,21 +1,18 @@
-Resubmission of lazyraster 0.5.0
+Submission of lazyraster 0.5.1
 
-* clarified description text
-* fixed typo in description text
-* expanded GDAL acronym, added url link
-* fixed bug in `as_raster( , 'native = TRUE')` when no crop window in effect
+* Patch fix to cover change in vapour 0.8.5. 
 
 Thank you very much. 
 
 
 ## Test environments
 
-* local ubuntu install, R 3.6.1
-* ubuntu 14.04 (on travis-ci), R 3.6.1
-* win-builder (devel and release)
+* local ubuntu install, R 4.1.1
+* ubuntu (on github), R 4.1.1
+* win-builder (devel)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
+There are no reverse dependencies

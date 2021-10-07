@@ -155,6 +155,11 @@ pull_lazyraster <- function(x, pulldim = NULL, resample = "NearestNeighbour", na
 
   vals <- vapour::vapour_read_raster(x$source, band = x$raster$band, window = c(window_odim, pulldim[1], pulldim[2]),
                             resample = resample, set_na = TRUE)[[1]] ## hardcode 1 band
+  if (!is.numeric(vals)) {
+    ## fix for previously assumed always-numeric values from vapour_warp_raster
+    ## can only be Float64, Int32, or Byte
+    vals <- as.integer(vals)
+  }
   ## TODO clamp values to info$minmax - no longer needed with vapour set_na
   #vals[vals < x$info$minmax[1] | vals > x$info$minmax[2]] <- NA
 
