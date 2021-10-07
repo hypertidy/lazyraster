@@ -9,9 +9,9 @@ Status](http://badges.herokuapp.com/travis/hypertidy/lazyraster?branch=master&en
 Status](https://ci.appveyor.com/api/projects/status/github/hypertidy/lazyraster?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/lazyraster)
 [![Coverage
 status](https://codecov.io/gh/hypertidy/lazyraster/branch/master/graph/badge.svg)](https://codecov.io/github/hypertidy/lazyraster?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/lazyraster)](https://cran.r-project.org/package=lazyraster)
-[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/lazyraster)](https://cran.r-project.org/package=lazyraster)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/lazyraster)](https://cran.r-project.org/package=lazyraster)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/lazyraster)](https://cran.r-project.org/package=lazyraster)
 
 # lazyraster
 
@@ -101,6 +101,9 @@ library(lazyraster)
 #> The following object is masked from 'package:graphics':
 #> 
 #>     plot
+#> The following object is masked from 'package:base':
+#> 
+#>     plot
 lazy <- lazyraster(sstfile)
 lazy ## stay lazy
 #> class         : LazyRaster
@@ -111,7 +114,6 @@ lazy ## stay lazy
 #> values        : NA, NA (min, max - range from entire extent)
 #> window extent : <whole extent>
 #> window index  : <->
-
 ## be only so lazy
 as_raster(lazy, dim = c(12, 24))
 #> class      : RasterLayer 
@@ -182,13 +184,15 @@ library(raadtools)
 #> Loading required package: raster
 #> Loading required package: sp
 #> global option 'raadfiles.data.roots' set:
-#> '/rdsi/PRIVATE/raad/data               2019-10-03 12:35:12
-#>  /rdsi/PRIVATE/raad/data_local         2019-10-03 12:35:53
-#>  /rdsi/PRIVATE/raad/data_staging       2019-10-03 12:35:54
-#>  /rdsi/PRIVATE/raad/data_deprecated    2019-10-03 12:39:49
-#>  /rdsi/PUBLIC/raad/data                2019-10-03 10:53:19'
-#> Uploading raad file cache as at 2019-10-03 12:41:12 (1017941 files listed)
+#> '/rdsi/PRIVATE/raad/data               2021-06-10 21:27:17
+#>  /rdsi/PRIVATE/raad/data_local         2021-06-10 21:33:25
+#>  /rdsi/PRIVATE/raad/data_staging       2021-06-10 21:33:28
+#>  /rdsi/PRIVATE/raad/data_deprecated    2021-06-10 21:34:11
+#>  /rdsi/PUBLIC/raad/data                2021-06-10 21:13:58'
+#> Uploading raad file cache as at 2021-10-08 00:30:58 (1105188 files listed)
 f <- raadtools::topofile("gebco_14")
+#> Warning in if (!file.exists(topopath)) warning(sprintf("cannot file %s", : the
+#> condition has length > 1 and only the first element will be used
 lazyraster(f)
 #> class         : LazyRaster
 #> dimensions    : 21600, 43200 (nrow, ncol)
@@ -209,7 +213,7 @@ plot(rworld, col = grey(seq(0, 1, length = 100)), axes = FALSE, xlab = "", ylab 
 <img src="man/figures/README-raadtools-1.png" width="100%" />
 
     #>    user  system elapsed 
-    #>   0.763   0.109   0.976
+    #>   0.850   0.236  21.328
     par(op)
 
 Now, plot the same kind of image but zoom in on a region purposefully.
@@ -262,7 +266,6 @@ as_raster(mars)
 #> source     : memory
 #> names      : layer 
 #> values     : -7716, 20910  (min, max)
-
 plot(crop(mars, raster::extent(-100, -30, -18, 5)), 
      col = grey(seq(0, 1, length = 256)))
 ```
@@ -321,15 +324,20 @@ library(raster)
 ## run the same simplification but with a different resampling 
 ## method
 plot(as_raster(gibs, dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))
+#> Warning: 'palr::sstPal' is deprecated.
+#> Use 'sst_pal' instead.
+#> See help("Deprecated")
 ```
 
 <img src="man/figures/README-tms-1.png" width="100%" />
 
 ``` r
-
 ## run with a different extent
 e <- extent(-806000, 1080000, -3200000, -500000)
 plot(as_raster(crop(gibs, e), dim = c(150, 150), resample = "CubicSpline"), col = head(palr::sstPal(64), 45))
+#> Warning: 'palr::sstPal' is deprecated.
+#> Use 'sst_pal' instead.
+#> See help("Deprecated")
 ```
 
 <img src="man/figures/README-tms-2.png" width="100%" />
