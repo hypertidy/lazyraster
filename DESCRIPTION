@@ -11,7 +11,6 @@ Description: Read raster data at a specified resolution on-demand via 'GDAL'
 Authors@R: person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"))
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 ByteCompile: true
 RoxygenNote: 7.1.2
 Imports: 
