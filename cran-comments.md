@@ -10,6 +10,7 @@ Thank you very much.
 * local ubuntu install, R 4.1.1
 * ubuntu (on github), R 4.1.1
 * win-builder (devel)
+* macos-builder
 
 ## R CMD check results
 
